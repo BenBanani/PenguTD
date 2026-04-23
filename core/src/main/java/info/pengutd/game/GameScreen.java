@@ -1,28 +1,21 @@
 package info.pengutd.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PointMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.CatmullRomSpline;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
 
-import java.util.ArrayList;
-
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, InputProcessor {
 
     private SpriteBatch batch;
     private Viewport viewport;
@@ -32,6 +25,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         map = new TmxMapLoader().load("map/map1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -45,7 +39,7 @@ public class GameScreen implements Screen {
             mapWidth * tileWidth,
             mapHeight * tileHeight
         );
-        testEnemey = new NormalEnemy(4  , map);
+        testEnemey = new NormalEnemy(4, map);
     }
 
     public TiledMap getMap() {
@@ -55,6 +49,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         testEnemey.move(delta);
+
         ScreenUtils.clear(Color.BLACK);
 
         viewport.apply();
@@ -93,5 +88,52 @@ public class GameScreen implements Screen {
     public void dispose() {
         batch.dispose();
         mapRenderer.dispose();
+    }
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        testEnemey.pop(1);
+        return true;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
     }
 }

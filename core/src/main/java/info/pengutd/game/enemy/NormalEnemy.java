@@ -18,14 +18,18 @@ public class NormalEnemy extends Enemy {
      */
     private static final float MOVEMENT_MULTIPLIER = 8f;
     private final Texture texture;
+    private final Texture popTexture;
     private final Array<Vector2> path;
     private final Vector2 pos;
     private final Rectangle rect;
     int currentPathIndex = 0;
     private int level;
+    private static final float POP_DURATION = 0.5f;
+    private float popTimeLeft = 0f;
 
     public NormalEnemy(int level, TiledMap map) {
         texture = new Texture(Gdx.files.internal("Epstein.png"));
+        popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
         this.level = level;
 
         path = new Array<>();
@@ -45,7 +49,7 @@ public class NormalEnemy extends Enemy {
 
     @Override
     public Texture getTexture() {
-        return texture;
+        return popTimeLeft > 0 ? popTexture : texture;
     }
 
     @Override
@@ -76,6 +80,11 @@ public class NormalEnemy extends Enemy {
     @Override
     public void move(float delta) {
 
+        if (popTimeLeft > 0) {
+            popTimeLeft -= delta;
+            return;
+        }
+
         if (currentPathIndex >= path.size - 1) return;
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f);
 
@@ -97,7 +106,9 @@ public class NormalEnemy extends Enemy {
     @Override
     public void pop(int damage) {
         level -= damage;
+        popTimeLeft = POP_DURATION;
         if (level <= 0) die();
+        // Geld geben + stats erhöhen
     }
 
     public boolean isAlive() {
