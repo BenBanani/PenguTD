@@ -31,7 +31,6 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
  */
 public class StartScreen implements Screen {
 
-    private static final String UI_PATH = "start_screen/";
     private TextureAtlas textureAtlas;
     private Stage stage;
     private ImageButton[] buttons;
@@ -50,7 +49,7 @@ public class StartScreen implements Screen {
         stage = new Stage(new FitViewport(800, 480));
         Gdx.input.setInputProcessor(stage);
 
-        textureAtlas = new TextureAtlas(UI_PATH + "ui.atlas");
+        textureAtlas = new TextureAtlas("atlas/start_screen_ui.atlas");
 
         buildUi();
 
@@ -173,16 +172,14 @@ public class StartScreen implements Screen {
     }
 
     private void buildUi() {
-        backgroundTexture = new Texture(Gdx.files.internal(UI_PATH + "background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
         Image background = new Image(backgroundTexture);
         background.setScaling(Scaling.fill);
         background.setFillParent(true);
 
         title = new Image(new TextureRegionDrawable(textureAtlas.findRegion("title")));
 
-        String[] paths = {UI_PATH + "new_game_button.png", UI_PATH + "load_game_button.png", UI_PATH + "settings_button.png", UI_PATH + "account_button.png", UI_PATH + "stats_button.png", UI_PATH + "exit_button.png"};
-
-        buttons = new ImageButton[paths.length];
+        buttons = new ImageButton[6];
 
         buttons[0] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("new_game_button")));
         buttons[1] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("load_game_button")));

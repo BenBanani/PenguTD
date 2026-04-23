@@ -16,7 +16,6 @@ import info.pengutd.Settings;
 
 public class SettingsScreen implements Screen {
 
-    private static final String UI_PATH = "settings_screen/";
     private final Screen oldScreen;
     // private TextureAtlas textureAtlas;
     private Stage stage;
@@ -66,7 +65,7 @@ public class SettingsScreen implements Screen {
         root.setFillParent(true);
         root.center();
 
-        backgroundTexture = new Texture(Gdx.files.internal("start_screen/background.png"));
+        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
         Image background = new Image(backgroundTexture);
         background.setScaling(Scaling.fill);
         background.setFillParent(true);
