@@ -28,7 +28,7 @@ public class NormalEnemy extends Enemy {
     private float popTimeLeft = 0f;
 
     public NormalEnemy(int level, TiledMap map) {
-        texture = new Texture(Gdx.files.internal("Epstein.png"));
+        texture = new Texture(Gdx.files.internal("game/enemy/pengu.png"));
         popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
         this.level = level;
 
@@ -37,7 +37,7 @@ public class NormalEnemy extends Enemy {
         for (MapObject obj : mapLayer.getObjects()) {
             if (obj instanceof PointMapObject) {
                 PointMapObject point = (PointMapObject) obj;
-                path.add(point.getPoint().cpy().add(MathUtils.random(-2f, 2f), MathUtils.random(-2f, 2f)));
+                path.add(point.getPoint().cpy().add(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f)));
             }
         }
 
@@ -75,6 +75,16 @@ public class NormalEnemy extends Enemy {
     @Override
     public Array<Vector2> getPath() {
         return path;
+    }
+
+    @Override
+    public float getHeight() {
+        return texture.getHeight() / 6f ;
+    }
+
+    @Override
+    public float getWidth() {
+        return texture.getWidth() / 6f;
     }
 
     @Override

@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 public abstract class Enemy implements Disposable {
-    public static final float HEIGHT = 8f;
-    public static final float WIDTH = 8f;
+    public static final float HEIGHT = 10f;
+    public static final float WIDTH = 10f;
     public abstract Texture getTexture();
 
     public abstract int getHealth();
@@ -18,16 +18,12 @@ public abstract class Enemy implements Disposable {
     public abstract Array<Vector2> getPath();
 
     public void draw(SpriteBatch batch) {
-        batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
+        batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2, -getWidth(), getHeight());
     }
 
-    public float getHeight() {
-        return HEIGHT;
-    }
+    public abstract float getHeight();
 
-    public float getWidth() {
-        return WIDTH;
-    }
+    public abstract float getWidth();
 
     public abstract float getX();
 
