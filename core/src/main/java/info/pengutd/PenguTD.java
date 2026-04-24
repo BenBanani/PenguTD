@@ -2,6 +2,7 @@ package info.pengutd;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+
 import info.pengutd.screen.StartScreen;
 
 /**
@@ -13,6 +14,7 @@ public class PenguTD extends Game {
     @Override
     public void create() {
         instance = this;
+        System.out.println("hi");
         setScreen(new StartScreen());
     }
 
