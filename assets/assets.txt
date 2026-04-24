@@ -4,6 +4,7 @@ atlas/start_screen_ui.atlas
 atlas/start_screen_ui.png
 background.png
 default.fnt
+game/enemy/image.png
 game/enemy/pengu.png
 game/enemy/pop.png
 map/dirt.png
