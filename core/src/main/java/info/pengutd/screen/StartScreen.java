@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.PenguTD;
-import info.pengutd.game.GameScreen;
+import info.pengutd.game.World;
 
 import java.util.Arrays;
 
@@ -83,7 +83,7 @@ public class StartScreen implements Screen {
                 animateClose();
                 buttons[0].addAction(sequence(
                     delay(1f),
-                    run(() -> PenguTD.getInstance().setScreen(new GameScreen()))
+                    run(() -> PenguTD.getInstance().setScreen(new World()))
                 ));
             }
         });

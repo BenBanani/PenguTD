@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
 
-public class GameScreen implements Screen, InputProcessor {
+public class World implements Screen, InputProcessor {
 
     private SpriteBatch batch;
     private Viewport viewport;
