@@ -5,18 +5,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PointMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import info.pengutd.game.World;
 
 public class NormalEnemy extends Enemy {
+    public static final float HEIGHT = 0.8f;
+    public static final float WIDTH = 0.44f;
     /**
      * Anzahl Pixel pro Sekunde
      * 8 => 0.5 tiles pro Sekunde
      */
-    private static final float MOVEMENT_MULTIPLIER = 8f;
+    private static final float MOVEMENT_MULTIPLIER = 1f;
+    private static final float POP_DURATION = 0.5f;
     private final Texture texture;
     private final Texture popTexture;
     private final Array<Vector2> path;
@@ -24,16 +27,16 @@ public class NormalEnemy extends Enemy {
     private final Rectangle rect;
     int currentPathIndex = 0;
     private int level;
-    private static final float POP_DURATION = 0.5f;
     private float popTimeLeft = 0f;
 
-    public NormalEnemy(int level, TiledMap map) {
+    public NormalEnemy(int level, World world) {
+        super(world);
         texture = new Texture(Gdx.files.internal("game/enemy/pengu.png"));
         popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
         this.level = level;
 
         path = new Array<>();
-        MapLayer mapLayer = map.getLayers().get("path");
+        MapLayer mapLayer = world.getMap().getLayers().get("path");
         if (mapLayer != null) {
             for (MapObject obj : mapLayer.getObjects()) {
                 if (obj instanceof PointMapObject) {
@@ -73,7 +76,7 @@ public class NormalEnemy extends Enemy {
 
     @Override
     public float getSpeed() {
-        return MOVEMENT_MULTIPLIER * level;
+        return MOVEMENT_MULTIPLIER * level * getWorld().getTileWidth();
     }
 
     @Override
@@ -83,15 +86,15 @@ public class NormalEnemy extends Enemy {
 
     @Override
     public float getHeight() {
-        return texture.getHeight() / 6f ;
+        return HEIGHT * getWorld().getTileHeight();
     }
 
     @Override
     public float getWidth() {
         if (popTimeLeft <= 0) {
-            return texture.getWidth() / 6f;
+            return WIDTH * getWorld().getTileWidth();
         }
-        return texture.getHeight() / 6f; // pop texture ist quadratisch
+        return getHeight(); // pop texture ist quadratisch
     }
 
     @Override

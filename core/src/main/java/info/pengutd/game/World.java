@@ -22,6 +22,10 @@ public class World implements Screen, InputProcessor {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Enemy testEnemey;
+    private int mapWidth;
+    private int mapHeight;
+    private int tileWidth;
+    private int tileHeight;
 
     @Override
     public void show() {
@@ -30,16 +34,16 @@ public class World implements Screen, InputProcessor {
         map = new TmxMapLoader().load("map/map2.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
-        int mapWidth = map.getProperties().get("width", Integer.class);
-        int mapHeight = map.getProperties().get("height", Integer.class);
-        int tileWidth = map.getProperties().get("tilewidth", Integer.class);
-        int tileHeight = map.getProperties().get("tileheight", Integer.class);
+        mapWidth = map.getProperties().get("width", Integer.class);
+        mapHeight = map.getProperties().get("height", Integer.class);
+        tileWidth = map.getProperties().get("tilewidth", Integer.class);
+        tileHeight = map.getProperties().get("tileheight", Integer.class);
 
         viewport = new FitViewport(
             mapWidth * tileWidth,
             mapHeight * tileHeight
         );
-        testEnemey = new NormalEnemy(4, map);
+        testEnemey = new NormalEnemy(4, this);
     }
 
     public TiledMap getMap() {
@@ -135,5 +139,21 @@ public class World implements Screen, InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    public int get_map_height() {
+        return mapHeight;
+    }
+
+    public int get_map_width() {
+        return mapWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
     }
 }

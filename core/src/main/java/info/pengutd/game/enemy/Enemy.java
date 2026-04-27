@@ -5,10 +5,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import info.pengutd.game.World;
 
 public abstract class Enemy implements Disposable {
-    public static final float HEIGHT = 10f;
-    public static final float WIDTH = 10f;
+    private final World world;
+
+    protected Enemy(World world) {
+        this.world = world;
+    }
+
     public abstract Texture getTexture();
 
     public abstract int getHealth();
@@ -18,7 +23,7 @@ public abstract class Enemy implements Disposable {
     public abstract Array<Vector2> getPath();
 
     public void draw(SpriteBatch batch) {
-        batch.draw(getTexture(), getX() + getWidth() / 2, getY() - getHeight() / 2, -getWidth(), getHeight());
+        batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
     }
 
     public abstract float getHeight();
@@ -34,6 +39,10 @@ public abstract class Enemy implements Disposable {
     @Override
     public void dispose() {
         getTexture().dispose();
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     public abstract void pop(int damage);
