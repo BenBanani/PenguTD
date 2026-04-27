@@ -27,7 +27,7 @@ public class GameScreen implements Screen, InputProcessor {
     public void show() {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        map = new TmxMapLoader().load("map/map1.tmx");
+        map = new TmxMapLoader().load("map/map2.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
         int mapWidth = map.getProperties().get("width", Integer.class);

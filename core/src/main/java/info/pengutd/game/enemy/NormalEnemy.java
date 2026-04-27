@@ -34,15 +34,19 @@ public class NormalEnemy extends Enemy {
 
         path = new Array<>();
         MapLayer mapLayer = map.getLayers().get("path");
-        for (MapObject obj : mapLayer.getObjects()) {
-            if (obj instanceof PointMapObject) {
-                PointMapObject point = (PointMapObject) obj;
-                path.add(point.getPoint().cpy().add(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f)));
+        if (mapLayer != null) {
+            for (MapObject obj : mapLayer.getObjects()) {
+                if (obj instanceof PointMapObject) {
+                    PointMapObject point = (PointMapObject) obj;
+                    path.add(point.getPoint().cpy().add(MathUtils.random(-1f, 1f), MathUtils.random(-1f, 1f)));
+                }
             }
+            Vector2 start = path.get(0);
+            this.pos = new Vector2(start);
+        } else {
+            Gdx.app.error("NormalEnemy", "No path layer found in map");
+            this.pos = new Vector2(0, 0);
         }
-
-        Vector2 start = path.get(0);
-        this.pos = new Vector2(start);
 
         rect = new Rectangle(pos.x, pos.y, WIDTH, HEIGHT);
     }
