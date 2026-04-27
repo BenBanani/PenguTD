@@ -3,7 +3,6 @@ package info.pengutd.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
-import info.pengutd.game.tower.Diddy;
 
 public class GameScreen implements Screen, InputProcessor {
 
@@ -29,7 +27,7 @@ public class GameScreen implements Screen, InputProcessor {
     public void show() {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        map = new TmxMapLoader().load("map/map2.tmx");
+        map = new TmxMapLoader().load("map/map1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
         int mapWidth = map.getProperties().get("width", Integer.class);
@@ -42,7 +40,6 @@ public class GameScreen implements Screen, InputProcessor {
             mapHeight * tileHeight
         );
         testEnemey = new NormalEnemy(4, map);
-        
     }
 
     public TiledMap getMap() {
@@ -54,9 +51,7 @@ public class GameScreen implements Screen, InputProcessor {
         testEnemey.move(delta);
 
         ScreenUtils.clear(Color.BLACK);
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            Diddy a = new Diddy(batch);
-        }
+
         viewport.apply();
 
         mapRenderer.setView((OrthographicCamera) viewport.getCamera());
@@ -65,7 +60,6 @@ public class GameScreen implements Screen, InputProcessor {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         batch.begin();
         testEnemey.draw(batch);
-
         batch.end();
 
     }
