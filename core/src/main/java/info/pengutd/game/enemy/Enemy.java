@@ -18,7 +18,7 @@ public abstract class Enemy implements Disposable {
     public abstract Array<Vector2> getPath();
 
     public void draw(SpriteBatch batch) {
-        batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2, -getWidth(), getHeight());
+        batch.draw(getTexture(), getX() + getWidth() / 2, getY() - getHeight() / 2, -getWidth(), getHeight());
     }
 
     public abstract float getHeight();

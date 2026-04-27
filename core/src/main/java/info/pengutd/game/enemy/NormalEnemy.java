@@ -84,7 +84,10 @@ public class NormalEnemy extends Enemy {
 
     @Override
     public float getWidth() {
-        return texture.getWidth() / 6f;
+        if (popTimeLeft <= 0) {
+            return texture.getWidth() / 6f;
+        }
+        return texture.getHeight() / 6f; // pop texture ist quadratisch
     }
 
     @Override
