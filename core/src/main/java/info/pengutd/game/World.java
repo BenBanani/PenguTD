@@ -6,9 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -62,10 +67,29 @@ public class World implements Screen, InputProcessor {
         mapRenderer.render();
 
         batch.setProjectionMatrix(viewport.getCamera().combined);
+
         batch.begin();
+
+        renderMapObjects();
+
         testEnemey.draw(batch);
         batch.end();
 
+    }
+
+    private void renderMapObjects() {
+        MapLayer objectLayer = map.getLayers().get("detail_tiles");
+
+        Array<TextureMapObject> objects = new Array<>();
+
+        for (MapObject obj : objectLayer.getObjects()) {
+            if (obj instanceof TextureMapObject) {
+                TextureMapObject texObj = (TextureMapObject) obj;
+                objects.add(texObj);
+            }
+        }
+        objects.sort((a, b) -> Float.compare(b.getY(), a.getY()));
+        objects.forEach((obj) -> batch.draw(obj.getTextureRegion(), obj.getX(), obj.getY()));
     }
 
     @Override
