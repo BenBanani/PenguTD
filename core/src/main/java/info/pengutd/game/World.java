@@ -1,6 +1,7 @@
 package info.pengutd.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -13,13 +14,17 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
@@ -35,12 +40,12 @@ public class World implements Screen, InputProcessor {
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
+    private Stage uiStage;
     private Table towerSelectionTable;
     private Texture tableBackgroundTexture;
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         map = new TmxMapLoader().load("map/map2.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -56,12 +61,36 @@ public class World implements Screen, InputProcessor {
         );
         testEnemey = new NormalEnemy(4, this);
 
+        uiStage = new Stage(new ScreenViewport());
+
+        // Damit UI Input bekommt
+        Gdx.input.setInputProcessor(new InputMultiplexer(this, uiStage));
+
         towerSelectionTable = new Table();
-        tableBackgroundTexture = new Texture("background.png");
-        towerSelectionTable.align(Align.right);
-        ImageButton button = new ImageButton(new TextureRegionDrawable(new Texture("Epstein.png")));
-        button.setSize(20, 20);
-        towerSelectionTable.add(button);
+
+        // Rechts andocken
+        towerSelectionTable.setFillParent(true);
+        towerSelectionTable.top().right();
+
+        // Abstand außen
+        towerSelectionTable.pad(20);
+
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        // Tower Buttons
+        TextButton cannonButton = new TextButton("Cannon", skin);
+        TextButton iceButton = new TextButton("Ice", skin);
+        TextButton sniperButton = new TextButton("Sniper", skin);
+
+        // Vertikal anordnen
+        towerSelectionTable.add(cannonButton).width(180).height(60).padBottom(10);
+        towerSelectionTable.row();
+
+        towerSelectionTable.add(iceButton).width(180).height(60).padBottom(10);
+        towerSelectionTable.row();
+
+        towerSelectionTable.add(sniperButton).width(180).height(60);
+
+        uiStage.addActor(towerSelectionTable);
     }
 
     public TiledMap getMap() {
@@ -85,10 +114,11 @@ public class World implements Screen, InputProcessor {
 
         renderMapObjects();
 
-        towerSelectionTable.draw(batch, 1);
-
         testEnemey.draw(batch);
         batch.end();
+
+        uiStage.act(delta);
+        uiStage.draw();
 
     }
 
