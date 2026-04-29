@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
+import info.pengutd.screen.TowerSelection;
 
 public class World implements Screen, InputProcessor {
 
@@ -40,12 +41,11 @@ public class World implements Screen, InputProcessor {
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
-    private Stage uiStage;
-    private Table towerSelectionTable;
-    private Texture tableBackgroundTexture;
+    private TowerSelection towerSelection;
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         map = new TmxMapLoader().load("map/map2.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -61,36 +61,7 @@ public class World implements Screen, InputProcessor {
         );
         testEnemey = new NormalEnemy(4, this);
 
-        uiStage = new Stage(new ScreenViewport());
-
-        // Damit UI Input bekommt
-        Gdx.input.setInputProcessor(new InputMultiplexer(this, uiStage));
-
-        towerSelectionTable = new Table();
-
-        // Rechts andocken
-        towerSelectionTable.setFillParent(true);
-        towerSelectionTable.top().right();
-
-        // Abstand außen
-        towerSelectionTable.pad(20);
-
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-        // Tower Buttons
-        TextButton cannonButton = new TextButton("Cannon", skin);
-        TextButton iceButton = new TextButton("Ice", skin);
-        TextButton sniperButton = new TextButton("Sniper", skin);
-
-        // Vertikal anordnen
-        towerSelectionTable.add(cannonButton).width(180).height(60).padBottom(10);
-        towerSelectionTable.row();
-
-        towerSelectionTable.add(iceButton).width(180).height(60).padBottom(10);
-        towerSelectionTable.row();
-
-        towerSelectionTable.add(sniperButton).width(180).height(60);
-
-        uiStage.addActor(towerSelectionTable);
+        towerSelection = new TowerSelection();
     }
 
     public TiledMap getMap() {
@@ -117,9 +88,7 @@ public class World implements Screen, InputProcessor {
         testEnemey.draw(batch);
         batch.end();
 
-        uiStage.act(delta);
-        uiStage.draw();
-
+        towerSelection.render(delta);
     }
 
     private void renderMapObjects() {
