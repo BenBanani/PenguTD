@@ -25,7 +25,6 @@ public class SettingsScreen implements Screen {
     // todo private TextureAtlas textureAtlas;
     private Stage stage;
 
-    private ImageButton backButton;
     private Texture bgTexture;
     private Texture titleTexture;
     private Texture buttonTexture;
@@ -77,7 +76,7 @@ public class SettingsScreen implements Screen {
 
         stage.addActor(root);
 
-        backButton = new ImageButton(new TextureRegionDrawable(backButtonTexture));
+        ImageButton backButton = new ImageButton(new TextureRegionDrawable(backButtonTexture));
         backButton.setSize(50, 50);
         backButton.setPosition(25, stage.getHeight() - 75);
 
