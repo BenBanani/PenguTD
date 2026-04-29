@@ -54,7 +54,7 @@ public class World implements Screen, InputProcessor {
         );
         testEnemey = new NormalEnemy(4, this);
 
-        towerSelection = new TowerSelection();
+        towerSelection = new TowerSelection(viewport);
     }
 
     public TiledMap getMap() {
