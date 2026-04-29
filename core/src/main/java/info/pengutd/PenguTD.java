@@ -16,7 +16,7 @@ public class PenguTD extends Game {
         setScreen(new StartScreen());
     }
 
-    // Muss aufgerufen werden um Screens zu ändern, wenn der alte Screen nicht mehr gebraucht wird (sonst Memory Leak
+    // Muss aufgerufen werden um Screens zu ändern, wenn der alte Screen nicht mehr gebraucht wird (sonst Memory Leak)
     public void setScreenAndDispose(Screen newScreen) {
         Screen oldScreen = getScreen();
         setScreen(newScreen);

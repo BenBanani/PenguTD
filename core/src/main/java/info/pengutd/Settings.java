@@ -5,7 +5,7 @@ import com.badlogic.gdx.Preferences;
 
 /**
  * Singleton Klasse für alle Einstellungen.
- * Jede Einstellung ist mit eideutigen Key in dem App Preferences gespeichert.
+ * Jede Einstellung ist mit eindeutigen Key in dem App Preferences gespeichert.
  */
 public class Settings {
     private static Settings instance;
