@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
@@ -18,18 +20,19 @@ import info.pengutd.Settings;
 // todo ui
 public class SettingsScreen implements Screen {
 
-    private final Screen oldScreen;
+    private final Screen previousScreen;
+    private Skin skin;
     // todo private TextureAtlas textureAtlas;
     private Stage stage;
-    private Texture backgroundTexture;
-    private TextButton fullscreenButton;
+
     private ImageButton backButton;
+    private Texture bgTexture;
     private Texture titleTexture;
     private Texture buttonTexture;
     private Texture backButtonTexture;
 
     public SettingsScreen(Screen screen) {
-        oldScreen = screen;
+        previousScreen = screen;
     }
 
     @Override
@@ -37,95 +40,121 @@ public class SettingsScreen implements Screen {
         stage = new Stage(new FitViewport(800, 480));
         Gdx.input.setInputProcessor(stage);
 
+        loadAssets();
         buildUI();
-
-        addListeners();
     }
 
-    private void addListeners() {
-        fullscreenButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                boolean fullScreen = !Settings.get().getFullScreen();
-                fullscreenButton.setText("Fullscreen: " + (fullScreen ? "On" : "Off"));
-                if (fullScreen) {
-                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-                } else {
-                    Gdx.graphics.setWindowedMode(800, 480);
-                }
-                Settings.get().setFullScreen(fullScreen);
-            }
-        });
+    private void loadAssets() {
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        bgTexture = new Texture(Gdx.files.internal("background.png"));
+        titleTexture = new Texture(Gdx.files.internal("settings_screen/title.png"));
+        buttonTexture = new Texture(Gdx.files.internal("settings_screen/button.png"));
+        backButtonTexture = new Texture(Gdx.files.internal("settings_screen/back_button.png"));
+    }
+
+    private void buildUI() {
+        Image background = new Image(bgTexture);
+        background.setFillParent(true);
+        background.setScaling(Scaling.fill);
+        stage.addActor(background);
+
+        Table root = new Table();
+        root.setFillParent(true);
+        root.top().pad(20);
+
+        root.add(new Image(titleTexture))
+            .width(300).height(108)
+            .colspan(2)
+            .padBottom(25)
+            .row();
+
+        root.add(createSlider("Sound Volume", Settings.get().getSoundVolume(), v -> Settings.get().setSoundVolume(v))).width(300).height(75).pad(5).row();
+
+        root.add(createSlider("Music Volume", Settings.get().getMusicVolume(), v -> Settings.get().setMusicVolume(v))).width(300).height(75).pad(5).row();
+
+        root.add(createFullscreenButton()).width(300).height(75).pad(5).row();
+
+        stage.addActor(root);
+
+        backButton = new ImageButton(new TextureRegionDrawable(backButtonTexture));
+        backButton.setSize(50, 50);
+        backButton.setPosition(25, stage.getHeight() - 75);
 
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PenguTD.getInstance().setScreenAndDispose(oldScreen);
+                PenguTD.getInstance().setScreenAndDispose(previousScreen);
             }
         });
+        stage.addActor(backButton);
     }
 
-    private void buildUI() {
-        Table root = new Table();
-        root.setFillParent(true);
-        root.debug().top();
-
-        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
-        Image background = new Image(backgroundTexture);
-        background.setScaling(Scaling.fill);
-        background.setFillParent(true);
-
-        buttonTexture = new Texture(Gdx.files.internal("settings_screen/button.png"));
-
-        titleTexture = new Texture(Gdx.files.internal("settings_screen/title.png"));
-        Image title = new Image(titleTexture);
-        root.add(title).width(300).height(108).colspan(2).padTop(25).padBottom(25).row();
-
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-
-        root.add(createSlider(skin, "Sound Volume")).width(300).height(75).pad(5).row();
-
-        root.add(createSlider(skin, "Music Volume")).width(300).height(75).pad(5).row();
-
-        root.add(createFullscreenButton(skin)).width(300).height(75).pad(5).row();
-
-        Table topLeft = new Table();
-        topLeft.setFillParent(true);
-        topLeft.top().left();
-        backButtonTexture = new Texture(Gdx.files.internal("settings_screen/back_button.png"));
-        backButton = new ImageButton(new TextureRegionDrawable(backButtonTexture));
-        topLeft.add(backButton).size(50, 50).pad(25).row();
-
-        stage.addActor(background);
-        stage.addActor(topLeft);
-        stage.addActor(root);
-    }
-
-    private Stack createSlider(Skin skin, String labelName) {
+    private Stack createSlider(String labelName, float initialValue, SliderCallback callback) {
         Stack stack = new Stack();
-        Image background = new Image(buttonTexture);
-        stack.add(background);
-        Table content = new Table();
-        content.setFillParent(true);
-        content.add(new Label(labelName, skin)).row();
-        Slider musicSlider = new Slider(0, 1, 0.01f, false, skin);
-        musicSlider.setValue(Settings.get().getMusicVolume());
-        content.add(musicSlider);
-        stack.add(content);
 
+        Image bg = new Image(buttonTexture);
+        stack.add(bg);
+
+        Table content = new Table();
+        content.pad(5);
+
+        Label lbl = new Label(labelName, skin);
+
+        Slider slider = new Slider(0f, 1f, 0.01f, false, skin);
+        slider.setValue(initialValue);
+
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                callback.onChange(slider.getValue());
+            }
+        });
+
+        content.add(lbl).left().row();
+        content.add(slider).width(250);
+
+        stack.add(content);
         return stack;
     }
 
-    private Stack createFullscreenButton(Skin skin) {
+    private Stack createFullscreenButton() {
         Stack stack = new Stack();
+
         Image background = new Image(buttonTexture);
         stack.add(background);
+
         Table content = new Table();
         content.setFillParent(true);
-        fullscreenButton = new TextButton("Fullscreen: " + (Settings.get().getFullScreen() ? "On" : "Off"), skin);
-        content.add(fullscreenButton).row();
-        stack.add(content);
 
+        Label fullscreenLabel = new Label(
+            "Fullscreen: " + (Settings.get().getFullScreen() ? "On" : "Off"),
+            skin
+        );
+
+        content.center();
+        content.add(fullscreenLabel).expand().center();
+
+        fullscreenLabel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                boolean newValue = !Settings.get().getFullScreen();
+
+                Settings.get().setFullScreen(newValue);
+
+                if (newValue) {
+                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                } else {
+                    Gdx.graphics.setWindowedMode(800, 480);
+                }
+
+                fullscreenLabel.setText(
+                    "Fullscreen: " + (newValue ? "On" : "Off")
+                );
+            }
+        });
+
+        stack.add(content);
         return stack;
     }
 
@@ -161,10 +190,14 @@ public class SettingsScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        backgroundTexture.dispose();
+        bgTexture.dispose();
         titleTexture.dispose();
         buttonTexture.dispose();
         backButtonTexture.dispose();
         // textureAtlas.dispose();
+    }
+
+    private interface SliderCallback {
+        void onChange(float value);
     }
 }
