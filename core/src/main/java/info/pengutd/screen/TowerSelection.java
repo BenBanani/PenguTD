@@ -7,9 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class TowerSelection {
+public class TowerSelection implements Disposable {
     private final Stage uiStage;
     private final Table table;
     private Texture backGroundTexture;
@@ -29,7 +30,6 @@ public class TowerSelection {
         TextButton iceButton = new TextButton("Ice", skin);
         TextButton sniperButton = new TextButton("Sniper", skin);
 
-        // Vertikal anordnen
         table.add(cannonButton).width(180).height(60).padBottom(10);
         table.row();
 
@@ -44,5 +44,9 @@ public class TowerSelection {
     public void render(float delta) {
         uiStage.act(delta);
         uiStage.draw();
+    }
+
+    public void dispose() {
+        uiStage.dispose();
     }
 }
