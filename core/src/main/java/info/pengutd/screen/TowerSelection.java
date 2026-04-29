@@ -16,14 +16,14 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class TowerSelection implements Disposable {
     private final Stage uiStage;
     private final Texture backgroundTexture;
-    private final Texture topButtonTexture;
+    private final Texture background;
 
     public TowerSelection(Viewport viewport) {
         uiStage = new Stage(viewport);
         Gdx.input.setInputProcessor(new InputMultiplexer(Gdx.input.getInputProcessor(), uiStage));
 
         backgroundTexture = new Texture(Gdx.files.internal("game/tower_selection_screen/background.png"));
-        topButtonTexture = new Texture(Gdx.files.internal("game/tower_selection_screen/button_blue.png"));
+        background = new Texture(Gdx.files.internal("game/tower_selection_screen/button_blue.png"));
 
         // table auf ganzem Screen
         Table root = new Table();
@@ -42,16 +42,32 @@ public class TowerSelection implements Disposable {
         // rechte Sidebar
         root.add(sidebar).width(200).growY();
 
-        Stack stack = topElement();
-        sidebar.add(stack).width(180).height(180).padBottom(10);
-        sidebar.row();
+        Stack topElement = topElement();
+        sidebar.add(topElement).colspan(2).width(180).height(180).padBottom(10).row();
+
+        sidebar.add(towerElement()).width(80).height(80);
+        sidebar.add(towerElement()).width(80).height(80).row();
+        sidebar.add(towerElement()).width(80).height(80);
+        sidebar.add(towerElement()).width(80).height(80).row();
+        sidebar.add(towerElement()).width(80).height(80);
+        sidebar.add(towerElement()).width(80).height(80).row();
         uiStage.addActor(root);
+    }
+
+    private Stack towerElement() {
+        Stack stack = new Stack();
+        Image buttonBackground = new Image(background);
+        buttonBackground.getColor().a = 0.9f;
+        buttonBackground.setScaling(Scaling.stretch);
+        // todo tower image
+        stack.add(buttonBackground);
+        return stack;
     }
 
     /// das blaue rechteck oben, in dem Geld und Hp angezeigt werden
     private Stack topElement() {
         Stack stack = new Stack();
-        Image topBackground = new Image(topButtonTexture);
+        Image topBackground = new Image(background);
         topBackground.getColor().a = 0.9f;
         topBackground.setScaling(Scaling.stretch);
         Table topContent = new Table();
