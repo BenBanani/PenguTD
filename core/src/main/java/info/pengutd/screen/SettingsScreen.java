@@ -17,7 +17,7 @@ import info.pengutd.Settings;
 public class SettingsScreen implements Screen {
 
     private final Screen oldScreen;
-    // private TextureAtlas textureAtlas;
+    // todo private TextureAtlas textureAtlas;
     private Stage stage;
     private Texture backgroundTexture;
     private TextButton fullscreenButton;
