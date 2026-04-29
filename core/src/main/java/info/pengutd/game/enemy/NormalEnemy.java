@@ -12,19 +12,19 @@ import com.badlogic.gdx.utils.Array;
 import info.pengutd.game.World;
 
 public class NormalEnemy extends Enemy {
+    ///  Höhe in tiles
     public static final float HEIGHT = 0.8f;
+    ///  breite in tiles
     public static final float WIDTH = 0.44f;
-    /**
-     * Anzahl Pixel pro Sekunde
-     * 8 => 0.5 tiles pro Sekunde
-     */
+    ///  speed in tiles
     private static final float MOVEMENT_MULTIPLIER = 1f;
     private static final float POP_DURATION = 0.5f;
     private final Texture texture;
     private final Texture popTexture;
     private final Array<Vector2> path;
     private final Vector2 pos;
-    private final Rectangle rect;
+    private final Rectangle hitbox;
+    ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
     private int level;
     private float popTimeLeft = 0f;
@@ -35,6 +35,7 @@ public class NormalEnemy extends Enemy {
         popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
         this.level = level;
 
+        // Path finding initialisieren
         path = new Array<>();
         MapLayer mapLayer = world.getMap().getLayers().get("path");
         if (mapLayer != null) {
@@ -51,7 +52,7 @@ public class NormalEnemy extends Enemy {
             this.pos = new Vector2(0, 0);
         }
 
-        rect = new Rectangle(pos.x, pos.y, WIDTH, HEIGHT);
+        hitbox = new Rectangle(pos.x, pos.y, WIDTH, HEIGHT);
     }
 
     @Override
@@ -97,6 +98,7 @@ public class NormalEnemy extends Enemy {
         return getHeight(); // pop texture ist quadratisch
     }
 
+    /// laufe richtung nächsten waypoint
     @Override
     public void move(float delta) {
 
@@ -116,7 +118,7 @@ public class NormalEnemy extends Enemy {
         Vector2 dir = target.cpy().sub(pos).nor();
         pos.add(dir.scl(getSpeed() * delta));
 
-        rect.setPosition(pos);
+        hitbox.setPosition(pos);
     }
 
     public Vector2 getPos() {
@@ -128,7 +130,7 @@ public class NormalEnemy extends Enemy {
         level -= damage;
         popTimeLeft = POP_DURATION;
         if (level <= 0) die();
-        // Geld geben + stats erhöhen
+        // todo Geld geben + stats erhöhen
     }
 
     public boolean isAlive() {
@@ -137,6 +139,6 @@ public class NormalEnemy extends Enemy {
 
     @Override
     public void die() {
-        // Geld geben + stats erhöhen
+        // todo Geld geben + stats erhöhen
     }
 }
