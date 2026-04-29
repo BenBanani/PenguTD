@@ -23,6 +23,11 @@ public class PenguTD extends Game {
         if (oldScreen != null) oldScreen.dispose();
     }
 
+    @Override
+    public void render() {
+        super.render();
+    }
+
     public static PenguTD getInstance() {
         return instance;
     }

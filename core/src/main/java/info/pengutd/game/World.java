@@ -5,14 +5,18 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -31,6 +35,8 @@ public class World implements Screen, InputProcessor {
     private int mapHeight;
     private int tileWidth;
     private int tileHeight;
+    private Table towerSelectionTable;
+    private Texture tableBackgroundTexture;
 
     @Override
     public void show() {
@@ -49,6 +55,13 @@ public class World implements Screen, InputProcessor {
             mapHeight * tileHeight
         );
         testEnemey = new NormalEnemy(4, this);
+
+        towerSelectionTable = new Table();
+        tableBackgroundTexture = new Texture("background.png");
+        towerSelectionTable.align(Align.right);
+        ImageButton button = new ImageButton(new TextureRegionDrawable(new Texture("Epstein.png")));
+        button.setSize(20, 20);
+        towerSelectionTable.add(button);
     }
 
     public TiledMap getMap() {
@@ -71,6 +84,8 @@ public class World implements Screen, InputProcessor {
         batch.begin();
 
         renderMapObjects();
+
+        towerSelectionTable.draw(batch, 1);
 
         testEnemey.draw(batch);
         batch.end();
