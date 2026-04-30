@@ -14,11 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.PenguTD;
 import info.pengutd.Settings;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleTo;
 
 // todo ui
 public class SettingsScreen implements Screen {
@@ -180,8 +183,7 @@ public class SettingsScreen implements Screen {
             skin
         );
 
-        content.center();
-        content.add(fullscreenLabel).expand().center();
+        content.add(fullscreenLabel).expand();
         stack.add(content);
 
         stack.addListener(new ClickListener() {
