@@ -3,8 +3,8 @@ package info.pengutd.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -15,16 +15,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class TowerSelection implements Disposable {
     private final Stage uiStage;
-    private final Texture backgroundTexture;
-    private final Texture background;
+    private final TextureAtlas atlas;
 
     public TowerSelection(Viewport viewport) {
         uiStage = new Stage(viewport);
         Gdx.input.setInputProcessor(new InputMultiplexer(Gdx.input.getInputProcessor(), uiStage));
 
-        backgroundTexture = new Texture(Gdx.files.internal("game/tower_selection_screen/background.png"));
-        background = new Texture(Gdx.files.internal("game/tower_selection_screen/button_blue.png"));
-
+        atlas = new TextureAtlas("atlas/tower_selection_ui.atlas");
         // table auf ganzem Screen
         Table root = new Table();
         root.setFillParent(true);
@@ -33,7 +30,7 @@ public class TowerSelection implements Disposable {
         Table sidebar = new Table();
         sidebar.top();
         sidebar.setBackground(
-            new TextureRegionDrawable(new TextureRegion(backgroundTexture)).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
+            new TextureRegionDrawable(new TextureRegion(atlas.findRegion("background"))).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
         );
         sidebar.defaults().growX().pad(10);
 
@@ -56,12 +53,12 @@ public class TowerSelection implements Disposable {
 
     private Stack towerElement(int i) {
         Stack stack = new Stack();
-        Image buttonBackground = new Image(background);
+        Image buttonBackground = new Image(atlas.findRegion("button_blue"));
         buttonBackground.getColor().a = 0.9f;
         buttonBackground.setScaling(Scaling.stretch);
         stack.add(buttonBackground);
 
-        Image image = new Image(new Texture("game/tower_selection_screen/tower" + i + ".png"));
+        Image image = new Image(atlas.findRegion("tower" + i));
         image.setSize(50, 50);
         stack.add(image);
         return stack;
@@ -70,7 +67,7 @@ public class TowerSelection implements Disposable {
     /// das blaue rechteck oben, in dem Geld und Hp angezeigt werden
     private Stack topElement() {
         Stack stack = new Stack();
-        Image topBackground = new Image(background);
+        Image topBackground = new Image(atlas.findRegion("button_blue"));
         topBackground.getColor().a = 0.9f;
         topBackground.setScaling(Scaling.stretch);
         Table topContent = new Table();
@@ -88,6 +85,6 @@ public class TowerSelection implements Disposable {
 
     public void dispose() {
         uiStage.dispose();
-        backgroundTexture.dispose();
+        atlas.dispose();
     }
 }
