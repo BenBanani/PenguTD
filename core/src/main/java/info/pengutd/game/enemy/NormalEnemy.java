@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PointMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import info.pengutd.game.World;
@@ -54,7 +55,7 @@ public class NormalEnemy extends Enemy {
             this.pos = new Vector2(0, 0);
         }
 
-        hitbox = new Rectangle(pos.x, pos.y, WIDTH, HEIGHT);
+        hitbox = new Rectangle(pos.x, pos.y, getWidth(), getHeight());
     }
 
     @Override
@@ -62,11 +63,13 @@ public class NormalEnemy extends Enemy {
         return popTimeLeft > 0 ? popTexture : texture;
     }
 
+    // x Koordinate der Mitte des Gegners
     @Override
     public float getX() {
         return pos.x;
     }
 
+    // y Koordinate der Mitte des Gegners
     @Override
     public float getY() {
         return pos.y;
@@ -112,15 +115,14 @@ public class NormalEnemy extends Enemy {
         if (currentPathIndex >= path.size - 1) return;
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f);
 
-
-        if (getPos().dst(target) < 2f) {
+        if (getPos().dst(target) < getSpeed() * delta) {
             currentPathIndex++;
         }
 
         Vector2 dir = target.cpy().sub(pos).nor();
         pos.add(dir.scl(getSpeed() * delta));
 
-        hitbox.setPosition(pos);
+        hitbox.setCenter(pos);
     }
 
     public Vector2 getPos() {
@@ -133,6 +135,11 @@ public class NormalEnemy extends Enemy {
         popTimeLeft = POP_DURATION;
         if (level <= 0) die();
         // todo Geld geben + stats erhöhen
+    }
+
+    @Override
+    public Shape2D getHitbox() {
+        return hitbox;
     }
 
     public boolean isAlive() {
