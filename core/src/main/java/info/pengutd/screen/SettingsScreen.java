@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,27 +15,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.PenguTD;
 import info.pengutd.Settings;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.scaleTo;
-
 // todo ui
 public class SettingsScreen implements Screen {
 
     private final Screen previousScreen;
     private Skin skin;
-    // todo private TextureAtlas textureAtlas;
+    private TextureAtlas atlas;
     private Stage stage;
 
     private Texture bgTexture;
-    private Texture titleTexture;
-    private Texture buttonTexture;
-    private Texture backButtonTexture;
     private Image title;
     private Stack soundSlider;
     private Stack musicSlider;
@@ -57,10 +52,8 @@ public class SettingsScreen implements Screen {
     private void loadAssets() {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        bgTexture = new Texture(Gdx.files.internal("background.png"));
-        titleTexture = new Texture(Gdx.files.internal("settings_screen/title.png"));
-        buttonTexture = new Texture(Gdx.files.internal("settings_screen/button.png"));
-        backButtonTexture = new Texture(Gdx.files.internal("settings_screen/back_button.png"));
+        bgTexture = new Texture("background.png");
+        atlas = new TextureAtlas("atlas/settings_screen_ui.atlas");
     }
 
     private void buildUI() {
@@ -73,7 +66,7 @@ public class SettingsScreen implements Screen {
         root.setFillParent(true);
         root.top().pad(20);
 
-        title = new Image(titleTexture);
+        title = new Image(atlas.findRegion("title"));
         root.add(title)
             .width(300).height(108)
             .colspan(2)
@@ -104,7 +97,7 @@ public class SettingsScreen implements Screen {
     }
 
     private ImageButton createBackButton() {
-        ImageButton backButton = new ImageButton(new TextureRegionDrawable(backButtonTexture));
+        ImageButton backButton = new ImageButton(new TextureRegionDrawable(atlas.findRegion("back_button")));
         backButton.setSize(50, 50);
         backButton.setPosition(25, stage.getHeight() - 75);
 
@@ -141,7 +134,7 @@ public class SettingsScreen implements Screen {
     private Stack createSlider(String labelName, float initialValue, SliderCallback callback, boolean fromLeft) {
         Stack stack = new Stack();
 
-        Image bg = new Image(buttonTexture);
+        Image bg = new Image(atlas.findRegion("button"));
         stack.add(bg);
 
         Table content = new Table();
@@ -172,7 +165,7 @@ public class SettingsScreen implements Screen {
     private Stack createFullscreenButton() {
         Stack stack = new Stack();
 
-        Image background = new Image(buttonTexture);
+        Image background = new Image(atlas.findRegion("button"));
         stack.add(background);
 
         Table content = new Table();
@@ -259,11 +252,7 @@ public class SettingsScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        bgTexture.dispose();
-        titleTexture.dispose();
-        buttonTexture.dispose();
-        backButtonTexture.dispose();
-        // textureAtlas.dispose();
+        atlas.dispose();
     }
 
     private interface SliderCallback {
