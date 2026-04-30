@@ -15,11 +15,11 @@ import info.pengutd.game.World;
 /// wenn ein Gegner getroffen wird, wird er zu einem Gegner mit geringerer Stufe
 public class NormalEnemy extends Enemy {
     ///  Höhe in tiles
-    public static final float HEIGHT = 0.8f;
+    public static final float HEIGHT = 0.75f;
     ///  breite in tiles
-    public static final float WIDTH = 0.44f;
+    public static final float WIDTH = 0.65f;
     ///  speed in tiles
-    private static final float MOVEMENT_MULTIPLIER = 1f;
+    private static final float MOVEMENT_MULTIPLIER = 0.75f;
     private static final float POP_DURATION = 0.5f;
     private final Texture texture;
     private final Texture popTexture;
