@@ -93,7 +93,7 @@ public class StartScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
                 buttons[2].addAction(sequence(
-                    delay(1f),
+                    delay(0.5f),
                     run(() -> PenguTD.getInstance().setScreen(new SettingsScreen(PenguTD.getInstance().getScreen())))
                 ));
             }

@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -29,6 +32,11 @@ public class SettingsScreen implements Screen {
     private Texture titleTexture;
     private Texture buttonTexture;
     private Texture backButtonTexture;
+    private Image title;
+    private Stack soundSlider;
+    private Stack musicSlider;
+    private Stack fullscreenButton;
+    private ImageButton backButton;
 
     public SettingsScreen(Screen screen) {
         previousScreen = screen;
@@ -62,20 +70,37 @@ public class SettingsScreen implements Screen {
         root.setFillParent(true);
         root.top().pad(20);
 
-        root.add(new Image(titleTexture))
+        title = new Image(titleTexture);
+        root.add(title)
             .width(300).height(108)
             .colspan(2)
             .padBottom(15)
             .row();
 
-        root.add(createSlider("Sound Volume", Settings.get().getSoundVolume(), v -> Settings.get().setSoundVolume(v))).width(400).height(100).row();
+        int moveDistance = 150;
+        title.addAction(
+            Actions.sequence(
+                Actions.moveBy(0, moveDistance),
+                Actions.moveBy(0, -moveDistance, 0.5f, Interpolation.smoother)
+            )
+        );
 
-        root.add(createSlider("Music Volume", Settings.get().getMusicVolume(), v -> Settings.get().setMusicVolume(v))).width(400).height(100).row();
+        soundSlider = createSlider("Sound Volume", Settings.get().getSoundVolume(), v -> Settings.get().setSoundVolume(v), false);
+        root.add(soundSlider).width(400).height(100).row();
 
-        root.add(createFullscreenButton()).width(400).height(100).row();
+        musicSlider = createSlider("Music Volume", Settings.get().getMusicVolume(), v -> Settings.get().setMusicVolume(v), true);
+        root.add(musicSlider).width(400).height(100).row();
+
+        fullscreenButton = createFullscreenButton();
+        root.add(fullscreenButton).width(400).height(100).row();
 
         stage.addActor(root);
 
+        backButton = createBackButton();
+        stage.addActor(backButton);
+    }
+
+    private ImageButton createBackButton() {
         ImageButton backButton = new ImageButton(new TextureRegionDrawable(backButtonTexture));
         backButton.setSize(50, 50);
         backButton.setPosition(25, stage.getHeight() - 75);
@@ -83,13 +108,34 @@ public class SettingsScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                PenguTD.getInstance().setScreenAndDispose(previousScreen);
+                stage.getRoot().setTouchable(Touchable.disabled);
+
+                title.addAction(Actions.moveBy(0, 150, 0.5f, Interpolation.smoother));
+                soundSlider.addAction(Actions.moveBy(-600, 0, 0.5f, Interpolation.smoother));
+                musicSlider.addAction(Actions.moveBy(600, 0, 0.5f, Interpolation.smoother));
+                fullscreenButton.addAction(Actions.moveBy(-600, 0, 0.5f, Interpolation.smoother));
+                backButton.addAction(Actions.moveBy(0, 100, 0.5f, Interpolation.smoother));
+
+                backButton.addAction(Actions.sequence(
+                    Actions.delay(0.5f),
+                    Actions.run(() -> {
+                        PenguTD.getInstance().setScreenAndDispose(previousScreen);
+                    })
+                ));
             }
         });
-        stage.addActor(backButton);
+
+        int moveDistance = 100;
+        backButton.addAction(
+            Actions.sequence(
+                Actions.moveBy(0, moveDistance),
+                Actions.moveBy(0, -moveDistance, 0.5f, Interpolation.smoother)
+            )
+        );
+        return backButton;
     }
 
-    private Stack createSlider(String labelName, float initialValue, SliderCallback callback) {
+    private Stack createSlider(String labelName, float initialValue, SliderCallback callback, boolean fromLeft) {
         Stack stack = new Stack();
 
         Image bg = new Image(buttonTexture);
@@ -114,6 +160,9 @@ public class SettingsScreen implements Screen {
         content.add(slider).width(250);
 
         stack.add(content);
+
+        addAnimation(stack, fromLeft);
+
         return stack;
     }
 
@@ -153,7 +202,27 @@ public class SettingsScreen implements Screen {
                 );
             }
         });
+
+        addAnimation(stack, false);
+
         return stack;
+    }
+
+    private void addAnimation(Actor actor, boolean fromLeft) {
+        int moveDistance = 600;
+        actor.addAction(
+            Actions.sequence(
+                Actions.moveBy(fromLeft ? -moveDistance : moveDistance, 0),
+                Actions.moveBy(fromLeft ? moveDistance : -moveDistance, 0, 0.5f, Interpolation.smoother)
+            )
+        );
+    }
+
+    private void addExitAnimation(Actor actor, boolean toLeft) {
+        int moveDistance = 600;
+        actor.addAction(
+            Actions.moveBy(toLeft ? -moveDistance : moveDistance, 0, 0.5f, Interpolation.smoother)
+        );
     }
 
     @Override
