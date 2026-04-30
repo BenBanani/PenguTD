@@ -1,6 +1,7 @@
 package info.pengutd;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import info.pengutd.screen.StartScreen;
 
@@ -13,6 +14,11 @@ public class PenguTD extends Game {
     @Override
     public void create() {
         instance = this;
+        if (Settings.get().getFullScreen()) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else {
+            Gdx.graphics.setWindowedMode(800, 480);
+        }
         setScreen(new StartScreen());
     }
 
