@@ -175,6 +175,16 @@ tasks.register('dist') {
   dependsOn 'jar'
 }
 
+tasks.register("run_whole") {
+  dependsOn "jar", "jarWin", "texturePacker", "run"
+}
+
+tasks.register("texturePacker", JavaExec) {
+  mainClass = "info.pengutd.TexturePackerHelper"
+  classpath = sourceSets.main.runtimeClasspath
+  workingDir = rootProject.projectDir
+}
+
 distributions {
   main {
     contents {
