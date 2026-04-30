@@ -54,7 +54,7 @@ public class World implements Screen, InputProcessor {
         );
         testEnemey = new NormalEnemy(4, this);
 
-        towerSelection = new TowerSelection(viewport);
+        towerSelection = new TowerSelection(viewport, this);
     }
 
     public TiledMap getMap() {
@@ -106,7 +106,7 @@ public class World implements Screen, InputProcessor {
 
     @Override
     public void pause() {
-
+        // todo pause game
     }
 
     @Override

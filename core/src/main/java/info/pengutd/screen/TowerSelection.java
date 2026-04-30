@@ -6,20 +6,33 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import info.pengutd.game.World;
 
 public class TowerSelection implements Disposable {
     private final Stage uiStage;
     private final TextureAtlas atlas;
+    private final World world;
 
-    public TowerSelection(Viewport viewport) {
+    public TowerSelection(Viewport viewport, World world) {
         uiStage = new Stage(viewport);
-        Gdx.input.setInputProcessor(new InputMultiplexer(Gdx.input.getInputProcessor(), uiStage));
+        this.world = world;
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(uiStage);
+        multiplexer.addProcessor(Gdx.input.getInputProcessor());
+        Gdx.input.setInputProcessor(multiplexer);
 
         atlas = new TextureAtlas("atlas/tower_selection_ui.atlas");
         // table auf ganzem Screen
@@ -48,6 +61,9 @@ public class TowerSelection implements Disposable {
         sidebar.add(towerElement(4)).width(80).height(80).row();
         sidebar.add(towerElement(5)).width(80).height(80);
         sidebar.add(towerElement(6)).width(80).height(80).row();
+
+        sidebar.add(pauseButton()).width(180).height(80).colspan(2).row();
+
         uiStage.addActor(root);
     }
 
@@ -63,6 +79,29 @@ public class TowerSelection implements Disposable {
         Image image = new Image(atlas.findRegion("tower" + i));
         content.add(image).width(40f).height(40f);
         stack.add(content);
+
+        return stack;
+    }
+
+    private Actor pauseButton() {
+        Stack stack = new Stack();
+        Image buttonBackground = new Image(atlas.findRegion("button_blue"));
+        buttonBackground.getColor().a = 0.9f;
+        buttonBackground.setScaling(Scaling.stretch);
+        stack.add(buttonBackground);
+
+        Table content = new Table().center();
+        Label textLabel = new Label("Pause", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        content.add(textLabel);
+        stack.add(content);
+
+        stack.setTouchable(Touchable.enabled);
+        stack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                world.pause();
+            }
+        });
 
         return stack;
     }
