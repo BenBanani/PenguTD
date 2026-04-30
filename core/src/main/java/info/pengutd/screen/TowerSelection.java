@@ -45,22 +45,25 @@ public class TowerSelection implements Disposable {
         Stack topElement = topElement();
         sidebar.add(topElement).colspan(2).width(180).height(180).padBottom(10).row();
 
-        sidebar.add(towerElement()).width(80).height(80);
-        sidebar.add(towerElement()).width(80).height(80).row();
-        sidebar.add(towerElement()).width(80).height(80);
-        sidebar.add(towerElement()).width(80).height(80).row();
-        sidebar.add(towerElement()).width(80).height(80);
-        sidebar.add(towerElement()).width(80).height(80).row();
+        sidebar.add(towerElement(1)).width(80).height(80);
+        sidebar.add(towerElement(2)).width(80).height(80).row();
+        sidebar.add(towerElement(3)).width(80).height(80);
+        sidebar.add(towerElement(4)).width(80).height(80).row();
+        sidebar.add(towerElement(5)).width(80).height(80);
+        sidebar.add(towerElement(6)).width(80).height(80).row();
         uiStage.addActor(root);
     }
 
-    private Stack towerElement() {
+    private Stack towerElement(int i) {
         Stack stack = new Stack();
         Image buttonBackground = new Image(background);
         buttonBackground.getColor().a = 0.9f;
         buttonBackground.setScaling(Scaling.stretch);
-        // todo tower image
         stack.add(buttonBackground);
+
+        Image image = new Image(new Texture("game/tower_selection_screen/tower" + i + ".png"));
+        image.setSize(50, 50);
+        stack.add(image);
         return stack;
     }
 
