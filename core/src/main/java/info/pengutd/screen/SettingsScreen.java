@@ -65,14 +65,14 @@ public class SettingsScreen implements Screen {
         root.add(new Image(titleTexture))
             .width(300).height(108)
             .colspan(2)
-            .padBottom(25)
+            .padBottom(15)
             .row();
 
-        root.add(createSlider("Sound Volume", Settings.get().getSoundVolume(), v -> Settings.get().setSoundVolume(v))).width(300).height(75).pad(5).row();
+        root.add(createSlider("Sound Volume", Settings.get().getSoundVolume(), v -> Settings.get().setSoundVolume(v))).width(400).height(100).row();
 
-        root.add(createSlider("Music Volume", Settings.get().getMusicVolume(), v -> Settings.get().setMusicVolume(v))).width(300).height(75).pad(5).row();
+        root.add(createSlider("Music Volume", Settings.get().getMusicVolume(), v -> Settings.get().setMusicVolume(v))).width(400).height(100).row();
 
-        root.add(createFullscreenButton()).width(300).height(75).pad(5).row();
+        root.add(createFullscreenButton()).width(400).height(100).row();
 
         stage.addActor(root);
 
@@ -133,8 +133,9 @@ public class SettingsScreen implements Screen {
 
         content.center();
         content.add(fullscreenLabel).expand().center();
+        stack.add(content);
 
-        fullscreenLabel.addListener(new ClickListener() {
+        stack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 boolean newValue = !Settings.get().getFullScreen();
@@ -152,8 +153,6 @@ public class SettingsScreen implements Screen {
                 );
             }
         });
-
-        stack.add(content);
         return stack;
     }
 
