@@ -5,7 +5,10 @@ gradle-app.setting
 /android/build/
 /core/build/
 /lwjgl2/build/
-/lwjgl3/build/
+/lwjgl3/build/classes
+/lwjgl3/build/generated
+/lwjgl3/build/resources
+/lwjgl3/build/tmp
 /html/build/
 /teavm/build/
 /ios/build/
