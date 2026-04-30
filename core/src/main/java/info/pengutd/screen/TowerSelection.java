@@ -58,9 +58,12 @@ public class TowerSelection implements Disposable {
         buttonBackground.setScaling(Scaling.stretch);
         stack.add(buttonBackground);
 
+        // Table, weil stack alle inhalte immer auf volle größe erweitert
+        Table content = new Table().center();
         Image image = new Image(atlas.findRegion("tower" + i));
-        image.setSize(50, 50);
-        stack.add(image);
+        content.add(image).width(40f).height(40f);
+        stack.add(content);
+
         return stack;
     }
 
