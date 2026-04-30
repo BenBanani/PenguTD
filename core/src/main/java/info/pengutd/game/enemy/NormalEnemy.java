@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import info.pengutd.game.World;
 
+/// Standard Gegner mit mehreren Stufen.
+/// wenn ein Gegner getroffen wird, wird er zu einem Gegner mit geringerer Stufe
 public class NormalEnemy extends Enemy {
     ///  Höhe in tiles
     public static final float HEIGHT = 0.8f;
