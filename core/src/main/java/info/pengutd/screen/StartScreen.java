@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -84,6 +85,21 @@ public class StartScreen implements Screen {
                 buttons[0].addAction(sequence(
                     delay(1f),
                     run(() -> PenguTD.getInstance().setScreen(new World()))
+                ));
+            }
+        });
+
+        buttons[1].addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                animateClose();
+                buttons[1].addAction(sequence(
+                    delay(1f),
+                    run(() -> {
+                        World world = new World(true);
+                        world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
+                        PenguTD.getInstance().setScreen(world);
+                    })
                 ));
             }
         });

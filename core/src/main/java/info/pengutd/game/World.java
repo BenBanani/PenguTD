@@ -26,7 +26,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     private SpriteBatch batch;
     private Viewport viewport;
-    private String mapName = "map/map2.tmx";
+    private String mapName = "map2";
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     ///  debug enemy
@@ -38,28 +38,42 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int tileWidth;
     private int tileHeight;
     private TowerSelection towerSelection;
+    private final boolean fromJson;
+
+    /// Normaler Konstruktor für eine neue Welt
+    public World() {
+        this(false);
+    }
+
+    ///  Konstruktor muss aufgerufen werden, wenn die Welt aus einer Json Datei geladen wird,
+    /// da show() möglicherweise nach toJson() aufgerufen wird und somit sonst alles selbst neu initialisiert
+    public World(boolean fromJson) {
+        this.fromJson = fromJson;
+    }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
-        batch = new SpriteBatch();
-        map = new TmxMapLoader().load(mapName);
-        mapRenderer = new OrthogonalTiledMapRenderer(map);
+        if (!fromJson) {
+            Gdx.input.setInputProcessor(this);
+            batch = new SpriteBatch();
+            map = new TmxMapLoader().load("map/" + mapName + ".tmx");
+            mapRenderer = new OrthogonalTiledMapRenderer(map);
 
-        mapWidth = map.getProperties().get("width", Integer.class);
-        mapHeight = map.getProperties().get("height", Integer.class);
-        tileWidth = map.getProperties().get("tilewidth", Integer.class);
-        tileHeight = map.getProperties().get("tileheight", Integer.class);
+            mapWidth = map.getProperties().get("width", Integer.class);
+            mapHeight = map.getProperties().get("height", Integer.class);
+            tileWidth = map.getProperties().get("tilewidth", Integer.class);
+            tileHeight = map.getProperties().get("tileheight", Integer.class);
 
-        viewport = new FitViewport(
-            mapWidth * tileWidth,
-            mapHeight * tileHeight
-        );
+            viewport = new FitViewport(
+                mapWidth * tileWidth,
+                mapHeight * tileHeight
+            );
 
-        enemies = new Array<>();
-        enemies.add(new NormalEnemy(4, this).debug());
+            enemies = new Array<>();
+            enemies.add(new NormalEnemy(4, this).debug());
 
-        towerSelection = new TowerSelection(viewport, this);
+            towerSelection = new TowerSelection(viewport, this);
+        }
     }
 
     public TiledMap getMap() {
@@ -147,6 +161,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.get(0).pop(1);
+        System.out.println(this.toJson());
+        System.out.println("----------------");
         return true;
     }
 
@@ -221,8 +237,62 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         return value;
     }
 
+    /// @throws IllegalArgumentException wenn ungültige enemy types in der json sind
+    /// @throws IllegalStateException wenn fromJson false ist
     @Override
     public void fromJson(JsonValue json) {
-        // todo
+        if (!fromJson) {
+            throw new IllegalStateException("fromJson ist false, aber fromJson() wurde aufgerufen");
+        }
+
+        // map laden
+        mapName = json.getString("map");
+        // alte map disposen
+        if (map != null) {
+            map.dispose();
+        }
+        if (mapRenderer != null) {
+            mapRenderer.dispose();
+        }
+
+        map = new TmxMapLoader().load("map/" + mapName + ".tmx");
+        mapRenderer = new OrthogonalTiledMapRenderer(map);
+
+        mapWidth = map.getProperties().get("width", Integer.class);
+        mapHeight = map.getProperties().get("height", Integer.class);
+        tileWidth = map.getProperties().get("tilewidth", Integer.class);
+        tileHeight = map.getProperties().get("tileheight", Integer.class);
+
+        viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
+        // neue TowerSelection, da neuer Viewport
+        towerSelection = new TowerSelection(viewport, this);
+
+        JsonValue jsonEnemies = json.get("enemies");
+        if (enemies == null) {
+            enemies = new Array<>();
+        } else {
+            for (Enemy enemy : enemies) {
+                enemy.dispose();
+            }
+            enemies.clear();
+        }
+        for (JsonValue jsonEnemy : jsonEnemies) {
+            Enemy enemy;
+            String enemyType = jsonEnemy.getString("type");
+            if ("normal_enemy".equals(enemyType)) {
+                enemy = new NormalEnemy(0, this);
+            } else {
+                throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
+            }
+            enemy.fromJson(jsonEnemy);
+            enemies.add(enemy);
+        }
+
+        // falls show nicht zuvor gelaufen ist:
+        if (batch == null) {
+            batch = new SpriteBatch();
+        }
+        Gdx.input.setInputProcessor(this);
+
     }
 }
