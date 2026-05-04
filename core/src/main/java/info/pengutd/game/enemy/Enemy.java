@@ -10,9 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import info.pengutd.game.World;
+import info.pengutd.save.JsonSerializable;
 
 ///  Base Klasse für alle Gegner
-public abstract class Enemy implements Disposable {
+public abstract class Enemy implements Disposable, JsonSerializable {
     private final World world;
     private boolean debug = false;
 

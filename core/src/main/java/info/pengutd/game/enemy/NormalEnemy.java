@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.World;
 
 /// Standard Gegner mit mehreren Stufen.
@@ -149,5 +150,44 @@ public class NormalEnemy extends Enemy {
     @Override
     public void die() {
         // todo Geld geben + stats erhöhen
+    }
+
+    /// Zum Speichern des Gegners als .json datei
+    @Override
+    public JsonValue toJson() {
+        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        value.addChild("type", new JsonValue("normal_enemy"));  // für lesbarkeit der .json datei
+        value.addChild("x", new JsonValue(pos.x));
+        value.addChild("y", new JsonValue(pos.y));
+        value.addChild("currentPathIndex", new JsonValue(currentPathIndex));
+        value.addChild("level", new JsonValue(level));
+        value.addChild("popTimeLeft", new JsonValue(popTimeLeft));
+
+        JsonValue jsonPath = new JsonValue(JsonValue.ValueType.array);
+        for (Vector2 vec : getPath()) {
+            JsonValue obj = new JsonValue(JsonValue.ValueType.object);
+            obj.addChild("x", new JsonValue(vec.x));
+            obj.addChild("y", new JsonValue(vec.y));
+            jsonPath.addChild(obj);
+        }
+        value.addChild("path", jsonPath);
+
+        return value;
+    }
+
+    /// Lädt einen Gegner aus json ein.
+    /// world muss bereits gesetzt sein, level ist egal
+    @Override
+    public void fromJson(JsonValue json) {
+        this.pos.set(json.getFloat("x"), json.getFloat("y"));
+        this.currentPathIndex = json.getInt("currentPathIndex");
+        this.level = json.getInt("level");
+        this.popTimeLeft = json.getFloat("popTimeLeft");
+        this.path.clear();
+        JsonValue jsonPath = json.get("path");
+        for (JsonValue vec : jsonPath) {
+            this.path.add(new Vector2(vec.getFloat("x"), vec.getFloat("y")));
+        }
+        hitbox.setCenter(pos);
     }
 }
