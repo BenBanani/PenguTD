@@ -30,7 +30,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     ///  debug enemy
-    private Enemy testEnemey;
+    private Array<Enemy> enemies;
     /// in tiles
     private int mapWidth;
     ///  in tiles
@@ -55,7 +55,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             mapWidth * tileWidth,
             mapHeight * tileHeight
         );
-        testEnemey = new NormalEnemy(4, this).debug();
+
+        enemies = new Array<>();
+        enemies.add(new NormalEnemy(4, this).debug());
 
         towerSelection = new TowerSelection(viewport, this);
     }
@@ -66,8 +68,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void render(float delta) {
-        testEnemey.move(delta);
+        updateLogic(delta);
 
+        updateGraphics(delta);
+    }
+
+    private void updateGraphics(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
         viewport.apply();
@@ -81,10 +87,19 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         renderMapObjects();
 
-        testEnemey.draw(batch);
+        for (Enemy enemy : this.enemies) {
+            enemy.draw(batch);
+        }
+
         batch.end();
 
         towerSelection.render(delta);
+    }
+
+    private void updateLogic(float delta) {
+        for (Enemy enemy : this.enemies) {
+            enemy.move(delta);
+        }
     }
 
     private void renderMapObjects() {
@@ -131,7 +146,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        testEnemey.pop(1);
+        enemies.get(0).pop(1);
         return true;
     }
 
@@ -196,10 +211,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
         value.addChild("type", new JsonValue("world"));
         value.addChild("map", new JsonValue(mapName));
-        // todo alle gegner speichern
-        JsonValue enemies = new JsonValue(JsonValue.ValueType.array);
-        enemies.addChild(testEnemey.toJson());
-        value.addChild("enemies", enemies);
+        // gegner
+        JsonValue jsonEnemies = new JsonValue(JsonValue.ValueType.array);
+        for (Enemy enemy : enemies) {
+            jsonEnemies.addChild(enemy.toJson());
+        }
+        value.addChild("enemies", jsonEnemies);
         // todo tower speichern
         return value;
     }
