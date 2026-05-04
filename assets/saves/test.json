@@ -1,6 +1,6 @@
 {
     type: world
-    map: map2
+    map: map1
     enemies: [
         {
             type: normal_enemy

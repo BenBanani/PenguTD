@@ -26,7 +26,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     private SpriteBatch batch;
     private Viewport viewport;
-    private String mapName = "map2";
+    private String mapName = "map1";
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     ///  debug enemy
@@ -53,9 +53,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void show() {
+        Gdx.input.setInputProcessor(this);
+        batch = new SpriteBatch();
         if (!fromJson) {
-            Gdx.input.setInputProcessor(this);
-            batch = new SpriteBatch();
             map = new TmxMapLoader().load("map/" + mapName + ".tmx");
             mapRenderer = new OrthogonalTiledMapRenderer(map);
 
@@ -287,12 +287,5 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             enemy.fromJson(jsonEnemy);
             enemies.add(enemy);
         }
-
-        // falls show nicht zuvor gelaufen ist:
-        if (batch == null) {
-            batch = new SpriteBatch();
-        }
-        Gdx.input.setInputProcessor(this);
-
     }
 }
