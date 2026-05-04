@@ -59,7 +59,7 @@ public class Settings {
         preferences.flush();
     }
 
-    public void setAccountVolume(String accountName) {
+    public void setAccountName(String accountName) {
         preferences.putString(KEY_ACCOUNT, accountName);
         preferences.flush();
     }
