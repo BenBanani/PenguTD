@@ -6,26 +6,27 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
+import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
 
-public class World implements Screen, InputProcessor {
+public class World implements Screen, InputProcessor, JsonSerializable {
 
     private SpriteBatch batch;
     private Viewport viewport;
+    private String mapName = "map/map2.tmx";
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     ///  debug enemy
@@ -42,7 +43,7 @@ public class World implements Screen, InputProcessor {
     public void show() {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
-        map = new TmxMapLoader().load("map/map2.tmx");
+        map = new TmxMapLoader().load(mapName);
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
         mapWidth = map.getProperties().get("width", Integer.class);
@@ -188,5 +189,23 @@ public class World implements Screen, InputProcessor {
 
     public int getTileWidth() {
         return tileWidth;
+    }
+
+    @Override
+    public JsonValue toJson() {
+        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        value.addChild("type", new JsonValue("world"));
+        value.addChild("map", new JsonValue(mapName));
+        // todo alle gegner speichern
+        JsonValue enemies = new JsonValue(JsonValue.ValueType.array);
+        enemies.addChild(testEnemey.toJson());
+        value.addChild("enemies", enemies);
+        // todo tower speichern
+        return value;
+    }
+
+    @Override
+    public void fromJson(JsonValue json) {
+        // todo
     }
 }
