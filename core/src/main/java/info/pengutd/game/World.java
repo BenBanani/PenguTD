@@ -112,7 +112,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     private void updateLogic(float delta) {
         for (Enemy enemy : this.enemies) {
-            enemy.move(delta);
+            enemy.update(delta);
         }
     }
 
@@ -161,8 +161,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.get(0).pop(1);
-        System.out.println(this.toJson());
-        System.out.println("----------------");
         return true;
     }
 

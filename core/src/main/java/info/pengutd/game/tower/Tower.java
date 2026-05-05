@@ -1,40 +1,49 @@
-package info.pengutd.game.enemy;
+package info.pengutd.game.tower;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
+import info.pengutd.game.enemy.Enemy;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-///  Base Klasse für alle Gegner
-public abstract class Enemy extends GameObject implements Disposable, JsonSerializable {
+/// Base klasse für alle Türme
+public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
+    @Nullable
+    private Enemy targetEnemy = null;
 
-    protected Enemy(@NotNull World world) {
+    protected Tower(@NotNull World world) {
         super(world);
     }
 
-    public abstract int getHealth();
+    public abstract int getCost();
 
-    ///  @return speed in pixel per second
-    public abstract float getSpeed();
+    /// @return Range in pixeln
+    public abstract int getRange();
 
-    ///  @return Path den das Enemy gehen muss
-    public abstract @NotNull Array<Vector2> getPath();
+    public abstract int getDamage();
 
-    ///  Zeichnet das Enemy auf den Screen
+    /// @return Schüsse pro Sekunde
+    public abstract float getAttackSpeed();
+
+    /// @return ziel des Turmes
+    @Nullable
+    public abstract Enemy getTargetEnemy();
+
+    /// Zeichnet den Tower auf den screen
     /// SpriteBatch.begin() muss davor aufgerufen werden
     @Override
     public void draw(@NotNull SpriteBatch batch) {
         super.draw(batch);
         if (debug) {
-            batch.end(); // wir zeichnen mit dem internen batch von ShapeRenderer
+            batch.end(); // zeichnen mit internen batch von ShapeRenderer
 
             ShapeRenderer renderer = new ShapeRenderer();
             renderer.setProjectionMatrix(batch.getProjectionMatrix());
@@ -43,10 +52,15 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             renderer.setColor(Color.RED);
             Rectangle box = (Rectangle) getHitbox();
             renderer.rect(box.x, box.y, box.width, box.height);
-            // Path
+
+            // Range
+            renderer.setColor(Color.BLUE);
+            renderer.circle(getX(), getY(), getRange());
+
+            // Target
             renderer.setColor(Color.GREEN);
-            for (Vector2 vec : this.getPath()) {
-                renderer.circle(vec.x, vec.y, 5);
+            if (getTargetEnemy() != null) {
+                renderer.line(new Vector2(getX(), getY()), new Vector2(getTargetEnemy().getX(), getTargetEnemy().getY()));
             }
 
             renderer.end();
@@ -55,24 +69,13 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         }
     }
 
+    ///  logik update des Towers
     @Override
-    /// Logik update des Enemies
     public abstract void update(float delta);
 
-    /// todo muss alle texturen disposen, nicht nur eine
-    @Override
-    public void dispose() {
-        getTexture().dispose();
-    }
-
-    /// nehme schade in höhe von damage
-    public abstract void pop(int damage);
-
-    public abstract void die();
-
     /// Schaltet den Debug Modus an
-    /// Jetzt werden zusätzlich die Hitbox und der Path gezeichnet
-    public Enemy debug() {
+    /// Jetzt werden zusätzlich die Hitbox, Range und Target gezeichnet
+    public Tower debug() {
         debug = true;
         return this;
     }

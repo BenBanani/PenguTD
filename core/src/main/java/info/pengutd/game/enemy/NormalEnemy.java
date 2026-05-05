@@ -106,7 +106,7 @@ public class NormalEnemy extends Enemy {
 
     /// laufe richtung nächsten waypoint
     @Override
-    public void move(float delta) {
+    public void update(float delta) {
 
         if (popTimeLeft > 0) {
             popTimeLeft -= delta;
