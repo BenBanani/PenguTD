@@ -26,9 +26,9 @@ public class NormalEnemy extends Enemy {
     private static final float POP_DURATION = 0.5f;
     private final @NotNull Texture texture;
     private final @NotNull Texture popTexture;
-    private final @NotNull Array<Vector2> path;
-    private final @NotNull Vector2 pos;
-    private final @NotNull Rectangle hitbox;
+    private final @NotNull Array<Vector2> path = new Array<>();
+    private final @NotNull Vector2 pos = new Vector2();
+    private final @NotNull Rectangle hitbox = new Rectangle();
     ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
     private int level;
@@ -40,9 +40,16 @@ public class NormalEnemy extends Enemy {
         popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
         this.level = level;
 
+        findPath();
+
+        hitbox.setHeight(getHeight());
+        hitbox.setWidth(getWidth());
+        hitbox.setCenter(this.pos);
+    }
+
+    private void findPath() {
         // Path finding initialisieren
-        path = new Array<>();
-        MapLayer mapLayer = world.getMap().getLayers().get("path");
+        MapLayer mapLayer = getWorld().getMap().getLayers().get("path");
         if (mapLayer != null) {
             for (MapObject obj : mapLayer.getObjects()) {
                 if (obj instanceof PointMapObject) {
@@ -51,13 +58,10 @@ public class NormalEnemy extends Enemy {
                 }
             }
             Vector2 start = path.get(0);
-            this.pos = new Vector2(start);
+            this.pos.set(start);
         } else {
             Gdx.app.error("NormalEnemy", "No path layer found in map");
-            this.pos = new Vector2(0, 0);
         }
-
-        hitbox = new Rectangle(pos.x, pos.y, getWidth(), getHeight());
     }
 
     @Override
@@ -116,7 +120,7 @@ public class NormalEnemy extends Enemy {
 
         if (path.size == 0) return;
         if (currentPathIndex >= path.size - 1) return;
-        Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f);
+        Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f); // lerp damit der weg nicht so eckig ist
 
         if (getPos().dst2(target) < getSpeed() * delta * getSpeed() * delta) {
             currentPathIndex++;
@@ -160,16 +164,6 @@ public class NormalEnemy extends Enemy {
         value.addChild("currentPathIndex", new JsonValue(currentPathIndex));
         value.addChild("level", new JsonValue(level));
         value.addChild("popTimeLeft", new JsonValue(popTimeLeft));
-
-        JsonValue jsonPath = new JsonValue(JsonValue.ValueType.array);
-        for (Vector2 vec : getPath()) {
-            JsonValue obj = new JsonValue(JsonValue.ValueType.object);
-            obj.addChild("x", new JsonValue(vec.x));
-            obj.addChild("y", new JsonValue(vec.y));
-            jsonPath.addChild(obj);
-        }
-        value.addChild("path", jsonPath);
-
         return value;
     }
 
@@ -182,11 +176,7 @@ public class NormalEnemy extends Enemy {
         this.currentPathIndex = json.getInt("currentPathIndex");
         this.level = json.getInt("level");
         this.popTimeLeft = json.getFloat("popTimeLeft");
-        this.path.clear();
-        JsonValue jsonPath = json.get("path");
-        for (JsonValue vec : jsonPath) {
-            this.path.add(new Vector2(vec.getFloat("x"), vec.getFloat("y")));
-        }
+
         hitbox.setCenter(pos);
     }
 }

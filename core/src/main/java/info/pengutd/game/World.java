@@ -181,6 +181,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.get(0).pop(1);
+        enemies.add(new NormalEnemy(2, this, createEntityId()));
         System.out.println(this.toJson());
         return true;
     }
@@ -304,7 +305,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             Enemy enemy;
             String enemyType = jsonEnemy.getString("type");
             if ("normal_enemy".equals(enemyType)) {
-                enemy = new NormalEnemy(0, this, jsonEnemy.getInt("id"));
+                enemy = new NormalEnemy(0, this, jsonEnemy.getInt("id")).debug();
             } else {
                 throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
