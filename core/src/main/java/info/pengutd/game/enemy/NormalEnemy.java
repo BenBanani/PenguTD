@@ -34,8 +34,8 @@ public class NormalEnemy extends Enemy {
     private int level;
     private float popTimeLeft = 0f;
 
-    public NormalEnemy(int level, @NotNull World world) {
-        super(world);
+    public NormalEnemy(int level, @NotNull World world, int id) {
+        super(world, id);
         texture = new Texture(Gdx.files.internal("game/enemy/pengu.png"));
         popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
         this.level = level;
@@ -118,7 +118,7 @@ public class NormalEnemy extends Enemy {
         if (currentPathIndex >= path.size - 1) return;
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f);
 
-        if (getPos().dst(target) < getSpeed() * delta) {
+        if (getPos().dst2(target) < getSpeed() * delta * getSpeed() * delta) {
             currentPathIndex++;
         }
 
@@ -153,7 +153,7 @@ public class NormalEnemy extends Enemy {
     /// Zum Speichern des Gegners als .json datei
     @Override
     public @NotNull JsonValue toJson() {
-        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        JsonValue value = super.toJson();
         value.addChild("type", new JsonValue("normal_enemy"));  // für lesbarkeit der .json datei
         value.addChild("x", new JsonValue(pos.x));
         value.addChild("y", new JsonValue(pos.y));
@@ -177,6 +177,7 @@ public class NormalEnemy extends Enemy {
     /// world muss bereits gesetzt sein, level ist egal
     @Override
     public void fromJson(@NotNull JsonValue json) {
+        super.fromJson(json);
         this.pos.set(json.getFloat("x"), json.getFloat("y"));
         this.currentPathIndex = json.getInt("currentPathIndex");
         this.level = json.getInt("level");

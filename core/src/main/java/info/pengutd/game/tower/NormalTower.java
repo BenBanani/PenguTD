@@ -96,21 +96,27 @@ public class NormalTower extends Tower {
 
     private @Nullable Enemy findNewTarget() {
         Enemy target = null;
+
+        float closestDst2 = Float.MAX_VALUE;
+
         for (Enemy enemy : getWorld().getEnemies()) {
-            if (inRange(enemy)) {
-                if (target == null) {
-                    target = enemy;
-                } else if (enemy.getPos().dst(pos) < target.getPos().dst(pos)) {
-                    target = enemy;
-                }
+
+            float dst2 = pos.dst2(enemy.getPos());
+
+            if (dst2 <= getRange() * getRange()
+                && dst2 < closestDst2) {
+
+                closestDst2 = dst2;
+                target = enemy;
             }
         }
+
         return target;
     }
 
     private boolean inRange(@Nullable Enemy targetEnemy) {
         if (targetEnemy == null) return false;
-        return this.pos.dst(new Vector2(targetEnemy.getX(), targetEnemy.getY())) <= getRange();
+        return this.pos.dst2(targetEnemy.getPos()) <= getRange() * getRange();
     }
 
     @Override
@@ -131,21 +137,18 @@ public class NormalTower extends Tower {
         value.addChild("y", new JsonValue(pos.y));
         value.addChild("shot_cooldown", new JsonValue(shotCooldown));
         if (targetEnemy != null) {
-            value.addChild("target", targetEnemy.toJson());
+            value.addChild("target", new JsonValue(targetEnemy.getId()));
         }
         return value;
     }
 
+    /// Türme müssen nach den Gegnern geladen werden
     @Override
     public void fromJson(@NotNull JsonValue json) {
         pos.set(json.getFloat("x"), json.getFloat("y"));
         shotCooldown = json.getFloat("shot_cooldown");
         if (json.has("target")) {
-            Enemy enemy;
-            if ("normal_enemy".equals(json.get("target").getString("type"))) {
-                targetEnemy = new NormalEnemy(1, getWorld());
-                targetEnemy.fromJson(json.get("target"));
-            }
+            targetEnemy = getWorld().getEnemyFromId(json.getInt("target"));
         }
     }
 }

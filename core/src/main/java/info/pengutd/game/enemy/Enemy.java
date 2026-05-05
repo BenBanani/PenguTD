@@ -17,9 +17,11 @@ import org.jetbrains.annotations.Nullable;
 ///  Base Klasse für alle Gegner
 public abstract class Enemy extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
+    private int id;
 
-    protected Enemy(@NotNull World world) {
+    protected Enemy(@NotNull World world, int id) {
         super(world);
+        this.id = id;
     }
 
     public abstract int getHealth();
@@ -76,6 +78,26 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
     public boolean isAlive() {
         return getHealth() > 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    protected void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public @NotNull JsonValue toJson() {
+        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        value.addChild("id", new JsonValue(id));
+        return value;
+    }
+
+    @Override
+    public void fromJson(@NotNull JsonValue json) {
+        id = json.getInt("id");
     }
 
     /// Schaltet den Debug Modus an

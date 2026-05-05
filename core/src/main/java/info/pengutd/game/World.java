@@ -25,16 +25,18 @@ import info.pengutd.game.tower.Tower;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
+    ///  debug enemy
+    private final @NotNull Array<Enemy> enemies = new Array<>();
+    private final @NotNull Array<Tower> towers = new Array<>();
+    private final boolean fromJson;
     private SpriteBatch batch;
     private Viewport viewport;
     private String mapName = "map1";
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
-    ///  debug enemy
-    private final @NotNull Array<Enemy> enemies = new Array<>();
-    private final @NotNull Array<Tower> towers = new Array<>();
     /// in tiles
     private int mapWidth;
     ///  in tiles
@@ -42,7 +44,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int tileWidth;
     private int tileHeight;
     private TowerSelection towerSelection;
-    private final boolean fromJson;
+    private int nextEntityId = 0;
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -73,7 +75,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 mapHeight * tileHeight
             );
 
-            enemies.add(new NormalEnemy(4, this).debug());
+            enemies.add(new NormalEnemy(4, this, nextEntityId++).debug());
 
             towers.add(new NormalTower(new Vector2(200, 300), this).debug());
 
@@ -244,6 +246,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
         value.addChild("type", new JsonValue("world"));
         value.addChild("map", new JsonValue(mapName));
+        value.addChild("next_entity_id", new JsonValue(nextEntityId));
         // gegner
         JsonValue jsonEnemies = new JsonValue(JsonValue.ValueType.array);
         for (Enemy enemy : enemies) {
@@ -261,7 +264,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     /// @throws IllegalArgumentException wenn ungültige enemy types in der json sind
-    /// @throws IllegalStateException wenn fromJson false ist
+    /// @throws IllegalStateException    wenn fromJson false ist
     @Override
     public void fromJson(@NotNull JsonValue json) {
         if (!fromJson) {
@@ -290,6 +293,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         // neue TowerSelection, da neuer Viewport
         towerSelection = new TowerSelection(viewport, this);
 
+        nextEntityId = json.getInt("next_entity_id");
         // enemies
         JsonValue jsonEnemies = json.get("enemies");
         for (Enemy enemy : enemies) {
@@ -300,7 +304,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             Enemy enemy;
             String enemyType = jsonEnemy.getString("type");
             if ("normal_enemy".equals(enemyType)) {
-                enemy = new NormalEnemy(0, this);
+                enemy = new NormalEnemy(0, this, jsonEnemy.getInt("id"));
             } else {
                 throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
@@ -318,12 +322,27 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             Tower tower;
             String towerType = jsonTower.getString("type");
             if ("normal_tower".equals(towerType)) {
-                tower = new NormalTower(new Vector2(), this);
+                tower = new NormalTower(new Vector2(), this).debug();
             } else {
                 throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }
             tower.fromJson(jsonTower);
             towers.add(tower);
         }
+    }
+
+    public int createEntityId() {
+        return nextEntityId++;
+    }
+
+    /// @return ein Enemy mit der gegebenen ID oder null wenn es keinen gibt
+    public @Nullable Enemy getEnemyFromId(int id) {
+        Enemy enemy = null;
+        for (Enemy e : this.enemies) {
+            if (e.getId() == id) {
+                enemy = e;
+            }
+        }
+        return enemy;
     }
 }
