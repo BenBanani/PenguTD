@@ -138,6 +138,7 @@ public class NormalEnemy extends Enemy {
 
     @Override
     public void pop(int damage) {
+        if (popTimeLeft > 0) return; // kein Schaden nehmen wenn gerade gepoppt
         level -= damage;
         popTimeLeft = POP_DURATION;
         if (level <= 0) die();
