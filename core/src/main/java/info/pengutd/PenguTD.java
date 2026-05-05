@@ -10,6 +10,7 @@ import info.pengutd.screen.StartScreen;
  */
 public class PenguTD extends Game {
     private static PenguTD instance;
+    // todo asset manager
 
     @Override
     public void create() {

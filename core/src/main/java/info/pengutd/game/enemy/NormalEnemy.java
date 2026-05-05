@@ -145,10 +145,6 @@ public class NormalEnemy extends Enemy {
         return hitbox;
     }
 
-    public boolean isAlive() {
-        return level <= 0;
-    }
-
     @Override
     public void die() {
         // todo Geld geben + stats erhöhen

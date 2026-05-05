@@ -73,6 +73,10 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
     public abstract void die();
 
+    public boolean isAlive() {
+        return getHealth() > 0;
+    }
+
     /// Schaltet den Debug Modus an
     /// Jetzt werden zusätzlich die Hitbox und der Path gezeichnet
     public Enemy debug() {

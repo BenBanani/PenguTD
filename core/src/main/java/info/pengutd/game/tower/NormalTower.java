@@ -25,9 +25,8 @@ public class NormalTower extends Tower {
     private final @NotNull Texture texture;
     private final @NotNull Vector2 pos;
     private final @NotNull Rectangle hitbox;
+    private final float timeUntilNext = 0f;
     private @Nullable Enemy targetEnemy = null;
-
-    private float timeUntilNext = 0f;
 
     public NormalTower(@NotNull Vector2 position, @NotNull World world) {
         super(world);
@@ -43,8 +42,8 @@ public class NormalTower extends Tower {
     }
 
     @Override
-    public int getRange() {
-        return (int) (RANGE * getWorld().getTileWidth());
+    public float getRange() {
+        return (RANGE * getWorld().getTileWidth());
     }
 
     @Override
@@ -74,7 +73,7 @@ public class NormalTower extends Tower {
 
     @Override
     public float getWidth() {
-        return WIDTH * getWorld().getTileHeight();
+        return WIDTH * getWorld().getTileWidth();
     }
 
     @Override
@@ -89,7 +88,28 @@ public class NormalTower extends Tower {
 
     @Override
     public void update(float delta) {
-        // todo
+        if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {
+            targetEnemy = findNewTarget();
+        }
+    }
+
+    private @Nullable Enemy findNewTarget() {
+        Enemy target = null;
+        for (Enemy enemy : getWorld().getEnemies()) {
+            if (inRange(enemy)) {
+                if (target == null) {
+                    target = enemy;
+                } else if (enemy.getPos().dst(pos) < target.getPos().dst(pos)) {
+                    target = enemy;
+                }
+            }
+        }
+        return target;
+    }
+
+    private boolean inRange(@Nullable Enemy targetEnemy) {
+        if (targetEnemy == null) return false;
+        return this.pos.dst(new Vector2(targetEnemy.getX(), targetEnemy.getY())) <= getRange();
     }
 
     @Override

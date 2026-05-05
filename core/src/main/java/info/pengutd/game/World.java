@@ -81,6 +81,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
     }
 
+    public @NotNull Array<Enemy> getEnemies() {
+        return enemies;
+    }
+
     /// @return die map oder null, wenn noch keine map geladen wurde
     public TiledMap getMap() {
         return map;

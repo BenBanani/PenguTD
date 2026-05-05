@@ -24,7 +24,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     public abstract int getCost();
 
     /// @return Range in pixeln
-    public abstract int getRange();
+    public abstract float getRange();
 
     public abstract int getDamage();
 

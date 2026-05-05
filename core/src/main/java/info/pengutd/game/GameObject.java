@@ -3,6 +3,7 @@ package info.pengutd.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
@@ -42,6 +43,11 @@ public abstract class GameObject implements Disposable, JsonSerializable {
 
     public @NotNull World getWorld() {
         return world;
+    }
+
+    /// @return Kopie der Position der Mitte des GameObjects
+    public @NotNull Vector2 getPos() {
+        return new Vector2(getX(), getY());
     }
 
     public abstract @NotNull Shape2D getHitbox();
