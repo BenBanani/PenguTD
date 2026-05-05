@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
+import info.pengutd.game.tower.NormalTower;
+import info.pengutd.game.tower.Tower;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +33,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     ///  debug enemy
-    private Array<Enemy> enemies;
+    private final @NotNull Array<Enemy> enemies = new Array<>();
+    private final @NotNull Array<Tower> towers = new Array<>();
     /// in tiles
     private int mapWidth;
     ///  in tiles
@@ -69,8 +73,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 mapHeight * tileHeight
             );
 
-            enemies = new Array<>();
             enemies.add(new NormalEnemy(4, this).debug());
+
+            towers.add(new NormalTower(new Vector2(200, 200), this).debug());
 
             towerSelection = new TowerSelection(viewport, this);
         }
@@ -106,6 +111,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             enemy.draw(batch);
         }
 
+        for (Tower tower : this.towers) {
+            tower.draw(batch);
+        }
+
         batch.end();
 
         towerSelection.render(delta);
@@ -114,6 +123,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private void updateLogic(float delta) {
         for (Enemy enemy : this.enemies) {
             enemy.update(delta);
+        }
+
+        for (Tower tower : this.towers) {
+            tower.update(delta);
         }
     }
 
@@ -232,7 +245,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             jsonEnemies.addChild(enemy.toJson());
         }
         value.addChild("enemies", jsonEnemies);
-        // todo tower speichern
+        // türme
+        JsonValue jsonTowers = new JsonValue(JsonValue.ValueType.array);
+        for (Tower tower : towers) {
+            jsonTowers.addChild(tower.toJson());
+        }
+        value.addChild("towers", jsonTowers);
+
         return value;
     }
 
@@ -266,15 +285,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         // neue TowerSelection, da neuer Viewport
         towerSelection = new TowerSelection(viewport, this);
 
+        // enemies
         JsonValue jsonEnemies = json.get("enemies");
-        if (enemies == null) {
-            enemies = new Array<>();
-        } else {
-            for (Enemy enemy : enemies) {
-                enemy.dispose();
-            }
-            enemies.clear();
+        for (Enemy enemy : enemies) {
+            enemy.dispose();
         }
+        enemies.clear();
         for (JsonValue jsonEnemy : jsonEnemies) {
             Enemy enemy;
             String enemyType = jsonEnemy.getString("type");
@@ -285,6 +301,24 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             }
             enemy.fromJson(jsonEnemy);
             enemies.add(enemy);
+        }
+
+        // towers
+        JsonValue jsonTowers = json.get("towers");
+        for (Tower tower : towers) {
+            tower.dispose();
+        }
+        towers.clear();
+        for (JsonValue jsonTower : jsonTowers) {
+            Tower tower;
+            String towerType = jsonTowers.getString("type");
+            if ("normal_tower".equals(towerType)) {
+                tower = new NormalTower(new Vector2(), this);
+            } else {
+                throw new IllegalArgumentException("Unknown tower type: " + towerType);
+            }
+            tower.fromJson(jsonTower);
+            towers.add(tower);
         }
     }
 }

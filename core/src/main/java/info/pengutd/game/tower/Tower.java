@@ -16,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 /// Base klasse für alle Türme
 public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
-    private @Nullable Enemy targetEnemy = null;
 
     protected Tower(@NotNull World world) {
         super(world);
