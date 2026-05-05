@@ -2,6 +2,7 @@ package info.pengutd.game.enemy;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PointMapObject;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import info.pengutd.PenguTD;
+import info.pengutd.Assets;
 import info.pengutd.game.World;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,8 +39,8 @@ public class NormalEnemy extends Enemy {
 
     public NormalEnemy(int level, @NotNull World world, int id) {
         super(world, id);
-        texture = new Texture(Gdx.files.internal("game/enemy/pengu.png"));
-        popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
+        texture = PenguTD.getInstance().getAssetManager().get(Assets.NORMAL_ENEMY);
+        popTexture = PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_POP);
         this.level = level;
 
         findPath();
@@ -65,8 +68,8 @@ public class NormalEnemy extends Enemy {
     }
 
     @Override
-    public @NotNull Texture getTexture() {
-        return popTimeLeft > 0 ? popTexture : texture;
+    public @NotNull TextureRegion getTexture() {
+        return new TextureRegion(popTimeLeft > 0 ? popTexture : texture);
     }
 
     // x Koordinate der Mitte des Gegners
@@ -179,5 +182,10 @@ public class NormalEnemy extends Enemy {
         this.popTimeLeft = json.getFloat("popTimeLeft");
 
         hitbox.setCenter(pos);
+    }
+
+    @Override
+    public void dispose() {
+        // nichts, da Texturen im AssetManager verwaltet werden
     }
 }

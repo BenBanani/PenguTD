@@ -65,12 +65,6 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     /// Logik update des Enemies
     public abstract void update(float delta);
 
-    /// todo muss alle texturen disposen, nicht nur eine
-    @Override
-    public void dispose() {
-        getTexture().dispose();
-    }
-
     /// nehme schade in höhe von damage
     public abstract void pop(int damage);
 

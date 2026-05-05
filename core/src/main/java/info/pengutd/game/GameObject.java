@@ -1,7 +1,7 @@
 package info.pengutd.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
@@ -18,7 +18,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     }
 
     /// @return Textur die gerendert wird (Animationen müssen hier gehandelt werden)
-    public abstract @NotNull Texture getTexture();
+    public abstract @NotNull TextureRegion getTexture();
 
     /// Zeichnet das GameObject auf den Screen
     /// SpriteBatch.begin() muss davor aufgerufen werden

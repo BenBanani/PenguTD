@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 
@@ -50,7 +51,8 @@ public class StartScreen implements Screen {
         stage = new Stage(new FitViewport(800, 480));
         Gdx.input.setInputProcessor(stage);
 
-        textureAtlas = new TextureAtlas("atlas/start_screen_ui.atlas");
+        backgroundTexture = PenguTD.getInstance().getAssetManager().get(Assets.UI_BACKGROUND);
+        textureAtlas = PenguTD.getInstance().getAssetManager().get(Assets.START_SCREEN_ATLAS);
 
         buildUi();
 
@@ -188,7 +190,6 @@ public class StartScreen implements Screen {
     }
 
     private void buildUi() {
-        backgroundTexture = new Texture(Gdx.files.internal("background.png"));
         Image background = new Image(backgroundTexture);
         background.setScaling(Scaling.fill);
         background.setFillParent(true);
@@ -256,7 +257,5 @@ public class StartScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        backgroundTexture.dispose();
-        textureAtlas.dispose();
     }
 }

@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import info.pengutd.Assets;
+import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 
 public class TowerSelection implements Disposable {
@@ -34,7 +36,7 @@ public class TowerSelection implements Disposable {
         multiplexer.addProcessor(Gdx.input.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
 
-        atlas = new TextureAtlas("atlas/tower_selection_ui.atlas");
+        atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
         // table auf ganzem Screen
         Table root = new Table();
         root.setFillParent(true);
@@ -43,7 +45,7 @@ public class TowerSelection implements Disposable {
         Table sidebar = new Table();
         sidebar.top();
         sidebar.setBackground(
-            new TextureRegionDrawable(new TextureRegion(atlas.findRegion("background"))).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
+            new TextureRegionDrawable(atlas.findRegion("background")).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
         );
         sidebar.defaults().growX().pad(10);
 
@@ -127,6 +129,5 @@ public class TowerSelection implements Disposable {
 
     public void dispose() {
         uiStage.dispose();
-        atlas.dispose();
     }
 }

@@ -1,10 +1,13 @@
 package info.pengutd.game.tower;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import info.pengutd.Assets;
+import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
@@ -31,7 +34,7 @@ public class NormalTower extends Tower {
 
     public NormalTower(@NotNull Vector2 position, @NotNull World world) {
         super(world);
-        texture = new Texture("game/tower/tower1.png");
+        texture = PenguTD.getInstance().getAssetManager().get(Assets.TOWER1);
         pos = position.cpy();
         hitbox = new Rectangle(position.x, position.y, getWidth(), getHeight());
         hitbox.setCenter(pos);
@@ -63,8 +66,8 @@ public class NormalTower extends Tower {
     }
 
     @Override
-    public @NotNull Texture getTexture() {
-        return texture;
+    public @NotNull TextureRegion getTexture() {
+        return new TextureRegion(texture);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class NormalTower extends Tower {
 
     @Override
     public void dispose() {
-        this.texture.dispose();
+        // nichts da Texturen im AssetManager verwaltet werden
     }
 
     @Override

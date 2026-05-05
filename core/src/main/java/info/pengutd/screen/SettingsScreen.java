@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.Settings;
 
@@ -52,8 +53,8 @@ public class SettingsScreen implements Screen {
     private void loadAssets() {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        bgTexture = new Texture("background.png");
-        atlas = new TextureAtlas("atlas/settings_screen_ui.atlas");
+        bgTexture = PenguTD.getInstance().getAssetManager().get(Assets.UI_BACKGROUND);
+        atlas = PenguTD.getInstance().getAssetManager().get(Assets.SETTINGS_SCREEN_ATLAS);
     }
 
     private void buildUI() {
@@ -252,7 +253,6 @@ public class SettingsScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        atlas.dispose();
     }
 
     private interface SliderCallback {
