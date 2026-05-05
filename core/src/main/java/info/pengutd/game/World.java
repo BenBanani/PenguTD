@@ -21,9 +21,9 @@ import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.NormalEnemy;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
+import org.jetbrains.annotations.NotNull;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
-
     private SpriteBatch batch;
     private Viewport viewport;
     private String mapName = "map1";
@@ -76,6 +76,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
     }
 
+    /// @return die map oder null, wenn noch keine map geladen wurde
     public TiledMap getMap() {
         return map;
     }
@@ -221,7 +222,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     @Override
-    public JsonValue toJson() {
+    public @NotNull JsonValue toJson() {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
         value.addChild("type", new JsonValue("world"));
         value.addChild("map", new JsonValue(mapName));
@@ -238,7 +239,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// @throws IllegalArgumentException wenn ungültige enemy types in der json sind
     /// @throws IllegalStateException wenn fromJson false ist
     @Override
-    public void fromJson(JsonValue json) {
+    public void fromJson(@NotNull JsonValue json) {
         if (!fromJson) {
             throw new IllegalStateException("fromJson ist false, aber fromJson() wurde aufgerufen");
         }

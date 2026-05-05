@@ -11,6 +11,7 @@ import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 ///  Base Klasse für alle Gegner
 public abstract class Enemy extends GameObject implements Disposable, JsonSerializable {
@@ -26,7 +27,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     public abstract float getSpeed();
 
     ///  @return Path den das Enemy gehen muss
-    public abstract @NotNull Array<Vector2> getPath();
+    public abstract @Nullable Array<Vector2> getPath();
 
     ///  Zeichnet das Enemy auf den Screen
     /// SpriteBatch.begin() muss davor aufgerufen werden
@@ -45,8 +46,10 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             renderer.rect(box.x, box.y, box.width, box.height);
             // Path
             renderer.setColor(Color.GREEN);
-            for (Vector2 vec : this.getPath()) {
-                renderer.circle(vec.x, vec.y, 5);
+            if (this.getPath() != null) {
+                for (Vector2 vec : this.getPath()) {
+                    renderer.circle(vec.x, vec.y, 5);
+                }
             }
 
             renderer.end();

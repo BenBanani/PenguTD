@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.World;
+import org.jetbrains.annotations.NotNull;
 
 /// Standard Gegner mit mehreren Stufen.
 /// wenn ein Gegner getroffen wird, wird er zu einem Gegner mit geringerer Stufe
@@ -23,17 +24,17 @@ public class NormalEnemy extends Enemy {
     ///  speed in tiles
     private static final float MOVEMENT_MULTIPLIER = 0.75f;
     private static final float POP_DURATION = 0.5f;
-    private final Texture texture;
-    private final Texture popTexture;
-    private final Array<Vector2> path;
-    private final Vector2 pos;
-    private final Rectangle hitbox;
+    private final @NotNull Texture texture;
+    private final @NotNull Texture popTexture;
+    private final @NotNull Array<Vector2> path;
+    private final @NotNull Vector2 pos;
+    private final @NotNull Rectangle hitbox;
     ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
     private int level;
     private float popTimeLeft = 0f;
 
-    public NormalEnemy(int level, World world) {
+    public NormalEnemy(int level, @NotNull World world) {
         super(world);
         texture = new Texture(Gdx.files.internal("game/enemy/pengu.png"));
         popTexture = new Texture(Gdx.files.internal("game/enemy/pop.png"));
@@ -60,7 +61,7 @@ public class NormalEnemy extends Enemy {
     }
 
     @Override
-    public Texture getTexture() {
+    public @NotNull Texture getTexture() {
         return popTimeLeft > 0 ? popTexture : texture;
     }
 
@@ -87,7 +88,7 @@ public class NormalEnemy extends Enemy {
     }
 
     @Override
-    public Array<Vector2> getPath() {
+    public @NotNull Array<Vector2> getPath() {
         return path;
     }
 
@@ -113,6 +114,7 @@ public class NormalEnemy extends Enemy {
             return;
         }
 
+        if (path.size == 0) return;
         if (currentPathIndex >= path.size - 1) return;
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f);
 
@@ -126,7 +128,7 @@ public class NormalEnemy extends Enemy {
         hitbox.setCenter(pos);
     }
 
-    public Vector2 getPos() {
+    public @NotNull Vector2 getPos() {
         return pos;
     }
 
@@ -139,7 +141,7 @@ public class NormalEnemy extends Enemy {
     }
 
     @Override
-    public Shape2D getHitbox() {
+    public @NotNull Shape2D getHitbox() {
         return hitbox;
     }
 
@@ -154,7 +156,7 @@ public class NormalEnemy extends Enemy {
 
     /// Zum Speichern des Gegners als .json datei
     @Override
-    public JsonValue toJson() {
+    public @NotNull JsonValue toJson() {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
         value.addChild("type", new JsonValue("normal_enemy"));  // für lesbarkeit der .json datei
         value.addChild("x", new JsonValue(pos.x));
@@ -178,7 +180,7 @@ public class NormalEnemy extends Enemy {
     /// Lädt einen Gegner aus json ein.
     /// world muss bereits gesetzt sein, level ist egal
     @Override
-    public void fromJson(JsonValue json) {
+    public void fromJson(@NotNull JsonValue json) {
         this.pos.set(json.getFloat("x"), json.getFloat("y"));
         this.currentPathIndex = json.getInt("currentPathIndex");
         this.level = json.getInt("level");

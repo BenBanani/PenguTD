@@ -16,8 +16,7 @@ import org.jetbrains.annotations.Nullable;
 /// Base klasse für alle Türme
 public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
-    @Nullable
-    private Enemy targetEnemy = null;
+    private @Nullable Enemy targetEnemy = null;
 
     protected Tower(@NotNull World world) {
         super(world);
@@ -75,7 +74,8 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     /// Schaltet den Debug Modus an
     /// Jetzt werden zusätzlich die Hitbox, Range und Target gezeichnet
-    public Tower debug() {
+    /// @return this
+    public @NotNull Tower debug() {
         debug = true;
         return this;
     }

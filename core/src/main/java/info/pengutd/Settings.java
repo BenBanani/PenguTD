@@ -2,6 +2,7 @@ package info.pengutd;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Singleton Klasse für alle Einstellungen.
@@ -9,7 +10,7 @@ import com.badlogic.gdx.Preferences;
  */
 public class Settings {
     private static Settings instance;
-    private final Preferences preferences;
+    private final @NotNull Preferences preferences;
     private static final String PREF_NAME = "pengutd_settings";
 
     private static final String KEY_SOUND = "sound";
@@ -21,7 +22,7 @@ public class Settings {
         preferences = Gdx.app.getPreferences(PREF_NAME);
     }
 
-    public static Settings get() {
+    public static @NotNull Settings get() {
         if (instance == null) {
             instance = new Settings();
         }

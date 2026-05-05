@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /// Base Klasse für alle GameObjects.
 /// GameObjects sind alle Objekte mit Hitbox und Textur wie Türme und Gegner
 public abstract class GameObject implements Disposable, JsonSerializable {
-    @NotNull
-    private final World world;
+    private final @NotNull World world;
 
     protected GameObject(@NotNull World world) {
         this.world = world;
@@ -45,5 +44,5 @@ public abstract class GameObject implements Disposable, JsonSerializable {
         return world;
     }
 
-    public abstract Shape2D getHitbox();
+    public abstract @NotNull Shape2D getHitbox();
 }
