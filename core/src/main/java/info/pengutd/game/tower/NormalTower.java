@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.enemy.NormalEnemy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +26,7 @@ public class NormalTower extends Tower {
     private final @NotNull Texture texture;
     private final @NotNull Vector2 pos;
     private final @NotNull Rectangle hitbox;
-    private final float timeUntilNext = 0f;
+    private float shotCooldown = 0f;
     private @Nullable Enemy targetEnemy = null;
 
     public NormalTower(@NotNull Vector2 position, @NotNull World world) {
@@ -124,12 +125,27 @@ public class NormalTower extends Tower {
 
     @Override
     public @NotNull JsonValue toJson() {
-        // todo
-        return null;
+        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        value.addChild("type", new JsonValue("normal_tower"));
+        value.addChild("x", new JsonValue(pos.x));
+        value.addChild("y", new JsonValue(pos.y));
+        value.addChild("shot_cooldown", new JsonValue(shotCooldown));
+        if (targetEnemy != null) {
+            value.addChild("target", targetEnemy.toJson());
+        }
+        return value;
     }
 
     @Override
     public void fromJson(@NotNull JsonValue json) {
-        // todo
+        pos.set(json.getFloat("x"), json.getFloat("y"));
+        shotCooldown = json.getFloat("shot_cooldown");
+        if (json.has("target")) {
+            Enemy enemy;
+            if ("normal_enemy".equals(json.get("target").getString("type"))) {
+                targetEnemy = new NormalEnemy(1, getWorld());
+                targetEnemy.fromJson(json.get("target"));
+            }
+        }
     }
 }

@@ -75,7 +75,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
             enemies.add(new NormalEnemy(4, this).debug());
 
-            towers.add(new NormalTower(new Vector2(200, 200), this).debug());
+            towers.add(new NormalTower(new Vector2(200, 300), this).debug());
 
             towerSelection = new TowerSelection(viewport, this);
         }
@@ -179,6 +179,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.get(0).pop(1);
+        System.out.println(this.toJson());
         return true;
     }
 
@@ -315,7 +316,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         towers.clear();
         for (JsonValue jsonTower : jsonTowers) {
             Tower tower;
-            String towerType = jsonTowers.getString("type");
+            String towerType = jsonTower.getString("type");
             if ("normal_tower".equals(towerType)) {
                 tower = new NormalTower(new Vector2(), this);
             } else {
