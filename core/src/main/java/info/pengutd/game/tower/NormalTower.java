@@ -15,9 +15,9 @@ import org.jetbrains.annotations.Nullable;
 /// Der erste einfachste Turm
 public class NormalTower extends Tower {
     ///  breite in tiles
-    private static final float WIDTH = 0.5f;
+    private static final float WIDTH = .75f;
     ///  höhe in tiles
-    private static final float HEIGHT = 0.5f;
+    private static final float HEIGHT = .75f;
     /// range in tiles
     private static final float RANGE = 2f;
     /// damage

@@ -81,7 +81,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 mapHeight * tileHeight
             );
 
-            enemies.add(new NormalEnemy(4, this, nextEntityId++).debug());
+            enemies.add(new NormalEnemy(4, this, nextEntityId++));
 
             towers.add(new NormalTower(new Vector2(200, 300), this).debug());
 
@@ -325,7 +325,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             Enemy enemy;
             String enemyType = jsonEnemy.getString("type");
             if ("normal_enemy".equals(enemyType)) {
-                enemy = new NormalEnemy(0, this, jsonEnemy.getInt("id")).debug();
+                enemy = new NormalEnemy(0, this, jsonEnemy.getInt("id"));
             } else {
                 throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
@@ -341,7 +341,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             Tower tower;
             String towerType = jsonTower.getString("type");
             if ("normal_tower".equals(towerType)) {
-                tower = new NormalTower(new Vector2(), this).debug();
+                tower = new NormalTower(new Vector2(), this);
             } else {
                 throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }
