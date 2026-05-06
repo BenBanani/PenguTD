@@ -1,6 +1,7 @@
 package info.pengutd.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -64,8 +65,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
+        Gdx.input.setInputProcessor(this);
         if (!fromJson) {
             map = new TmxMapLoader().load("map/" + mapName + ".tmx");
             mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -85,9 +86,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             towers.add(new NormalTower(new Vector2(200, 300), this).debug());
 
             towerSelection = new TowerSelection(viewport, this);
-
-            previewTower = new NormalTower(new Vector2(200, 300), this).preview();
         }
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(towerSelection.getStage());
+        multiplexer.addProcessor(Gdx.input.getInputProcessor());
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     public @NotNull Array<Enemy> getEnemies() {

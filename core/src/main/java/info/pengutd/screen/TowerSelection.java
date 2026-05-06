@@ -30,10 +30,6 @@ public class TowerSelection implements Disposable {
     public TowerSelection(Viewport viewport, World world) {
         uiStage = new Stage(viewport);
         this.world = world;
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(uiStage);
-        multiplexer.addProcessor(Gdx.input.getInputProcessor());
-        Gdx.input.setInputProcessor(multiplexer);
 
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
         // table auf ganzem Screen
@@ -66,6 +62,10 @@ public class TowerSelection implements Disposable {
         sidebar.add(pauseButton()).width(180).height(80).colspan(2).row();
 
         uiStage.addActor(root);
+    }
+
+    public Stage getStage() {
+        return uiStage;
     }
 
     private Stack towerElement(int i) {

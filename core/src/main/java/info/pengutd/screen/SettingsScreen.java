@@ -210,14 +210,7 @@ public class SettingsScreen implements Screen {
             )
         );
     }
-
-    private void addExitAnimation(Actor actor, boolean toLeft) {
-        int moveDistance = 600;
-        actor.addAction(
-            Actions.moveBy(toLeft ? -moveDistance : moveDistance, 0, 0.5f, Interpolation.smoother)
-        );
-    }
-
+    
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
