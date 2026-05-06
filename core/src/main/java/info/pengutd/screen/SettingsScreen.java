@@ -35,7 +35,6 @@ public class SettingsScreen implements Screen {
     private Stack soundSlider;
     private Stack musicSlider;
     private Stack fullscreenButton;
-    private ImageButton backButton;
 
     public SettingsScreen(Screen screen) {
         previousScreen = screen;
@@ -93,7 +92,7 @@ public class SettingsScreen implements Screen {
 
         stage.addActor(root);
 
-        backButton = createBackButton();
+        ImageButton backButton = createBackButton();
         stage.addActor(backButton);
     }
 
@@ -115,9 +114,7 @@ public class SettingsScreen implements Screen {
 
                 backButton.addAction(Actions.sequence(
                     Actions.delay(0.5f),
-                    Actions.run(() -> {
-                        PenguTD.getInstance().setScreenAndDispose(previousScreen);
-                    })
+                    Actions.run(() -> PenguTD.getInstance().setScreenAndDispose(previousScreen))
                 ));
             }
         });

@@ -3,14 +3,12 @@ package info.pengutd.game.tower;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.enemy.NormalEnemy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,7 +105,8 @@ public class NormalTower extends Tower {
 
         float closestDst2 = Float.MAX_VALUE;
 
-        for (Enemy enemy : getWorld().getEnemies()) {
+        for (int i = 0; i < getWorld().getEnemies().size; i++) {
+            Enemy enemy = getWorld().getEnemies().get(i);
 
             float dst2 = pos.dst2(enemy.getPos());
 

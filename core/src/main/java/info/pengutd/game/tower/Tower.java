@@ -85,7 +85,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
             renderer.begin(ShapeRenderer.ShapeType.Line);
             // Hitbox
             renderer.setColor(Color.RED);
-            Rectangle box = (Rectangle) getHitbox();
+            Rectangle box = getHitbox();
             renderer.rect(box.x, box.y, box.width, box.height);
 
             // Range

@@ -45,14 +45,12 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             renderer.begin(ShapeRenderer.ShapeType.Line);
             // Hitbox
             renderer.setColor(Color.RED);
-            Rectangle box = (Rectangle) getHitbox();
+            Rectangle box = getHitbox();
             renderer.rect(box.x, box.y, box.width, box.height);
             // Path
             renderer.setColor(Color.GREEN);
             if (this.getPath() != null) {
-                for (Vector2 vec : this.getPath()) {
-                    renderer.circle(vec.x, vec.y, 5);
-                }
+                this.getPath().forEach(vec -> renderer.circle(vec.x, vec.y, 5));
             }
 
             renderer.end();
