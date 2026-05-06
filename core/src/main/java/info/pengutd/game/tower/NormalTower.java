@@ -90,6 +90,10 @@ public class NormalTower extends Tower {
         return pos.y;
     }
 
+    public void setPos(Vector2 pos) {
+        this.pos.set(pos);
+    }
+
     @Override
     public void update(float delta) {
         if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {

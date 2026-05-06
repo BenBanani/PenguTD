@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -45,6 +46,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int tileHeight;
     private TowerSelection towerSelection;
     private int nextEntityId = 0;
+    private @Nullable Tower previewTower;
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -80,6 +82,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             towers.add(new NormalTower(new Vector2(200, 300), this).debug());
 
             towerSelection = new TowerSelection(viewport, this);
+
+            previewTower = new NormalTower(new Vector2(200, 300), this).preview();
         }
     }
 
@@ -119,6 +123,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         for (Tower tower : this.towers) {
             tower.draw(batch);
+        }
+
+        if (previewTower != null) {
+            previewTower.draw(batch);
         }
 
         batch.end();
@@ -218,6 +226,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (previewTower == null) return false;
+        ((NormalTower)previewTower).setPos(viewport.unproject(new Vector2(screenX, screenY)));
         return false;
     }
 
@@ -345,5 +355,18 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             }
         }
         return enemy;
+    }
+
+    public boolean canPlaceTower(@NotNull Vector2 pos) {
+        TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
+        TiledMapTileLayer.Cell cell = groundLayer.getCell((int)(pos.x / tileWidth),(int)(pos.y / tileHeight));
+        if (cell == null) return false;
+
+        if (cell.getTile().getProperties().containsKey("placable")) {
+            return true;
+        } else {
+            // todo
+            return false;
+        }
     }
 }
