@@ -133,9 +133,7 @@ public class NormalEnemy extends Enemy {
     @Override
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue("normal_enemy"));  // für lesbarkeit der .json datei
-        value.addChild("x", new JsonValue(getX()));
-        value.addChild("y", new JsonValue(getY()));
+        value.addChild("type", new JsonValue("normal_enemy"));
         value.addChild("currentPathIndex", new JsonValue(currentPathIndex));
         value.addChild("level", new JsonValue(level));
         value.addChild("popTimeLeft", new JsonValue(popTimeLeft));
@@ -147,7 +145,6 @@ public class NormalEnemy extends Enemy {
     @Override
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
-        setPos(new Vector2(json.getFloat("x"), json.getFloat("y")));
         this.currentPathIndex = json.getInt("currentPathIndex");
         this.level = json.getInt("level");
         this.popTimeLeft = json.getFloat("popTimeLeft");

@@ -1,121 +1,67 @@
 {
     type: world
     map: map1
-    next_entity_id: 13
+    next_entity_id: 7
     enemies: [
         {
+            x: 673.432861328125
+            y: 734.232666015625
             id: 0
             type: normal_enemy
-            x: 170.00662231445312
-            y: 356.40155029296875
-            currentPathIndex: 24
-            level: -8
+            currentPathIndex: 8
+            level: -1
             popTimeLeft: 0.5
         }
         {
+            x: 444.26263427734375
+            y: 733.9173583984375
             id: 1
             type: normal_enemy
-            x: 96.47318267822266
-            y: 654.8895263671875
-            currentPathIndex: 18
+            currentPathIndex: 12
             level: 2
             popTimeLeft: 0.0
         }
         {
+            x: 503.6351623535156
+            y: 733.0059204101562
             id: 2
             type: normal_enemy
-            x: 107.96932220458984
-            y: 725.071533203125
-            currentPathIndex: 17
+            currentPathIndex: 11
             level: 2
             popTimeLeft: 0.0
         }
         {
+            x: 510.54449462890625
+            y: 733.55859375
             id: 3
             type: normal_enemy
-            x: 862.9309692382812
-            y: 668.431884765625
-            currentPathIndex: 2
+            currentPathIndex: 11
             level: 2
             popTimeLeft: 0.0
         }
         {
+            x: 736.1253662109375
+            y: 664.271484375
             id: 4
             type: normal_enemy
-            x: 863.3838500976562
-            y: 684.8836059570312
-            currentPathIndex: 2
+            currentPathIndex: 6
             level: 2
             popTimeLeft: 0.0
         }
         {
+            x: 861.1174926757812
+            y: 637.3875732421875
             id: 5
             type: normal_enemy
-            x: 863.8095092773438
-            y: 699.3823852539062
-            currentPathIndex: 1
+            currentPathIndex: 3
             level: 2
             popTimeLeft: 0.0
         }
         {
+            x: 865.1038208007812
+            y: 803.2184448242188
             id: 6
             type: normal_enemy
-            x: 863.5322875976562
-            y: 714.8299560546875
-            currentPathIndex: 1
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            id: 7
-            type: normal_enemy
-            x: 863.3953857421875
-            y: 726.2874145507812
-            currentPathIndex: 1
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            id: 8
-            type: normal_enemy
-            x: 863.9284057617188
-            y: 742.0609130859375
-            currentPathIndex: 1
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            id: 9
-            type: normal_enemy
-            x: 863.9389038085938
-            y: 757.590087890625
-            currentPathIndex: 1
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            id: 10
-            type: normal_enemy
-            x: 864.5182495117188
-            y: 772.3837890625
-            currentPathIndex: 1
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            id: 11
-            type: normal_enemy
-            x: 864.5502319335938
-            y: 785.5728759765625
-            currentPathIndex: 1
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            id: 12
-            type: normal_enemy
-            x: 865.1113891601562
-            y: 802.3123779296875
             currentPathIndex: 0
             level: 2
             popTimeLeft: 0.0
@@ -123,11 +69,28 @@
     ]
     towers: [
         {
-            type: normal_tower
             x: 200.0
             y: 300.0
             shot_cooldown: 0.0
-            target: 0
+            target: -1
+            rotation_degree: 0
+            type: normal_tower
+        }
+        {
+            x: 569.9368286132812
+            y: 622.2666625976562
+            shot_cooldown: 0.0
+            target: 3
+            rotation_degree: 7
+            type: normal_tower
+        }
+        {
+            x: 240.79397583007812
+            y: 663.8666381835938
+            shot_cooldown: 0.0
+            target: -1
+            rotation_degree: 0
+            type: normal_tower
         }
     ]
 }

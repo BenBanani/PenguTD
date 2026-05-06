@@ -82,13 +82,14 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
     @Override
     public @NotNull JsonValue toJson() {
-        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        JsonValue value = super.toJson();
         value.addChild("id", new JsonValue(id));
         return value;
     }
 
     @Override
     public void fromJson(@NotNull JsonValue json) {
+        super.fromJson(json);
         id = json.getInt("id");
     }
 

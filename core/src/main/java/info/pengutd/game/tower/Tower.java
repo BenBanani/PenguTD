@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
@@ -19,8 +20,9 @@ import org.jetbrains.annotations.Nullable;
 public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
     private boolean preview = false;
-    private int roationDegree = 0;
+    private int rotationDegree = 0;
     private @Nullable Enemy targetEnemy = null;
+    private float shotCooldown = 0f;
 
     protected Tower(@NotNull World world, Vector2 pos) {
         super(world, pos);
@@ -129,7 +131,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {
             targetEnemy = findNewTarget();
         } else {
-            roationDegree = (int) targetEnemy.getPos().angleDeg(getPos());
+            rotationDegree = (int) targetEnemy.getPos().angleDeg(getPos());
         }
     }
 
@@ -170,5 +172,30 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     public @NotNull Tower debug() {
         debug = true;
         return this;
+    }
+
+    public float getShotCooldown() {
+        return shotCooldown;
+    }
+
+    public void setShotCooldown(float shotCooldown) {
+        this.shotCooldown = shotCooldown;
+    }
+
+    @Override
+    public @NotNull JsonValue toJson() {
+        JsonValue value = super.toJson();
+        value.addChild("shot_cooldown", new JsonValue(getShotCooldown()));
+        value.addChild("target", new JsonValue(getTargetEnemy() != null ? getTargetEnemy().getId() : -1));
+        value.addChild("rotation_degree", new JsonValue(rotationDegree));
+        return value;
+    }
+
+    @Override
+    public void fromJson(@NotNull JsonValue json) {
+        super.fromJson(json);
+        setShotCooldown(json.get("shot_cooldown").asFloat());
+        setTargetEnemy(getWorld().getEnemyFromId(json.get("target").asInt()));
+        rotationDegree = (json.get("rotation_degree").asInt());
     }
 }

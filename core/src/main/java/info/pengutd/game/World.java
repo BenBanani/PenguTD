@@ -191,6 +191,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             towers.add(previewTower.place());
         }
         setSelectedTower(0);
+        System.out.println(this.toJson());
         return true;
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,5 +67,18 @@ public abstract class GameObject implements Disposable, JsonSerializable {
 
     public @NotNull Rectangle getHitbox() {
         return hitbox;
+    }
+
+    @Override
+    public @NotNull JsonValue toJson() {
+        JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        value.addChild("x", new JsonValue(getX()));
+        value.addChild("y", new JsonValue(getY()));
+        return value;
+    }
+
+    @Override
+    public void fromJson(@NotNull JsonValue json) {
+        setPos(new Vector2(json.getFloat("x"), json.getFloat("y")));
     }
 }
