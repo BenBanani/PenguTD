@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -357,16 +359,39 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         return enemy;
     }
 
-    public boolean canPlaceTower(@NotNull Vector2 pos) {
+    public boolean canPlaceTower(@NotNull Vector2 pos, Tower tower) {
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
         TiledMapTileLayer.Cell cell = groundLayer.getCell((int)(pos.x / tileWidth),(int)(pos.y / tileHeight));
         if (cell == null) return false;
 
-        if (cell.getTile().getProperties().containsKey("placable")) {
-            return true;
-        } else {
-            // todo
-            return false;
+        if (!cell.getTile().getProperties().containsKey("placable")) return false;
+
+        Rectangle towerHitbox = new Rectangle(tower.getHitbox());
+        towerHitbox.setCenter(pos);
+        for (Tower t : towers) {
+            if (t.getHitbox().overlaps(towerHitbox)) return false;
         }
+
+        MapLayer objectLayer = map.getLayers().get("detail_tiles");
+        for (MapObject object : objectLayer.getObjects()) {
+
+            if (object instanceof TextureMapObject) {
+                TextureMapObject textureObject = (TextureMapObject) object;
+
+                TextureRegion region = textureObject.getTextureRegion();
+
+                float width = region.getRegionWidth() * textureObject.getScaleX();
+                float height = region.getRegionHeight() * textureObject.getScaleY();
+
+                Rectangle objectBounds =
+                    new Rectangle(textureObject.getX(), textureObject.getY(), width, height);
+
+                if (objectBounds.overlaps(towerHitbox)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -59,7 +59,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
             renderer.setAutoShapeType(true);
 
             renderer.begin(ShapeRenderer.ShapeType.Filled);
-            if (getWorld().canPlaceTower(getPos())) {
+            if (getWorld().canPlaceTower(getPos(), this)) {
                 renderer.setColor(new Color(0.75f, 0.75f, 0.75f, 0.25f));
             } else {
                 renderer.setColor(new Color(1f, 0f, 0f, 0.3f));

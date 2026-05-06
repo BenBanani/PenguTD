@@ -127,7 +127,7 @@ public class NormalTower extends Tower {
     }
 
     @Override
-    public @NotNull Shape2D getHitbox() {
+    public @NotNull Rectangle getHitbox() {
         return hitbox;
     }
 

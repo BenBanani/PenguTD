@@ -149,7 +149,7 @@ public class NormalEnemy extends Enemy {
     }
 
     @Override
-    public @NotNull Shape2D getHitbox() {
+    public @NotNull Rectangle getHitbox() {
         return hitbox;
     }
 
