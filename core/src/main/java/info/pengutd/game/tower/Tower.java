@@ -104,8 +104,16 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
     }
 
+    public abstract void setPos(@NotNull Vector2 pos);
+
     public Tower preview() {
         preview = true;
+        return this;
+    }
+
+    public Tower place() {
+        // todo geld abziehen
+        preview = false;
         return this;
     }
 

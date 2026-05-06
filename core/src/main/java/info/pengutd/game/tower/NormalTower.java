@@ -90,7 +90,8 @@ public class NormalTower extends Tower {
         return pos.y;
     }
 
-    public void setPos(Vector2 pos) {
+    @Override
+    public void setPos(@NotNull Vector2 pos) {
         this.pos.set(pos);
     }
 

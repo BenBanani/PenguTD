@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -119,13 +120,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         renderMapObjects();
 
-        for (Enemy enemy : this.enemies) {
-            enemy.draw(batch);
-        }
+        enemies.forEach(e -> e.draw(batch));
 
-        for (Tower tower : this.towers) {
-            tower.draw(batch);
-        }
+        towers.forEach(t -> t.draw(batch));
 
         if (previewTower != null) {
             previewTower.draw(batch);
@@ -137,13 +134,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     private void updateLogic(float delta) {
-        for (Enemy enemy : this.enemies) {
-            enemy.update(delta);
-        }
-
-        for (Tower tower : this.towers) {
-            tower.update(delta);
-        }
+        enemies.forEach(e -> e.update(delta));
+        towers.forEach(t -> t.update(delta));
     }
 
     private void renderMapObjects() {
@@ -192,7 +184,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.get(0).pop(1);
         enemies.add(new NormalEnemy(2, this, createEntityId()));
-        System.out.println(this.toJson());
+        if (previewTower != null) {
+            towers.add(previewTower.place());
+        }
+        setSelectedTower(0);
         return true;
     }
 
@@ -229,8 +224,24 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (previewTower == null) return false;
-        ((NormalTower)previewTower).setPos(viewport.unproject(new Vector2(screenX, screenY)));
+        previewTower.setPos(viewport.unproject(new Vector2(screenX, screenY)));
         return false;
+    }
+
+    public void setSelectedTower(int type) {
+        if (type == 0) {
+            previewTower = null;
+            return;
+        }
+
+        switch (type) {
+            case 1:
+                previewTower = new NormalTower(new Vector2(), this).preview();
+                break;
+
+            // später weitere types
+            // case 2: ...
+        }
     }
 
     @Override
@@ -262,15 +273,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         value.addChild("next_entity_id", new JsonValue(nextEntityId));
         // gegner
         JsonValue jsonEnemies = new JsonValue(JsonValue.ValueType.array);
-        for (Enemy enemy : enemies) {
-            jsonEnemies.addChild(enemy.toJson());
-        }
+        enemies.forEach(e ->  jsonEnemies.addChild(e.toJson()));
         value.addChild("enemies", jsonEnemies);
         // türme
         JsonValue jsonTowers = new JsonValue(JsonValue.ValueType.array);
-        for (Tower tower : towers) {
-            jsonTowers.addChild(tower.toJson());
-        }
+        towers.forEach(t -> jsonTowers.addChild(t.toJson()));
         value.addChild("towers", jsonTowers);
 
         return value;
@@ -309,9 +316,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         nextEntityId = json.getInt("next_entity_id");
         // enemies
         JsonValue jsonEnemies = json.get("enemies");
-        for (Enemy enemy : enemies) {
-            enemy.dispose();
-        }
+        enemies.forEach(Disposable::dispose);
         enemies.clear();
         for (JsonValue jsonEnemy : jsonEnemies) {
             Enemy enemy;
@@ -327,9 +332,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         // towers
         JsonValue jsonTowers = json.get("towers");
-        for (Tower tower : towers) {
-            tower.dispose();
-        }
+        towers.forEach(Disposable::dispose);
         towers.clear();
         for (JsonValue jsonTower : jsonTowers) {
             Tower tower;
@@ -351,7 +354,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// @return ein Enemy mit der gegebenen ID oder null wenn es keinen gibt
     public @Nullable Enemy getEnemyFromId(int id) {
         Enemy enemy = null;
-        for (Enemy e : this.enemies) {
+        for (int i = 0; i < enemies.size; i++) {
+            Enemy e = enemies.get(i);
             if (e.getId() == id) {
                 enemy = e;
             }
@@ -368,7 +372,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         Rectangle towerHitbox = new Rectangle(tower.getHitbox());
         towerHitbox.setCenter(pos);
-        for (Tower t : towers) {
+        for (int i = 0; i < towers.size; i++) {
+            Tower t = towers.get(i);
             if (t.getHitbox().overlaps(towerHitbox)) return false;
         }
 
