@@ -19,9 +19,11 @@ import org.jetbrains.annotations.Nullable;
 public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
     private boolean preview = false;
+    private int roationDegree = 0;
+    private @Nullable Enemy targetEnemy = null;
 
-    protected Tower(@NotNull World world) {
-        super(world);
+    protected Tower(@NotNull World world, Vector2 pos) {
+        super(world, pos);
     }
 
     public abstract int getCost();
@@ -36,7 +38,9 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     /// @return ziel des Turmes
     @Nullable
-    public abstract Enemy getTargetEnemy();
+    public Enemy getTargetEnemy() {
+        return targetEnemy;
+    }
 
     /// Zeichnet den Tower auf den screen
     /// SpriteBatch.begin() muss davor aufgerufen werden
@@ -104,8 +108,6 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
     }
 
-    public abstract void setPos(@NotNull Vector2 pos);
-
     public Tower preview() {
         preview = true;
         return this;
@@ -123,7 +125,43 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     ///  logik update des Towers
     @Override
-    public abstract void update(float delta);
+    public void update(float delta)  {
+        if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {
+            targetEnemy = findNewTarget();
+        } else {
+            roationDegree = (int) targetEnemy.getPos().angleDeg(getPos());
+        }
+    }
+
+    protected void setTargetEnemy(@Nullable Enemy targetEnemy) {
+        this.targetEnemy = targetEnemy;
+    }
+
+    private @Nullable Enemy findNewTarget() {
+        Enemy target = null;
+
+        float closestDst2 = Float.MAX_VALUE;
+
+        for (int i = 0; i < getWorld().getEnemies().size; i++) {
+            Enemy enemy = getWorld().getEnemies().get(i);
+
+            float dst2 = getPos().dst2(enemy.getPos());
+
+            if (dst2 <= getRange() * getRange()
+                && dst2 < closestDst2) {
+
+                closestDst2 = dst2;
+                target = enemy;
+            }
+        }
+
+        return target;
+    }
+
+    private boolean inRange(@Nullable Enemy targetEnemy) {
+        if (targetEnemy == null) return false;
+        return this.getPos().dst2(targetEnemy.getPos()) <= getRange() * getRange();
+    }
 
     /// Schaltet den Debug Modus an
     /// Jetzt werden zusätzlich die Hitbox, Range und Target gezeichnet

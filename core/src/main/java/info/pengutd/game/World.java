@@ -83,7 +83,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
             enemies.add(new NormalEnemy(4, this, nextEntityId++));
 
-            towers.add(new NormalTower(new Vector2(200, 300), this).debug());
+            towers.add(new NormalTower(this, new Vector2(200, 300)).debug());
 
             towerSelection = new TowerSelection(viewport, this);
         }
@@ -239,7 +239,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         switch (type) {
             case 1:
-                previewTower = new NormalTower(new Vector2(), this).preview();
+                previewTower = new NormalTower(this, new Vector2()).preview();
                 break;
 
             // später weitere types
@@ -276,7 +276,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         value.addChild("next_entity_id", new JsonValue(nextEntityId));
         // gegner
         JsonValue jsonEnemies = new JsonValue(JsonValue.ValueType.array);
-        enemies.forEach(e ->  jsonEnemies.addChild(e.toJson()));
+        enemies.forEach(e -> jsonEnemies.addChild(e.toJson()));
         value.addChild("enemies", jsonEnemies);
         // türme
         JsonValue jsonTowers = new JsonValue(JsonValue.ValueType.array);
@@ -341,7 +341,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             Tower tower;
             String towerType = jsonTower.getString("type");
             if ("normal_tower".equals(towerType)) {
-                tower = new NormalTower(new Vector2(), this);
+                tower = new NormalTower(this, new Vector2());
             } else {
                 throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }
@@ -368,7 +368,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     public boolean canPlaceTower(@NotNull Vector2 pos, Tower tower) {
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
-        TiledMapTileLayer.Cell cell = groundLayer.getCell((int)(pos.x / tileWidth),(int)(pos.y / tileHeight));
+        TiledMapTileLayer.Cell cell = groundLayer.getCell((int) (pos.x / tileWidth), (int) (pos.y / tileHeight));
         if (cell == null) return false;
 
         if (!cell.getTile().getProperties().containsKey("placable")) return false;

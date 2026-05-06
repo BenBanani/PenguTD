@@ -19,8 +19,8 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     private boolean debug = false;
     private int id;
 
-    protected Enemy(@NotNull World world, int id) {
-        super(world);
+    protected Enemy(@NotNull World world, Vector2 pos, int id) {
+        super(world, pos);
         this.id = id;
     }
 

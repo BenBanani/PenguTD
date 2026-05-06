@@ -29,24 +29,18 @@ public class NormalEnemy extends Enemy {
     private final @NotNull Texture texture;
     private final @NotNull Texture popTexture;
     private final @NotNull Array<Vector2> path = new Array<>();
-    private final @NotNull Vector2 pos = new Vector2();
-    private final @NotNull Rectangle hitbox = new Rectangle();
     ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
     private int level;
     private float popTimeLeft = 0f;
 
     public NormalEnemy(int level, @NotNull World world, int id) {
-        super(world, id);
+        super(world, new Vector2(), id); // placeholder position
         texture = PenguTD.getInstance().getAssetManager().get(Assets.NORMAL_ENEMY);
         popTexture = PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_POP);
         this.level = level;
 
         findPath();
-
-        hitbox.setHeight(getHeight());
-        hitbox.setWidth(getWidth());
-        hitbox.setCenter(this.pos);
     }
 
     private void findPath() {
@@ -60,7 +54,7 @@ public class NormalEnemy extends Enemy {
                 }
             }
             Vector2 start = path.get(0);
-            this.pos.set(start);
+            setPos(start);
         } else {
             Gdx.app.error("NormalEnemy", "No path layer found in map");
         }
@@ -69,18 +63,6 @@ public class NormalEnemy extends Enemy {
     @Override
     public @NotNull TextureRegion getTexture() {
         return new TextureRegion(popTimeLeft > 0 ? popTexture : texture);
-    }
-
-    // x Koordinate der Mitte des Gegners
-    @Override
-    public float getX() {
-        return pos.x;
-    }
-
-    // y Koordinate der Mitte des Gegners
-    @Override
-    public float getY() {
-        return pos.y;
     }
 
     @Override
@@ -128,14 +110,9 @@ public class NormalEnemy extends Enemy {
             currentPathIndex++;
         }
 
-        Vector2 dir = target.cpy().sub(pos).nor();
-        pos.add(dir.scl(getSpeed() * delta));
+        Vector2 dir = target.cpy().sub(getPos()).nor();
 
-        hitbox.setCenter(pos);
-    }
-
-    public @NotNull Vector2 getPos() {
-        return pos;
+        setPos(getPos().add(dir.scl(getSpeed() * delta)));
     }
 
     @Override
@@ -148,11 +125,6 @@ public class NormalEnemy extends Enemy {
     }
 
     @Override
-    public @NotNull Rectangle getHitbox() {
-        return hitbox;
-    }
-
-    @Override
     public void die() {
         // todo Geld geben + stats erhöhen
     }
@@ -162,8 +134,8 @@ public class NormalEnemy extends Enemy {
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
         value.addChild("type", new JsonValue("normal_enemy"));  // für lesbarkeit der .json datei
-        value.addChild("x", new JsonValue(pos.x));
-        value.addChild("y", new JsonValue(pos.y));
+        value.addChild("x", new JsonValue(getX()));
+        value.addChild("y", new JsonValue(getY()));
         value.addChild("currentPathIndex", new JsonValue(currentPathIndex));
         value.addChild("level", new JsonValue(level));
         value.addChild("popTimeLeft", new JsonValue(popTimeLeft));
@@ -175,12 +147,10 @@ public class NormalEnemy extends Enemy {
     @Override
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
-        this.pos.set(json.getFloat("x"), json.getFloat("y"));
+        setPos(new Vector2(json.getFloat("x"), json.getFloat("y")));
         this.currentPathIndex = json.getInt("currentPathIndex");
         this.level = json.getInt("level");
         this.popTimeLeft = json.getFloat("popTimeLeft");
-
-        hitbox.setCenter(pos);
     }
 
     @Override

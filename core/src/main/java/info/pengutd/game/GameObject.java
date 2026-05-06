@@ -12,9 +12,14 @@ import org.jetbrains.annotations.NotNull;
 /// GameObjects sind alle Objekte mit Hitbox und Textur wie Türme und Gegner
 public abstract class GameObject implements Disposable, JsonSerializable {
     private final @NotNull World world;
+    private final @NotNull Vector2 pos;
+    private final @NotNull Rectangle hitbox;
 
-    protected GameObject(@NotNull World world) {
+    protected GameObject(@NotNull World world, @NotNull Vector2 pos) {
         this.world = world;
+        this.pos = pos;
+        this.hitbox = new Rectangle(0, 0, getWidth(), getHeight());
+        this.hitbox.setCenter(pos);
     }
 
     /// @return Textur die gerendert wird (Animationen müssen hier gehandelt werden)
@@ -34,10 +39,14 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     public abstract float getWidth();
 
     /// @return x Position der Mitte des Gegners in Pixeln von Links
-    public abstract float getX();
+    public float getX() {
+        return pos.x;
+    }
 
     ///  @return y Position der Mitte des Gegners in Pixeln von unten
-    public abstract float getY();
+    public float getY() {
+        return pos.y;
+    }
 
     public abstract void update(float delta);
 
@@ -50,5 +59,12 @@ public abstract class GameObject implements Disposable, JsonSerializable {
         return new Vector2(getX(), getY());
     }
 
-    public abstract @NotNull Rectangle getHitbox();
+    public void setPos(@NotNull Vector2 pos) {
+        this.pos.set(pos);
+        this.hitbox.setCenter(pos);
+    }
+
+    public @NotNull Rectangle getHitbox() {
+        return hitbox;
+    }
 }
