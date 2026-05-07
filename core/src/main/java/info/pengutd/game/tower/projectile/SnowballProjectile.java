@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
 public class SnowballProjectile extends Projectile {
@@ -13,8 +15,8 @@ public class SnowballProjectile extends Projectile {
     private static final float SPEED = 7.5f;
     private final @NotNull TextureRegion texture;
 
-    public SnowballProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, int damage) {
-        super(world, pos, direction, damage);
+    public SnowballProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
+        super(world, pos, direction, tower, damage);
         texture = new TextureRegion(PenguTD.getInstance().getAssetManager().get(Assets.SNOWBALL_PROJECTILE, Texture.class));
     }
 
@@ -42,6 +44,13 @@ public class SnowballProjectile extends Projectile {
     public void update(float delta) {
         super.update(delta);
         setRotationDeg(getRotationDeg() + delta * 100);
+    }
+
+    @Override
+    public void onHit(@NotNull Enemy enemy) {
+        super.onHit(enemy);
+        enemy.pop(getDamage());
+        destroy();
     }
 
     @Override

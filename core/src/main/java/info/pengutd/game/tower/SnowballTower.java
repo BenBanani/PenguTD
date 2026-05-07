@@ -58,7 +58,7 @@ public class SnowballTower extends Tower {
         if (target == null) {
             throw new IllegalStateException("shoot auf leeres enemy");
         }
-        return new SnowballProjectile(getWorld(), getPos(), target.getPos().sub(getPos()).nor(), getDamage());
+        return new SnowballProjectile(getWorld(), getPos(), target.getPos().sub(getPos()).nor(), this, getDamage());
     }
 
     @Override

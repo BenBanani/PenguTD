@@ -145,6 +145,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         towers.forEach(t -> t.update(delta));
         projectiles.forEach(p -> p.update(delta));
 
+        for (int i = enemies.size - 1; i >= 0; i--) {
+            Enemy e = enemies.get(i);
+            if (!e.isAlive()) {
+                enemies.removeIndex(i).dispose();
+            }
+        }
+
         for (int i = projectiles.size - 1; i >= 0; i--) {
             Projectile p = projectiles.get(i);
             if (!p.isAlive()) {

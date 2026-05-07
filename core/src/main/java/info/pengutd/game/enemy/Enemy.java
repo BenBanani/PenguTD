@@ -123,7 +123,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     public abstract void die();
 
     public boolean isAlive() {
-        return getHealth() > 0;
+        return getHealth() > 0 || popTimeLeft > 0;
     }
 
     public int getId() {

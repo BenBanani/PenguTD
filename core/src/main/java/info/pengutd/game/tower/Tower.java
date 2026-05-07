@@ -149,6 +149,10 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
     }
 
+    public void onProjectileHit(@NotNull Projectile projectile, @NotNull Enemy enemy) {
+        // todo stats?
+    }
+
     private void shoot() {
         shotCooldown = 1 / getAttackSpeed();
         Projectile projectile = createProjectile();
