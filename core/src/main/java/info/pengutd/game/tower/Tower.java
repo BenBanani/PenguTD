@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
@@ -20,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
     private boolean debug = false;
     private boolean preview = false;
-    private int rotationDegree = 0;
     private @Nullable Enemy targetEnemy = null;
     private float shotCooldown = 0f;
 
@@ -42,6 +42,10 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     @Nullable
     public Enemy getTargetEnemy() {
         return targetEnemy;
+    }
+
+    protected void setTargetEnemy(@Nullable Enemy targetEnemy) {
+        this.targetEnemy = targetEnemy;
     }
 
     /// Zeichnet den Tower auf den screen
@@ -127,16 +131,16 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     ///  logik update des Towers
     @Override
-    public void update(float delta)  {
+    public void update(float delta) {
         if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {
             targetEnemy = findNewTarget();
         } else {
-            rotationDegree = (int) targetEnemy.getPos().angleDeg(getPos());
+            float dx = targetEnemy.getPos().x - getPos().x;
+            float dy = targetEnemy.getPos().y - getPos().y;
+            float deg = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx) - 90;
+            setRotationDeg(deg);
+            System.out.println("deg = " + deg);
         }
-    }
-
-    protected void setTargetEnemy(@Nullable Enemy targetEnemy) {
-        this.targetEnemy = targetEnemy;
     }
 
     private @Nullable Enemy findNewTarget() {
@@ -187,7 +191,6 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         JsonValue value = super.toJson();
         value.addChild("shot_cooldown", new JsonValue(getShotCooldown()));
         value.addChild("target", new JsonValue(getTargetEnemy() != null ? getTargetEnemy().getId() : -1));
-        value.addChild("rotation_degree", new JsonValue(rotationDegree));
         return value;
     }
 
@@ -196,6 +199,5 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         super.fromJson(json);
         setShotCooldown(json.get("shot_cooldown").asFloat());
         setTargetEnemy(getWorld().getEnemyFromId(json.get("target").asInt()));
-        rotationDegree = (json.get("rotation_degree").asInt());
     }
 }

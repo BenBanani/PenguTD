@@ -15,6 +15,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     private final @NotNull World world;
     private final @NotNull Vector2 pos;
     private final @NotNull Rectangle hitbox;
+    private float rotationDeg = 0;
 
     protected GameObject(@NotNull World world, @NotNull Vector2 pos) {
         this.world = world;
@@ -30,7 +31,9 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     /// SpriteBatch.begin() muss davor aufgerufen werden
     /// Unterklassen sollten debug funktionen implementieren und super.draw() aufrufen
     public void draw(@NotNull SpriteBatch batch) {
-        batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
+        batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2,
+            getWidth() / 2f, getHeight() / 2f,
+            getWidth(), getHeight(), 1, 1, rotationDeg);
     }
 
     /// @return hähe des Gegners in Pixel
@@ -44,7 +47,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
         return pos.x;
     }
 
-    ///  @return y Position der Mitte des Gegners in Pixeln von unten
+    /// @return y Position der Mitte des Gegners in Pixeln von unten
     public float getY() {
         return pos.y;
     }
@@ -74,11 +77,21 @@ public abstract class GameObject implements Disposable, JsonSerializable {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
         value.addChild("x", new JsonValue(getX()));
         value.addChild("y", new JsonValue(getY()));
+        value.addChild("rotation", new JsonValue(getRotationDeg()));
         return value;
     }
 
     @Override
     public void fromJson(@NotNull JsonValue json) {
         setPos(new Vector2(json.getFloat("x"), json.getFloat("y")));
+        setRotationDeg(json.getFloat("rotation"));
+    }
+
+    public float getRotationDeg() {
+        return rotationDeg;
+    }
+
+    public void setRotationDeg(float rotationDeg) {
+        this.rotationDeg = rotationDeg;
     }
 }
