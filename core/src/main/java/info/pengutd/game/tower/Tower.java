@@ -139,7 +139,6 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
             float dy = targetEnemy.getPos().y - getPos().y;
             float deg = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx) - 90;
             setRotationDeg(deg);
-            System.out.println("deg = " + deg);
         }
     }
 

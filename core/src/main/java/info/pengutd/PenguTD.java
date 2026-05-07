@@ -34,7 +34,7 @@ public class PenguTD extends Game {
 
     private void loadAssets() {
         assetManager.load(Assets.ENEMY_POP, Texture.class);
-        assetManager.load(Assets.NORMAL_ENEMY, Texture.class);
+        assetManager.load(Assets.WARRIOR_ENEMY, Texture.class);
         assetManager.load(Assets.TOWER1, Texture.class);
         assetManager.load(Assets.UI_BACKGROUND, Texture.class);
 

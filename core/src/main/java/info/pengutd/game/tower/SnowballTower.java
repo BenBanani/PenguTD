@@ -10,7 +10,8 @@ import info.pengutd.game.World;
 import org.jetbrains.annotations.NotNull;
 
 /// Der erste einfachste Turm
-public class NormalTower extends Tower {
+public class SnowballTower extends Tower {
+    public static final String JSON_TYPE = "snowball_tower";
     ///  breite in tiles
     private static final float WIDTH = .75f;
     ///  höhe in tiles
@@ -23,7 +24,7 @@ public class NormalTower extends Tower {
     private static final float ATTACK_SPEED = 1f;
     private final @NotNull Texture texture;
 
-    public NormalTower(@NotNull World world, @NotNull Vector2 pos) {
+    public SnowballTower(@NotNull World world, @NotNull Vector2 pos) {
         super(world, pos);
         texture = PenguTD.getInstance().getAssetManager().get(Assets.TOWER1);
     }
@@ -71,7 +72,7 @@ public class NormalTower extends Tower {
     @Override
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue("normal_tower"));
+        value.addChild("type", new JsonValue(JSON_TYPE));
         return value;
     }
 

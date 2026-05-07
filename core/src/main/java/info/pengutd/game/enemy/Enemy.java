@@ -47,7 +47,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             Vector2 start = path.get(0);
             setPos(start);
         } else {
-            Gdx.app.error("NormalEnemy", "No path layer found in map");
+            Gdx.app.error("WarriorEnemy", "No path layer found in map");
         }
     }
 

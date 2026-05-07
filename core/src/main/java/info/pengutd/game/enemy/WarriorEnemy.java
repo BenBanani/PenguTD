@@ -1,27 +1,22 @@
 package info.pengutd.game.enemy;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PointMapObject;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import info.pengutd.PenguTD;
 import info.pengutd.Assets;
+import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import org.jetbrains.annotations.NotNull;
 
 /// Standard Gegner mit mehreren Stufen.
 /// wenn ein Gegner getroffen wird, wird er zu einem Gegner mit geringerer Stufe
-public class NormalEnemy extends Enemy {
+public class WarriorEnemy extends Enemy {
     ///  Höhe in tiles
     public static final float HEIGHT = 0.75f;
     ///  breite in tiles
     public static final float WIDTH = 0.65f;
+    public static final String JSON_TYPE = "warrior_enemy";
     ///  speed in tiles
     private static final float MOVEMENT_MULTIPLIER = 0.75f;
     private static final float POP_DURATION = 0.5f;
@@ -29,9 +24,9 @@ public class NormalEnemy extends Enemy {
     private final @NotNull Texture popTexture;
     private int level;
 
-    public NormalEnemy(int level, @NotNull World world, int id) {
+    public WarriorEnemy(int level, @NotNull World world, int id) {
         super(world, new Vector2(), id); // placeholder position
-        texture = PenguTD.getInstance().getAssetManager().get(Assets.NORMAL_ENEMY);
+        texture = PenguTD.getInstance().getAssetManager().get(Assets.WARRIOR_ENEMY);
         popTexture = PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_POP);
         this.level = level;
     }
@@ -82,7 +77,7 @@ public class NormalEnemy extends Enemy {
     @Override
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue("normal_enemy"));
+        value.addChild("type", new JsonValue(JSON_TYPE));
         value.addChild("level", new JsonValue(level));
         return value;
     }

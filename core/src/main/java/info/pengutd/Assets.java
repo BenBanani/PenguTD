@@ -3,7 +3,7 @@ package info.pengutd;
 public class Assets {
     private Assets() {}
 
-    public static final String NORMAL_ENEMY = "game/enemy/pengu.png";
+    public static final String WARRIOR_ENEMY = "game/enemy/pengu.png";
     public static final String ENEMY_POP = "game/enemy/pop.png";
     public static final String TOWER1 = "game/tower/tower1.png";
     public static final String UI_BACKGROUND = "background.png";

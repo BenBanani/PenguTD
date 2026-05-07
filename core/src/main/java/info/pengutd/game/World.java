@@ -24,8 +24,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.enemy.NormalEnemy;
-import info.pengutd.game.tower.NormalTower;
+import info.pengutd.game.enemy.WarriorEnemy;
+import info.pengutd.game.tower.SnowballTower;
 import info.pengutd.game.tower.Tower;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
@@ -81,9 +81,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 mapHeight * tileHeight
             );
 
-            enemies.add(new NormalEnemy(4, this, nextEntityId++));
+            enemies.add(new WarriorEnemy(4, this, nextEntityId++));
 
-            towers.add(new NormalTower(this, new Vector2(200, 300)).debug());
+            towers.add(new SnowballTower(this, new Vector2(200, 300)).debug());
 
             towerSelection = new TowerSelection(viewport, this);
         }
@@ -185,13 +185,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        enemies.get(0).pop(1);
-        enemies.add(new NormalEnemy(2, this, createEntityId()));
+        enemies.add(new WarriorEnemy(2, this, createEntityId()));
         if (previewTower != null) {
             towers.add(previewTower.place());
         }
         setSelectedTower(0);
-        System.out.println(this.toJson());
         return true;
     }
 
@@ -240,7 +238,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         switch (type) {
             case 1:
-                previewTower = new NormalTower(this, new Vector2()).preview();
+                previewTower = new SnowballTower(this, new Vector2()).preview();
                 break;
 
             // später weitere types
@@ -325,8 +323,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         for (JsonValue jsonEnemy : jsonEnemies) {
             Enemy enemy;
             String enemyType = jsonEnemy.getString("type");
-            if ("normal_enemy".equals(enemyType)) {
-                enemy = new NormalEnemy(0, this, jsonEnemy.getInt("id"));
+            if (WarriorEnemy.JSON_TYPE.equals(enemyType)) {
+                enemy = new WarriorEnemy(0, this, jsonEnemy.getInt("id"));
             } else {
                 throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
@@ -341,8 +339,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         for (JsonValue jsonTower : jsonTowers) {
             Tower tower;
             String towerType = jsonTower.getString("type");
-            if ("normal_tower".equals(towerType)) {
-                tower = new NormalTower(this, new Vector2());
+            if (SnowballTower.JSON_TYPE.equals(towerType)) {
+                tower = new SnowballTower(this, new Vector2());
             } else {
                 throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }

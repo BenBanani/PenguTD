@@ -1,96 +1,73 @@
 {
     type: world
     map: map1
-    next_entity_id: 7
+    next_entity_id: 4
     enemies: [
         {
-            x: 673.432861328125
-            y: 734.232666015625
+            x: 305.08245849609375
+            y: 539.2112426757812
+            rotation: 0.0
             id: 0
-            type: normal_enemy
-            currentPathIndex: 8
-            level: -1
+            currentPathIndex: 29
             popTimeLeft: 0.5
+            type: warrior_enemy
+            level: 1
         }
         {
-            x: 444.26263427734375
-            y: 733.9173583984375
+            x: 127.50462341308594
+            y: 356.705810546875
+            rotation: 0.0
             id: 1
-            type: normal_enemy
-            currentPathIndex: 12
-            level: 2
+            currentPathIndex: 24
             popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 2
         }
         {
-            x: 503.6351623535156
-            y: 733.0059204101562
+            x: 96.73638153076172
+            y: 571.22705078125
+            rotation: 0.0
             id: 2
-            type: normal_enemy
-            currentPathIndex: 11
-            level: 2
+            currentPathIndex: 20
             popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 2
         }
         {
-            x: 510.54449462890625
-            y: 733.55859375
+            x: 864.1326293945312
+            y: 802.3147583007812
+            rotation: 0.0
             id: 3
-            type: normal_enemy
-            currentPathIndex: 11
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            x: 736.1253662109375
-            y: 664.271484375
-            id: 4
-            type: normal_enemy
-            currentPathIndex: 6
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            x: 861.1174926757812
-            y: 637.3875732421875
-            id: 5
-            type: normal_enemy
-            currentPathIndex: 3
-            level: 2
-            popTimeLeft: 0.0
-        }
-        {
-            x: 865.1038208007812
-            y: 803.2184448242188
-            id: 6
-            type: normal_enemy
             currentPathIndex: 0
-            level: 2
             popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 2
         }
     ]
     towers: [
         {
             x: 200.0
             y: 300.0
+            rotation: 51.9674072265625
             shot_cooldown: 0.0
-            target: -1
-            rotation_degree: 0
-            type: normal_tower
+            target: 1
+            type: snowball_tower
         }
         {
-            x: 569.9368286132812
-            y: 622.2666625976562
-            shot_cooldown: 0.0
-            target: 3
-            rotation_degree: 7
-            type: normal_tower
-        }
-        {
-            x: 240.79397583007812
-            y: 663.8666381835938
+            x: 412.29473876953125
+            y: 450.66668701171875
+            rotation: 0.0
             shot_cooldown: 0.0
             target: -1
-            rotation_degree: 0
-            type: normal_tower
+            type: snowball_tower
+        }
+        {
+            x: 540.4871826171875
+            y: 294.6666564941406
+            rotation: 0.0
+            shot_cooldown: 0.0
+            target: -1
+            type: snowball_tower
         }
     ]
 }
