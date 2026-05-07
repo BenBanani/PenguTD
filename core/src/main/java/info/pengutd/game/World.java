@@ -27,15 +27,17 @@ import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.WarriorEnemy;
 import info.pengutd.game.tower.SnowballTower;
 import info.pengutd.game.tower.Tower;
+import info.pengutd.game.tower.projectile.Projectile;
+import info.pengutd.game.tower.projectile.SnowballProjectile;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
-    ///  debug enemy
     private final @NotNull Array<Enemy> enemies = new Array<>();
     private final @NotNull Array<Tower> towers = new Array<>();
+    private final @NotNull Array<Projectile> projectiles = new Array<>();
     private final boolean fromJson;
     private SpriteBatch batch;
     private Viewport viewport;
@@ -127,6 +129,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         towers.forEach(t -> t.draw(batch));
 
+        projectiles.forEach(p -> p.draw(batch));
+
         if (previewTower != null) {
             previewTower.draw(batch);
         }
@@ -139,6 +143,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private void updateLogic(float delta) {
         enemies.forEach(e -> e.update(delta));
         towers.forEach(t -> t.update(delta));
+        projectiles.forEach(p -> p.update(delta));
+        // todo remove projectiles
     }
 
     private void renderMapObjects() {
@@ -185,6 +191,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        projectiles.add(new SnowballProjectile(this, towers.first().getPos(), enemies.first().getPos().sub(towers.first().getPos()), 1));
         enemies.add(new WarriorEnemy(2, this, createEntityId()));
         if (previewTower != null) {
             towers.add(previewTower.place());
@@ -251,11 +258,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         return false;
     }
 
-    public int get_map_height() {
+    /// @return map height in tiles
+    public int getMapHeight() {
         return mapHeight;
     }
 
-    public int get_map_width() {
+    /// @return map width in tiles
+    public int getMapWidth() {
         return mapWidth;
     }
 
