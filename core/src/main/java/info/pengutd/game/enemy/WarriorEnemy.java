@@ -1,6 +1,6 @@
 package info.pengutd.game.enemy;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -17,23 +17,42 @@ public class WarriorEnemy extends Enemy {
     ///  breite in tiles
     public static final float WIDTH = 0.65f;
     public static final String JSON_TYPE = "warrior_enemy";
+    public static final float SPEED_TO_ANIMATION_TIME = 500f;
     ///  speed in tiles
-    private static final float MOVEMENT_MULTIPLIER = 0.75f;
-    private static final float POP_DURATION = 0.5f;
-    private final @NotNull Texture texture;
-    private final @NotNull Texture popTexture;
+    private static final float SPEED = 0.75f;
+    private static final float POP_DURATION = 0.1f;
+    private final @NotNull TextureRegion popTexture;
+    private final @NotNull EnemyAnimator animatorSide;
+    private final @NotNull EnemyAnimator animatorUp;
+    private final @NotNull EnemyAnimator animatorDown;
     private int level;
 
     public WarriorEnemy(int level, @NotNull World world, int id) {
         super(world, new Vector2(), id); // placeholder position
-        texture = PenguTD.getInstance().getAssetManager().get(Assets.WARRIOR_ENEMY);
-        popTexture = PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_POP);
         this.level = level;
+        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.WARRIOR_ENEMY_ATLAS);
+        animatorSide = new EnemyAnimator("warrior_side", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animatorUp = new EnemyAnimator("warrior_up", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animatorDown = new EnemyAnimator("warrior_down", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME);
+        popTexture = atlas.findRegion("pop");
     }
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return new TextureRegion(getPopTimeLeft() > 0 ? popTexture : texture);
+        return getPopTimeLeft() > 0 ? popTexture : findAnimator().getTexture();
+    }
+
+    private @NotNull EnemyAnimator findAnimator() {
+        switch (getDirection()) {
+            case UP: return animatorUp;
+            case DOWN: return animatorDown;
+            default: return animatorSide;
+        }
+    }
+
+    @Override
+    protected boolean flipX() {
+        return getDirection() == Direction.LEFT;
     }
 
     @Override
@@ -43,7 +62,7 @@ public class WarriorEnemy extends Enemy {
 
     @Override
     public float getSpeed() {
-        return MOVEMENT_MULTIPLIER * level * getWorld().getTileWidth();
+        return SPEED * level * getWorld().getTileWidth();
     }
 
     @Override
@@ -65,12 +84,23 @@ public class WarriorEnemy extends Enemy {
         level -= damage;
         setPopTimeLeft(POP_DURATION);
         if (level <= 0) die();
+        animatorSide.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animatorUp.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animatorDown.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
         // todo Geld geben + stats erhöhen
     }
 
     @Override
     public void die() {
         // todo Geld geben + stats erhöhen
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        animatorSide.update(delta);
+        animatorUp.update(delta);
+        animatorDown.update(delta);
     }
 
     /// Zum Speichern des Gegners als .json datei

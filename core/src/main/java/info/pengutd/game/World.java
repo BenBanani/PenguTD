@@ -28,7 +28,6 @@ import info.pengutd.game.enemy.WarriorEnemy;
 import info.pengutd.game.tower.SnowballTower;
 import info.pengutd.game.tower.Tower;
 import info.pengutd.game.tower.projectile.Projectile;
-import info.pengutd.game.tower.projectile.SnowballProjectile;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.TowerSelection;
 import org.jetbrains.annotations.NotNull;
@@ -85,7 +84,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
             enemies.add(new WarriorEnemy(4, this, nextEntityId++));
 
-            towers.add(new SnowballTower(this, new Vector2(200, 300)).debug());
+            towers.add(new SnowballTower(this, new Vector2(200, 300)));
 
             towerSelection = new TowerSelection(viewport, this);
         }

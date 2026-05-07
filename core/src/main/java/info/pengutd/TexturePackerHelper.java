@@ -9,5 +9,6 @@ public class TexturePackerHelper {
         TexturePacker.process(assets + "start_screen",assets + "atlas", "start_screen_ui");
         TexturePacker.process(assets + "settings_screen",assets + "atlas", "settings_screen_ui");
         TexturePacker.process(assets + "/game/tower_selection_screen",assets + "atlas", "tower_selection_ui");
+        TexturePacker.process(assets + "/game/enemy",assets + "atlas", "enemies");
     }
 }

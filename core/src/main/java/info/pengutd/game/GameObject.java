@@ -33,7 +33,15 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     public void draw(@NotNull SpriteBatch batch) {
         batch.draw(getTexture(), getX() - getWidth() / 2, getY() - getHeight() / 2,
             getWidth() / 2f, getHeight() / 2f,
-            getWidth(), getHeight(), 1, 1, rotationDeg);
+            getWidth(), getHeight(), flipX() ? -1 : 1, flipY() ? -1 : 1, rotationDeg);
+    }
+
+    protected boolean flipX() {
+        return false;
+    }
+
+    protected boolean flipY() {
+        return false;
     }
 
     /// @return hähe des Gegners in Pixel

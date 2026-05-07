@@ -27,6 +27,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
     private float popTimeLeft = 0f;
+    private Direction direction;
 
     protected Enemy(@NotNull World world, Vector2 pos, int id) {
         super(world, pos);
@@ -114,7 +115,25 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
         Vector2 dir = target.cpy().sub(getPos()).nor();
 
+        updateDirection(dir);
+
         setPos(getPos().add(dir.scl(getSpeed() * delta)));
+    }
+
+    private void updateDirection(Vector2 dir) {
+        if (Math.abs(dir.x) > Math.abs(dir.y)) {
+            if (dir.x > 0) {
+                direction = Direction.RIGHT;
+            } else {
+                direction = Direction.LEFT;
+            }
+        } else {
+            if (dir.y > 0) {
+                direction = Direction.UP;
+            } else {
+                direction = Direction.DOWN;
+            }
+        }
     }
 
     /// nehme schade in höhe von damage
@@ -156,5 +175,16 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     public Enemy debug() {
         debug = true;
         return this;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 }
