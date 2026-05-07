@@ -175,7 +175,7 @@ tasks.register('dist') {
 }
 
 tasks.register("run_whole") {
-  dependsOn "texturePacker", "jar", "jarWin", "run"
+  dependsOn "texturePacker", "jar", "run"
 }
 
 tasks.register("texturePacker", JavaExec) {
