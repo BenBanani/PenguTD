@@ -144,7 +144,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         enemies.forEach(e -> e.update(delta));
         towers.forEach(t -> t.update(delta));
         projectiles.forEach(p -> p.update(delta));
-        // todo remove projectiles
+
+        for (int i = projectiles.size - 1; i >= 0; i--) {
+            Projectile p = projectiles.get(i);
+            if (!p.isAlive()) {
+                projectiles.removeIndex(i).dispose();
+            }
+        }
     }
 
     private void renderMapObjects() {
@@ -191,7 +197,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        projectiles.add(new SnowballProjectile(this, towers.first().getPos(), enemies.first().getPos().sub(towers.first().getPos()), 1));
         enemies.add(new WarriorEnemy(2, this, createEntityId()));
         if (previewTower != null) {
             towers.add(previewTower.place());
@@ -409,5 +414,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
 
         return true;
+    }
+
+    public void addProjectile(Projectile projectile) {
+        projectiles.add(projectile);
     }
 }

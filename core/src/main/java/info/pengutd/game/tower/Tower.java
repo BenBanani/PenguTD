@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -140,7 +141,21 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
             float deg = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx) - 90;
             setRotationDeg(deg);
         }
+
+        shotCooldown -= delta;
+
+        if (targetEnemy != null && shotCooldown <= 0) {
+            shoot();
+        }
     }
+
+    private void shoot() {
+        shotCooldown = 1 / getAttackSpeed();
+        Projectile projectile = createProjectile();
+        getWorld().addProjectile(projectile);
+    }
+
+    protected abstract @NotNull Projectile createProjectile();
 
     private @Nullable Enemy findNewTarget() {
         Enemy target = null;

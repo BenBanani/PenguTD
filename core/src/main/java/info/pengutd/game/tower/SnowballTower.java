@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.tower.projectile.Projectile;
+import info.pengutd.game.tower.projectile.SnowballProjectile;
 import org.jetbrains.annotations.NotNull;
 
 /// Der erste einfachste Turm
@@ -47,6 +50,15 @@ public class SnowballTower extends Tower {
     @Override
     public float getAttackSpeed() {
         return ATTACK_SPEED;
+    }
+
+    @Override
+    protected @NotNull Projectile createProjectile() {
+        Enemy target = getTargetEnemy();
+        if (target == null) {
+            throw new IllegalStateException("shoot auf leeres enemy");
+        }
+        return new SnowballProjectile(getWorld(), getPos(), target.getPos().sub(getPos()).nor(), getDamage());
     }
 
     @Override
