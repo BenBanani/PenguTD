@@ -17,17 +17,16 @@ import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 ///  Base Klasse für alle Gegner
 public abstract class Enemy extends GameObject implements Disposable, JsonSerializable {
-    private boolean debug = false;
-    private int id;
     private final @NotNull Array<Vector2> path = new Array<>();
     ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
+    private boolean debug = false;
+    private int id;
     private float popTimeLeft = 0f;
-    private Direction direction;
+    private Direction direction = Direction.UP;
 
     protected Enemy(@NotNull World world, Vector2 pos, int id) {
         super(world, pos);
@@ -54,16 +53,20 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
     public abstract int getHealth();
 
-    ///  @return speed in pixel per second
+    /// @return speed in pixel per second
     public abstract float getSpeed();
 
-    ///  @return Path den das Enemy gehen muss
-    public @Nullable Array<Vector2> getPath() {
+    /// @return Path den das Enemy gehen muss
+    public @NotNull Array<Vector2> getPath() {
         return path;
     }
 
     public float getPopTimeLeft() {
         return popTimeLeft;
+    }
+
+    public void setPopTimeLeft(float popTimeLeft) {
+        this.popTimeLeft = popTimeLeft;
     }
 
     ///  Zeichnet das Enemy auf den Screen
@@ -83,18 +86,12 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             renderer.rect(box.x, box.y, box.width, box.height);
             // Path
             renderer.setColor(Color.GREEN);
-            if (this.getPath() != null) {
-                this.getPath().forEach(vec -> renderer.circle(vec.x, vec.y, 5));
-            }
+            this.getPath().forEach(vec -> renderer.circle(vec.x, vec.y, 5));
 
             renderer.end();
 
             batch.begin();
         }
-    }
-
-    public void setPopTimeLeft(float popTimeLeft) {
-        this.popTimeLeft = popTimeLeft;
     }
 
     @Override
@@ -177,7 +174,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         return this;
     }
 
-    public Direction getDirection() {
+    public @NotNull Direction getDirection() {
         return direction;
     }
 

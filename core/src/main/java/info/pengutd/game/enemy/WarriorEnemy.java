@@ -118,7 +118,9 @@ public class WarriorEnemy extends Enemy {
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
         this.level = json.getInt("level");
-
+        animatorSide.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animatorUp.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animatorDown.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
     }
 
     @Override
