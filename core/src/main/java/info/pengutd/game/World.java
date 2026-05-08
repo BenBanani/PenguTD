@@ -204,10 +204,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.add(new WarriorEnemy(2, this, createEntityId()));
-        if (previewTower != null) {
+        if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower)) {
             towers.add(previewTower.place());
+            setSelectedTower(0);
         }
-        setSelectedTower(0);
         return true;
     }
 
