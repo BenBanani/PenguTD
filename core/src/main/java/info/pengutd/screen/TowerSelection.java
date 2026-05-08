@@ -1,7 +1,5 @@
 package info.pengutd.screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -26,6 +24,9 @@ public class TowerSelection implements Disposable {
     private final Stage uiStage;
     private final TextureAtlas atlas;
     private final World world;
+    private Table topContent;
+    private Label moneyLabel;
+    private Label hpLabel;
 
     public TowerSelection(Viewport viewport, World world) {
         uiStage = new Stage(viewport);
@@ -120,12 +121,24 @@ public class TowerSelection implements Disposable {
         Image topBackground = new Image(atlas.findRegion("button_blue"));
         topBackground.getColor().a = 0.9f;
         topBackground.setScaling(Scaling.stretch);
-        Table topContent = new Table();
-        topContent.add(new Label("Money", new Label.LabelStyle(new BitmapFont(), Color.WHITE))).pad(10).row();
-        topContent.add(new Label("HP", new Label.LabelStyle(new BitmapFont(), Color.WHITE))).pad(10);
+
+        topContent = new Table();
+        topContent.add(new Image(atlas.findRegion("money"))).size(40f, 40f).pad(5);
+        moneyLabel = new Label("" + world.getMoney(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        topContent.add(moneyLabel).row();
+
+        topContent.add(new Image(atlas.findRegion("hp"))).size(40f, 40f).pad(5);
+        hpLabel = new Label("" + world.getHp(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        topContent.add(hpLabel).row();
+
         stack.add(topBackground);
         stack.add(topContent);
         return stack;
+    }
+
+    public void updateTopElement() {
+        moneyLabel.setText("" + world.getMoney());
+        hpLabel.setText("" + world.getHp());
     }
 
     public void render(float delta) {

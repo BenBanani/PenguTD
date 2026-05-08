@@ -34,7 +34,7 @@ public class SnowballTower extends Tower {
 
     @Override
     public int getCost() {
-        return 200;
+        return 50;
     }
 
     @Override

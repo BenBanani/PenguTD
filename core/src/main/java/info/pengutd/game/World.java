@@ -34,6 +34,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
+    private static final int START_MONEY = 50;
+    private static final int START_HP = 100;
     private final @NotNull Array<Enemy> enemies = new Array<>();
     private final @NotNull Array<Tower> towers = new Array<>();
     private final @NotNull Array<Projectile> projectiles = new Array<>();
@@ -52,6 +54,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private TowerSelection towerSelection;
     private int nextEntityId = 0;
     private @Nullable Tower previewTower;
+    ///  game state
+    private int money = START_MONEY;
+    private int hp = START_HP;
+    private int score;
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -204,7 +210,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         enemies.add(new WarriorEnemy(2, this, createEntityId()));
-        if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower)) {
+        if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
             setSelectedTower(0);
         }
@@ -293,6 +299,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         value.addChild("type", new JsonValue("world"));
         value.addChild("map", new JsonValue(mapName));
         value.addChild("next_entity_id", new JsonValue(nextEntityId));
+        value.addChild("money", new JsonValue(money));
+        value.addChild("hp", new JsonValue(hp));
+        value.addChild("score", new JsonValue(score));
         // gegner
         JsonValue jsonEnemies = new JsonValue(JsonValue.ValueType.array);
         enemies.forEach(e -> jsonEnemies.addChild(e.toJson()));
@@ -336,6 +345,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         towerSelection = new TowerSelection(viewport, this);
 
         nextEntityId = json.getInt("next_entity_id");
+        money = json.getInt("money");
+        hp = json.getInt("hp");
+        score = json.getInt("score");
         // enemies
         JsonValue jsonEnemies = json.get("enemies");
         enemies.forEach(Disposable::dispose);
@@ -424,5 +436,33 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     public void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void addMoney(int amount) {
+        money += amount;
+        towerSelection.updateTopElement();
+    }
+
+    public boolean spendMoney(int amount) {
+        if (money < amount) return false;
+
+        money -= amount;
+        towerSelection.updateTopElement();
+        return true;
+    }
+
+    public void damageHp(int amount) {
+        hp -= amount;
+
+        if (hp < 0) hp = 0;
+        towerSelection.updateTopElement();
     }
 }

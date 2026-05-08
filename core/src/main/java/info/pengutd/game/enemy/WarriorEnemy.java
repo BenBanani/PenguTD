@@ -88,11 +88,14 @@ public class WarriorEnemy extends Enemy {
         animatorUp.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
         animatorDown.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
         // todo Geld geben + stats erhöhen
+        getWorld().addMoney(1);
     }
 
     @Override
     public void die() {
+        level = 0;
         // todo Geld geben + stats erhöhen
+        getWorld().addMoney(5);
     }
 
     @Override
