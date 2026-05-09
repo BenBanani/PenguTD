@@ -1,0 +1,97 @@
+
+enemies.png
+size: 1024, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+pop
+  rotate: false
+  xy: 2, 2
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+warrior_down0
+  rotate: false
+  xy: 545, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_down2
+  rotate: false
+  xy: 545, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_down1
+  rotate: false
+  xy: 504, 420
+  size: 37, 40
+  orig: 37, 40
+  offset: 0, 0
+  index: -1
+warrior_down3
+  rotate: false
+  xy: 504, 378
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_side0
+  rotate: false
+  xy: 619, 462
+  size: 31, 40
+  orig: 31, 40
+  offset: 0, 0
+  index: -1
+warrior_side2
+  rotate: false
+  xy: 619, 462
+  size: 31, 40
+  orig: 31, 40
+  offset: 0, 0
+  index: -1
+warrior_side1
+  rotate: false
+  xy: 504, 336
+  size: 32, 40
+  orig: 32, 40
+  offset: 0, 0
+  index: -1
+warrior_side3
+  rotate: false
+  xy: 541, 378
+  size: 32, 40
+  orig: 32, 40
+  offset: 0, 0
+  index: -1
+warrior_up0
+  rotate: false
+  xy: 543, 420
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_up2
+  rotate: false
+  xy: 543, 420
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_up1
+  rotate: false
+  xy: 504, 462
+  size: 39, 40
+  orig: 39, 40
+  offset: 0, 0
+  index: -1
+warrior_up3
+  rotate: false
+  xy: 582, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
