@@ -3,6 +3,7 @@ package info.pengutd.game.enemy;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
@@ -22,32 +23,34 @@ public class WarriorEnemy extends Enemy {
     private static final float SPEED = 0.75f;
     private static final float POP_DURATION = 0.1f;
     private final @NotNull TextureRegion popTexture;
-    private final @NotNull EnemyAnimator animatorSide;
-    private final @NotNull EnemyAnimator animatorUp;
-    private final @NotNull EnemyAnimator animatorDown;
+    private final @NotNull Array<EnemyAnimatorSet> animators = new Array<>(4);
     private int level;
 
     public WarriorEnemy(int level, @NotNull World world, int id) {
         super(world, new Vector2(), id); // placeholder position
         this.level = level;
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.WARRIOR_ENEMY_ATLAS);
-        animatorSide = new EnemyAnimator("warrior_side", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME);
-        animatorUp = new EnemyAnimator("warrior_up", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME);
-        animatorDown = new EnemyAnimator("warrior_down", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME);
+
+        createAnimators(atlas);
+
         popTexture = atlas.findRegion("pop");
+    }
+
+    private void createAnimators(TextureAtlas atlas) {
+        for (int i = 0; i < 4; i++) { // bis jetzt nur 4 levels
+            int enemyLevel = i + 1;
+            animators.add(new EnemyAnimatorSet(
+                new EnemyAnimator("warrior_" + enemyLevel + "_up", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME),
+                new EnemyAnimator("warrior_" + enemyLevel + "_down", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME),
+                new EnemyAnimator("warrior_" + enemyLevel + "_side", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME)
+            ));
+        }
     }
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return getPopTimeLeft() > 0 ? popTexture : findAnimator().getTexture();
-    }
-
-    private @NotNull EnemyAnimator findAnimator() {
-        switch (getDirection()) {
-            case UP: return animatorUp;
-            case DOWN: return animatorDown;
-            default: return animatorSide;
-        }
+        if (level <= 0) return popTexture; // damit nicht indexOutOfBoundsException
+        return getPopTimeLeft() > 0 ? popTexture : animators.get(level - 1).getTexture(getDirection());
     }
 
     @Override
@@ -84,9 +87,7 @@ public class WarriorEnemy extends Enemy {
         level -= damage;
         setPopTimeLeft(POP_DURATION);
         if (level <= 0) die();
-        animatorSide.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
-        animatorUp.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
-        animatorDown.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animators.forEach((e) -> e.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME));
         // todo Geld geben + stats erhöhen
         getWorld().addMoney(1);
     }
@@ -101,9 +102,8 @@ public class WarriorEnemy extends Enemy {
     @Override
     public void update(float delta) {
         super.update(delta);
-        animatorSide.update(delta);
-        animatorUp.update(delta);
-        animatorDown.update(delta);
+        if (level <= 0) return;
+        animators.get(level - 1).update(delta);
     }
 
     /// Zum Speichern des Gegners als .json datei
@@ -121,9 +121,7 @@ public class WarriorEnemy extends Enemy {
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
         this.level = json.getInt("level");
-        animatorSide.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
-        animatorUp.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
-        animatorDown.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME);
+        animators.forEach((e) -> e.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME));
     }
 
     @Override

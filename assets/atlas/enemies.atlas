@@ -11,87 +11,255 @@ pop
   orig: 500, 500
   offset: 0, 0
   index: -1
-warrior_down0
+warrior_1_down0
   rotate: false
-  xy: 545, 462
+  xy: 659, 462
   size: 35, 40
   orig: 35, 40
   offset: 0, 0
   index: -1
-warrior_down2
+warrior_1_down2
   rotate: false
-  xy: 545, 462
+  xy: 659, 462
   size: 35, 40
   orig: 35, 40
   offset: 0, 0
   index: -1
-warrior_down1
+warrior_1_down1
   rotate: false
-  xy: 504, 420
+  xy: 620, 462
   size: 37, 40
   orig: 37, 40
   offset: 0, 0
   index: -1
-warrior_down3
+warrior_1_down3
   rotate: false
-  xy: 504, 378
+  xy: 696, 462
   size: 35, 40
   orig: 35, 40
   offset: 0, 0
   index: -1
-warrior_side0
+warrior_1_side0
   rotate: false
-  xy: 619, 462
+  xy: 504, 224
   size: 31, 40
   orig: 31, 40
   offset: 0, 0
   index: -1
-warrior_side2
+warrior_1_side2
   rotate: false
-  xy: 619, 462
+  xy: 504, 224
   size: 31, 40
   orig: 31, 40
   offset: 0, 0
   index: -1
-warrior_side1
+warrior_1_side1
   rotate: false
-  xy: 504, 336
+  xy: 504, 266
   size: 32, 40
   orig: 32, 40
   offset: 0, 0
   index: -1
-warrior_side3
+warrior_1_side3
   rotate: false
-  xy: 541, 378
+  xy: 538, 315
   size: 32, 40
   orig: 32, 40
   offset: 0, 0
   index: -1
-warrior_up0
+warrior_1_up0
   rotate: false
-  xy: 543, 420
+  xy: 733, 462
   size: 35, 40
   orig: 35, 40
   offset: 0, 0
   index: -1
-warrior_up2
+warrior_1_up2
   rotate: false
-  xy: 543, 420
+  xy: 733, 462
   size: 35, 40
   orig: 35, 40
   offset: 0, 0
   index: -1
-warrior_up1
+warrior_1_up1
   rotate: false
-  xy: 504, 462
+  xy: 579, 462
   size: 39, 40
   orig: 39, 40
   offset: 0, 0
   index: -1
-warrior_up3
+warrior_1_up3
   rotate: false
-  xy: 582, 462
+  xy: 770, 462
   size: 35, 40
   orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_down0
+  rotate: false
+  xy: 807, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_down2
+  rotate: false
+  xy: 807, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_down1
+  rotate: false
+  xy: 844, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_down3
+  rotate: false
+  xy: 844, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_side0
+  rotate: false
+  xy: 955, 462
+  size: 32, 40
+  orig: 32, 40
+  offset: 0, 0
+  index: -1
+warrior_2_side2
+  rotate: false
+  xy: 955, 462
+  size: 32, 40
+  orig: 32, 40
+  offset: 0, 0
+  index: -1
+warrior_2_side1
+  rotate: false
+  xy: 538, 273
+  size: 31, 40
+  orig: 31, 40
+  offset: 0, 0
+  index: -1
+warrior_2_side3
+  rotate: false
+  xy: 538, 273
+  size: 31, 40
+  orig: 31, 40
+  offset: 0, 0
+  index: -1
+warrior_2_up0
+  rotate: false
+  xy: 881, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_up2
+  rotate: false
+  xy: 881, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_up1
+  rotate: false
+  xy: 918, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_2_up3
+  rotate: false
+  xy: 918, 462
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+warrior_3_down0
+  rotate: false
+  xy: 504, 406
+  size: 35, 47
+  orig: 35, 47
+  offset: 0, 0
+  index: -1
+warrior_3_down2
+  rotate: false
+  xy: 504, 406
+  size: 35, 47
+  orig: 35, 47
+  offset: 0, 0
+  index: -1
+warrior_3_down1
+  rotate: false
+  xy: 542, 455
+  size: 35, 47
+  orig: 35, 47
+  offset: 0, 0
+  index: -1
+warrior_3_down3
+  rotate: false
+  xy: 542, 455
+  size: 35, 47
+  orig: 35, 47
+  offset: 0, 0
+  index: -1
+warrior_3_side0
+  rotate: false
+  xy: 504, 308
+  size: 32, 47
+  orig: 32, 47
+  offset: 0, 0
+  index: -1
+warrior_3_side2
+  rotate: false
+  xy: 504, 308
+  size: 32, 47
+  orig: 32, 47
+  offset: 0, 0
+  index: -1
+warrior_3_side1
+  rotate: false
+  xy: 541, 357
+  size: 31, 47
+  orig: 31, 47
+  offset: 0, 0
+  index: -1
+warrior_3_side3
+  rotate: false
+  xy: 541, 357
+  size: 31, 47
+  orig: 31, 47
+  offset: 0, 0
+  index: -1
+warrior_3_up0
+  rotate: false
+  xy: 504, 455
+  size: 36, 47
+  orig: 36, 47
+  offset: 0, 0
+  index: -1
+warrior_3_up1
+  rotate: false
+  xy: 504, 357
+  size: 35, 47
+  orig: 35, 47
+  offset: 0, 0
+  index: -1
+warrior_3_up3
+  rotate: false
+  xy: 504, 357
+  size: 35, 47
+  orig: 35, 47
+  offset: 0, 0
+  index: -1
+warrior_3_up2
+  rotate: false
+  xy: 541, 406
+  size: 35, 47
+  orig: 35, 47
   offset: 0, 0
   index: -1

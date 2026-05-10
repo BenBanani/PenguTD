@@ -88,7 +88,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 mapHeight * tileHeight
             );
 
-            enemies.add(new WarriorEnemy(4, this, nextEntityId++));
+            enemies.add(new WarriorEnemy(1, this, nextEntityId++));
 
             towers.add(new SnowballTower(this, new Vector2(200, 300)));
 
@@ -209,7 +209,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        enemies.add(new WarriorEnemy(2, this, createEntityId()));
+        enemies.add(new WarriorEnemy(3, this, createEntityId()));
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
             setSelectedTower(0);
