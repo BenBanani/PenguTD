@@ -1,8 +1,10 @@
 package info.pengutd.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,10 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 
+// todo: falsches scaling wenn World unterschiedlich groß ist?
 public class TowerSelection implements Disposable {
     private final Stage uiStage;
     private final TextureAtlas atlas;
@@ -27,44 +30,57 @@ public class TowerSelection implements Disposable {
     private Label hpLabel;
 
     public TowerSelection(World world) {
-        uiStage = new Stage(world.getViewport());
         this.world = world;
+        // eigener UI-Viewport
+        uiStage = new Stage(new FitViewport(800f, 480f));
+        uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
         // table auf ganzem Screen
-        Table root = new Table();
-        root.setFillParent(true);
+
+        float sidebarWidth = 130f;
 
         // sidebar table
         Table sidebar = new Table();
         sidebar.top();
-        sidebar.setBackground(
-            new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background")).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
-        );
-        sidebar.defaults().growX().pad(10);
 
-        // linker Bereich (spiel)
-        root.add().expandX().growY();
-        // rechte Sidebar
-        root.add(sidebar).width(200).growY();
+        sidebar.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background")).tint(new Color(1, 1, 1, 0.6f)));
 
-        Stack topElement = topElement();
-        sidebar.add(topElement).colspan(2).width(180).height(180).padBottom(10).row();
+        sidebar.add(topElement()).colspan(2).size(110).padTop(10).padBottom(20).row();
 
-        sidebar.add(towerElement(1)).width(80).height(80);
-        sidebar.add(towerElement(2)).width(80).height(80).row();
-        sidebar.add(towerElement(3)).width(80).height(80);
-        sidebar.add(towerElement(4)).width(80).height(80).row();
-        sidebar.add(towerElement(5)).width(80).height(80);
-        sidebar.add(towerElement(6)).width(80).height(80).row();
+        addTowerRow(sidebar, 1, 2);
+        addTowerRow(sidebar, 3, 4);
+        addTowerRow(sidebar, 5, 6);
 
-        sidebar.add(pauseButton()).width(180).height(80).colspan(2).row();
+        sidebar.add(pauseButton()).width(110).height(50).colspan(2).padTop(8).row();
 
-        uiStage.addActor(root);
+        Vector2 worldMapBottomRight = new Vector2(world.getViewport().getWorldWidth(), 0);
+        Vector2 screenMapBottomRight = world.getViewport().project(worldMapBottomRight); // world => screen
+        Vector2 uiMapBottomRight = uiStage.getViewport().unproject(screenMapBottomRight); // screen => ui
+
+        sidebar.setSize(sidebarWidth, 480f);
+        sidebar.setPosition(uiMapBottomRight.x - sidebarWidth, 0f);
+
+        uiStage.addActor(sidebar);
+    }
+
+    private void addTowerRow(Table sidebar, int left, int right) {
+        sidebar.add(towerElement(left))
+            .padLeft(10).padRight(10).padBottom(10)
+            .size(50);
+
+        sidebar.add(towerElement(right))
+            .padRight(10).padBottom(10)
+            .size(50)
+            .row();
     }
 
     public Stage getStage() {
         return uiStage;
+    }
+
+    public void resize(int width, int height) {
+        uiStage.getViewport().update(width, height, true);
     }
 
     private Stack towerElement(int i) {
@@ -77,10 +93,13 @@ public class TowerSelection implements Disposable {
         // Table, weil stack alle inhalte immer auf volle größe erweitert
         Table content = new Table().center();
         Image image = new Image(Assets.findRegionOrMissing(atlas, "tower" + i));
-        content.add(image).width(40f).height(40f);
+        content.add(image).size(32);
         stack.add(content);
 
-        stack.addListener(new ClickListener() {
+        content.setTouchable(Touchable.disabled);
+        image.setTouchable(Touchable.disabled);
+
+        buttonBackground.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 world.setSelectedTower(i);
@@ -121,11 +140,11 @@ public class TowerSelection implements Disposable {
         topBackground.setScaling(Scaling.stretch);
 
         Table topContent = new Table();
-        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "money"))).size(40f, 40f).pad(5);
+        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "money"))).size(28).pad(4);
         moneyLabel = new Label("" + world.getMoney(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         topContent.add(moneyLabel).row();
 
-        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "hp"))).size(40f, 40f).pad(5);
+        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "hp"))).size(28).pad(4);
         hpLabel = new Label("" + world.getHp(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         topContent.add(hpLabel).row();
 
@@ -140,10 +159,12 @@ public class TowerSelection implements Disposable {
     }
 
     public void render(float delta) {
+        uiStage.getViewport().apply();
         uiStage.act(delta);
         uiStage.draw();
     }
 
+    @Override
     public void dispose() {
         uiStage.dispose();
     }
