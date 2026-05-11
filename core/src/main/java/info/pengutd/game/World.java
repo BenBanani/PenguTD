@@ -256,7 +256,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ESCAPE) {
-            setPaused(!paused);
+            setSelectedTower(0);
         }
         return false;
     }

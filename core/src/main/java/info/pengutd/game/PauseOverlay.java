@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -51,12 +52,20 @@ public class PauseOverlay implements Disposable {
 
         Image resumeButton = new Image(Assets.findRegionOrMissing(atlas, "resume_button"));
         content.add(resumeButton).size(200, 60).pad(10).row();
+        resumeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                world.setPaused(false);
+            }
+        });
 
         Image settingsButton = new Image(Assets.findRegionOrMissing(atlas, "settings_button"));
         content.add(settingsButton).size(200, 60).pad(10).row();
+        // todo mini settings
 
         Image mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
         content.add(mainMenuButton).size(200, 60).pad(10).row();
+        // todo speichern
 
 
         uiStage.addListener(new InputListener() {
