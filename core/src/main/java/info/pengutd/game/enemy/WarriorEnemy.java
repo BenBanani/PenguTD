@@ -18,7 +18,7 @@ public class WarriorEnemy extends Enemy {
     ///  breite in tiles
     public static final float WIDTH = 0.65f;
     public static final String JSON_TYPE = "warrior_enemy";
-    public static final float SPEED_TO_ANIMATION_TIME = 500f;
+    public static final float SPEED_TO_ANIMATION_TIME = 20f;
     ///  speed in tiles
     private static final float SPEED = 0.75f;
     private static final float POP_DURATION = 0.1f;
@@ -40,9 +40,9 @@ public class WarriorEnemy extends Enemy {
         for (int i = 0; i < 4; i++) { // bis jetzt nur 4 levels
             int enemyLevel = i + 1;
             animators.add(new EnemyAnimatorSet(
-                new EnemyAnimator("warrior_" + enemyLevel + "_up", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME),
-                new EnemyAnimator("warrior_" + enemyLevel + "_down", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME),
-                new EnemyAnimator("warrior_" + enemyLevel + "_side", 4, atlas, getSpeed() / SPEED_TO_ANIMATION_TIME)
+                new EnemyAnimator("warrior_" + enemyLevel + "_up", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME),
+                new EnemyAnimator("warrior_" + enemyLevel + "_down", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME),
+                new EnemyAnimator("warrior_" + enemyLevel + "_side", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME)
             ));
         }
     }
@@ -87,7 +87,7 @@ public class WarriorEnemy extends Enemy {
         level -= damage;
         setPopTimeLeft(POP_DURATION);
         if (level <= 0) die();
-        animators.forEach((e) -> e.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME));
+        animators.forEach((e) -> e.setFrameDuration((1f / getSpeed()) * SPEED_TO_ANIMATION_TIME));
         // todo Geld geben + stats erhöhen
         getWorld().addMoney(1);
     }
