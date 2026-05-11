@@ -1,0 +1,41 @@
+
+pause_screen_ui.png
+size: 1024, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+background_banner
+  rotate: false
+  xy: 2, 72
+  size: 334, 433
+  orig: 334, 433
+  offset: 0, 0
+  index: -1
+main_menu_button
+  rotate: false
+  xy: 338, 230
+  size: 244, 69
+  orig: 244, 69
+  offset: 0, 0
+  index: -1
+resume_button
+  rotate: false
+  xy: 338, 301
+  size: 253, 74
+  orig: 253, 74
+  offset: 0, 0
+  index: -1
+settings_button
+  rotate: false
+  xy: 2, 2
+  size: 252, 68
+  orig: 252, 68
+  offset: 0, 0
+  index: -1
+title_banner
+  rotate: false
+  xy: 338, 377
+  size: 486, 128
+  orig: 486, 128
+  offset: 0, 0
+  index: -1

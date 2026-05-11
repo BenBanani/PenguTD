@@ -41,6 +41,7 @@ public class PenguTD extends Game {
         assetManager.load(Assets.SETTINGS_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.START_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.TOWER_SELECTION_ATLAS, TextureAtlas.class);
+        assetManager.load(Assets.PAUSE_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.WARRIOR_ENEMY_ATLAS, TextureAtlas.class);
 
         assetManager.finishLoading();

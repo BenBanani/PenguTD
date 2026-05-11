@@ -14,10 +14,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.game.enemy.Enemy;
@@ -30,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
-    private static final int START_MONEY = 50;
+    private static final int START_MONEY = 50000;
     private static final int START_HP = 100;
     private final @NotNull Array<Enemy> enemies = new Array<>();
     private final @NotNull Array<Tower> towers = new Array<>();
@@ -99,14 +96,15 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             tileHeight = map.getProperties().get("tileheight", Integer.class);
 
             viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
+            viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
             enemies.add(new WarriorEnemy(1, this, nextEntityId++));
 
             towers.add(new SnowballTower(this, new Vector2(200, 300)));
 
-            towerSelection = new TowerSelection(this);
-            pauseOverlay = new PauseOverlay(this);
         }
+        towerSelection = new TowerSelection(this);
+        pauseOverlay = new PauseOverlay(this);
 
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(towerSelection.getStage());
@@ -202,6 +200,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
+        towerSelection.resize(width, height);
+        pauseOverlay.resize(width, height);
     }
 
     @Override
@@ -234,7 +234,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             towers.add(previewTower.place());
             setSelectedTower(0);
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -377,9 +377,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         tileHeight = map.getProperties().get("tileheight", Integer.class);
 
         viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
-        // neue TowerSelection, da neuer Viewport
-        towerSelection = new TowerSelection(this);
-        pauseOverlay = new PauseOverlay(this);
 
         nextEntityId = json.getInt("next_entity_id");
         money = json.getInt("money");

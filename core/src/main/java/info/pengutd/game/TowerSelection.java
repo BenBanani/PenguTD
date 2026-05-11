@@ -23,6 +23,7 @@ import info.pengutd.PenguTD;
 
 // todo: falsches scaling wenn World unterschiedlich groß ist?
 public class TowerSelection implements Disposable {
+    public static final float SIDEBAR_WIDTH = 130f;
     private final Stage uiStage;
     private final TextureAtlas atlas;
     private final World world;
@@ -31,14 +32,16 @@ public class TowerSelection implements Disposable {
 
     public TowerSelection(World world) {
         this.world = world;
-        // eigener UI-Viewport
-        uiStage = new Stage(new FitViewport(800f, 480f));
+        // damit die TowerSelection die gleiche aspect ratio wie die world hat (sonst seltsames verschieben bei fenster scaling)
+        float aspectRatio = world.getViewport().getWorldWidth() / world.getViewport().getWorldHeight();
+        float worldWidth = 800f;
+        float worldHeight = worldWidth / aspectRatio;
+
+        uiStage = new Stage(new FitViewport(worldWidth, worldHeight));
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
         // table auf ganzem Screen
-
-        float sidebarWidth = 130f;
 
         // sidebar table
         Table sidebar = new Table();
@@ -58,8 +61,8 @@ public class TowerSelection implements Disposable {
         Vector2 screenMapBottomRight = world.getViewport().project(worldMapBottomRight); // world => screen
         Vector2 uiMapBottomRight = uiStage.getViewport().unproject(screenMapBottomRight); // screen => ui
 
-        sidebar.setSize(sidebarWidth, 480f);
-        sidebar.setPosition(uiMapBottomRight.x - sidebarWidth, 0f);
+        sidebar.setSize(SIDEBAR_WIDTH, worldHeight);
+        sidebar.setPosition(uiMapBottomRight.x - SIDEBAR_WIDTH, 0f);
 
         uiStage.addActor(sidebar);
     }

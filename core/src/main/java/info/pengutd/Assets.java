@@ -17,10 +17,11 @@ public class Assets {
     public static final String SETTINGS_SCREEN_ATLAS = "atlas/settings_screen_ui.atlas";
     public static final String START_SCREEN_ATLAS = "atlas/start_screen_ui.atlas";
     public static final String TOWER_SELECTION_ATLAS = "atlas/tower_selection_ui.atlas";
+    public static final String PAUSE_SCREEN_ATLAS = "atlas/pause_screen_ui.atlas";
     public static final String WARRIOR_ENEMY_ATLAS = "atlas/enemies.atlas";
 
     /// @return the texture region or the missing texture if the region is not found
-    public static @NotNull TextureRegion findRegionOrMissing(TextureAtlas atlas, String name) {
+    public static @NotNull TextureRegion findRegionOrMissing(@NotNull TextureAtlas atlas, @NotNull String name) {
         TextureRegion region = atlas.findRegion(name);
         if (region != null) return region;
 
