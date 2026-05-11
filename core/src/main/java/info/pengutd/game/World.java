@@ -3,12 +3,14 @@ package info.pengutd.game;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -90,6 +92,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             map = new TmxMapLoader().load("map/" + mapName + ".tmx");
             mapRenderer = new OrthogonalTiledMapRenderer(map);
 
+            for (TiledMapTile tile : map.getTileSets().getTileSet(0)) {
+                Texture texture = tile.getTextureRegion().getTexture();
+                texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+            }
+
             mapWidth = map.getProperties().get("width", Integer.class);
             mapHeight = map.getProperties().get("height", Integer.class);
             tileWidth = map.getProperties().get("tilewidth", Integer.class);
@@ -101,7 +108,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             enemies.add(new WarriorEnemy(1, this, nextEntityId++));
 
             towers.add(new SnowballTower(this, new Vector2(200, 300)));
-
         }
         towerSelection = new TowerSelection(this);
         pauseOverlay = new PauseOverlay(this);
@@ -123,10 +129,20 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void render(float delta) {
+        updateCamera();
         if (!paused) {
             updateLogic(delta);
         }
         updateGraphics(delta);
+    }
+
+    private void updateCamera() {
+        OrthographicCamera camera = (OrthographicCamera) viewport.getCamera();
+
+        camera.position.x = Math.round(camera.position.x);
+        camera.position.y = Math.round(camera.position.y);
+
+        camera.update();
     }
 
     private void updateGraphics(float delta) {

@@ -32,17 +32,32 @@ public class PauseOverlay implements Disposable {
 
         Table background = new Table();
         background.setFillParent(true);
-        background.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background")).tint(new Color(1, 1, 1, 0.2f)));
+        background.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(
+            PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background"))
+            .tint(new Color(1, 1, 1, 0.6f)));
         uiStage.addActor(background);
 
         Table content = new Table();
         content.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background_banner")));
 
         content.setSize(300, 350);
-        content.setPosition((800 - 350) / 2f, (480 - 350) / 2f); // nicht ganz mitte aber sieht gut aus wo es ist
+        content.setPosition((800 - 300 - 50) / 2f, (480 - 350) / 2f); // 50 nach links → nicht ganz mitte aber sieht gut aus wo es ist
         uiStage.addActor(content);
 
         Image title = new Image(Assets.findRegionOrMissing(atlas, "title_banner"));
+        title.setSize(400, 75);
+        title.setPosition((800 - 400 - 50) / 2f, 370);
+        uiStage.addActor(title);
+
+        Image resumeButton = new Image(Assets.findRegionOrMissing(atlas, "resume_button"));
+        content.add(resumeButton).size(200, 60).pad(10).row();
+
+        Image settingsButton = new Image(Assets.findRegionOrMissing(atlas, "settings_button"));
+        content.add(settingsButton).size(200, 60).pad(10).row();
+
+        Image mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
+        content.add(mainMenuButton).size(200, 60).pad(10).row();
+
 
         uiStage.addListener(new InputListener() {
             @Override

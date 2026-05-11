@@ -18,6 +18,13 @@ main_menu_button
   orig: 244, 69
   offset: 0, 0
   index: -1
+paused_text
+  rotate: false
+  xy: 826, 457
+  size: 182, 48
+  orig: 182, 48
+  offset: 0, 0
+  index: -1
 resume_button
   rotate: false
   xy: 338, 301
