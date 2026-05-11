@@ -24,7 +24,6 @@ public class TowerSelection implements Disposable {
     private final Stage uiStage;
     private final TextureAtlas atlas;
     private final World world;
-    private Table topContent;
     private Label moneyLabel;
     private Label hpLabel;
 
@@ -122,7 +121,7 @@ public class TowerSelection implements Disposable {
         topBackground.getColor().a = 0.9f;
         topBackground.setScaling(Scaling.stretch);
 
-        topContent = new Table();
+        Table topContent = new Table();
         topContent.add(new Image(Assets.findRegionOrMissing(atlas, "money"))).size(40f, 40f).pad(5);
         moneyLabel = new Label("" + world.getMoney(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         topContent.add(moneyLabel).row();
