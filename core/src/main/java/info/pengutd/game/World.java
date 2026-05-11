@@ -240,6 +240,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.ESCAPE) {
+            setPaused(!paused);
+        }
         return false;
     }
 
@@ -250,9 +253,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean keyTyped(char character) {
-        if (character == Input.Keys.ESCAPE) {
-            setPaused(!paused);
-        }
         return false;
     }
 

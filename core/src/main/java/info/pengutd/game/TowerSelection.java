@@ -106,7 +106,7 @@ public class TowerSelection implements Disposable {
         stack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                world.pause();
+                world.setPaused(true);
             }
         });
 
