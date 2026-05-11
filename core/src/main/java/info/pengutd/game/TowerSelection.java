@@ -1,4 +1,4 @@
-package info.pengutd.screen;
+package info.pengutd.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
-import info.pengutd.game.World;
 
 public class TowerSelection implements Disposable {
     private final Stage uiStage;
@@ -27,8 +26,8 @@ public class TowerSelection implements Disposable {
     private Label moneyLabel;
     private Label hpLabel;
 
-    public TowerSelection(Viewport viewport, World world) {
-        uiStage = new Stage(viewport);
+    public TowerSelection(World world) {
+        uiStage = new Stage(world.getViewport());
         this.world = world;
 
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);

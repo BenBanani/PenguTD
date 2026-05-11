@@ -1,9 +1,6 @@
 package info.pengutd.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,7 +26,6 @@ import info.pengutd.game.tower.SnowballTower;
 import info.pengutd.game.tower.Tower;
 import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.save.JsonSerializable;
-import info.pengutd.screen.TowerSelection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,6 +48,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int tileWidth;
     private int tileHeight;
     private TowerSelection towerSelection;
+    private PauseOverlay pauseOverlay;
+    private InputMultiplexer multiplexer;
     private int nextEntityId = 0;
     private @Nullable Tower previewTower;
     ///  game state
@@ -71,8 +69,21 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         this.fromJson = fromJson;
     }
 
+    public Viewport getViewport() {
+        return viewport;
+    }
+
     public boolean isPaused() {
         return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        if (paused) {
+            pauseOverlay.show();
+        } else {
+            pauseOverlay.hide();
+        }
     }
 
     @Override
@@ -88,18 +99,17 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             tileWidth = map.getProperties().get("tilewidth", Integer.class);
             tileHeight = map.getProperties().get("tileheight", Integer.class);
 
-            viewport = new FitViewport(
-                mapWidth * tileWidth,
-                mapHeight * tileHeight
-            );
+            viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
 
             enemies.add(new WarriorEnemy(1, this, nextEntityId++));
 
             towers.add(new SnowballTower(this, new Vector2(200, 300)));
 
-            towerSelection = new TowerSelection(viewport, this);
+            towerSelection = new TowerSelection(this);
+            pauseOverlay = new PauseOverlay(this);
         }
-        InputMultiplexer multiplexer = new InputMultiplexer();
+
+        multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(towerSelection.getStage());
         multiplexer.addProcessor(Gdx.input.getInputProcessor());
         Gdx.input.setInputProcessor(multiplexer);
@@ -149,6 +159,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         batch.end();
 
         towerSelection.render(delta);
+
+        if (paused) {
+            pauseOverlay.render(delta);
+        }
     }
 
     private void updateLogic(float delta) {
@@ -193,12 +207,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void pause() {
-        paused = true;
+        setPaused(true);
     }
 
     @Override
     public void resume() {
-        paused = false;
+        setPaused(false);
     }
 
     @Override
@@ -236,8 +250,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean keyTyped(char character) {
-        if (character == 'p') {
-            paused = !paused;
+        if (character == Input.Keys.ESCAPE) {
+            setPaused(!paused);
         }
         return false;
     }
@@ -274,8 +288,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     ///  Setzt den aktuell ausgewählten Preview Tower
     ///
     /// @param type: 0 => Kein Tower
-    ///                                                         1 => Snowball Tower
-    ///                                                         2 => ...
+    ///                                                                                                             1 => Snowball Tower
+    ///                                                                                                             2 => ...
     public void setSelectedTower(int type) {
         if (paused) return; // keine Tower platzieren während pausiert ist
         if (type == 0) {
@@ -365,7 +379,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
         // neue TowerSelection, da neuer Viewport
-        towerSelection = new TowerSelection(viewport, this);
+        towerSelection = new TowerSelection(this);
+        pauseOverlay = new PauseOverlay(this);
 
         nextEntityId = json.getInt("next_entity_id");
         money = json.getInt("money");
@@ -445,8 +460,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 float width = region.getRegionWidth() * textureObject.getScaleX();
                 float height = region.getRegionHeight() * textureObject.getScaleY();
 
-                Rectangle objectBounds =
-                    new Rectangle(textureObject.getX(), textureObject.getY(), width, height);
+                Rectangle objectBounds = new Rectangle(textureObject.getX(), textureObject.getY(), width, height);
 
                 if (objectBounds.overlaps(towerHitbox)) {
                     return false;
@@ -487,5 +501,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         if (hp < 0) hp = 0;
         towerSelection.updateTopElement();
+    }
+
+    /// @return input processor von World & TowerSelection
+    /// muss genutzt werden, wenn der inputHandler von World verwendet wird
+    public InputMultiplexer getInputProcessor() {
+        return multiplexer;
     }
 }
