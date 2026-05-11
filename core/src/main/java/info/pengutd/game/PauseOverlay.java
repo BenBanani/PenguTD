@@ -30,7 +30,7 @@ public class PauseOverlay implements Disposable {
         uiStage.addActor(table);
         table.setBackground(new TextureRegionDrawable(new Texture(Gdx.files.internal("game/tower_selection_screen/background.png"))).tint(new Color(1, 1, 1, 0.2f))); // todo
 
-        uiStage.addListener(new InputListener() {
+        table.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
@@ -43,7 +43,7 @@ public class PauseOverlay implements Disposable {
     }
 
     public void show() {
-        world.getInputProcessor().addProcessor(uiStage);
+        world.getInputProcessor().addProcessor(0, uiStage);
         visible = true;
     }
 

@@ -89,7 +89,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        Gdx.input.setInputProcessor(this);
         if (!fromJson) {
             map = new TmxMapLoader().load("map/" + mapName + ".tmx");
             mapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -111,7 +110,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(towerSelection.getStage());
-        multiplexer.addProcessor(Gdx.input.getInputProcessor());
+        multiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(multiplexer);
     }
 
