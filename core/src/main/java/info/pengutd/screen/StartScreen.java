@@ -33,7 +33,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
  */
 public class StartScreen implements Screen {
 
-    private TextureAtlas textureAtlas;
+    private TextureAtlas atlas;
     private Stage stage;
     private ImageButton[] buttons;
     // 0: new game
@@ -52,7 +52,7 @@ public class StartScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         backgroundTexture = PenguTD.getInstance().getAssetManager().get(Assets.UI_BACKGROUND);
-        textureAtlas = PenguTD.getInstance().getAssetManager().get(Assets.START_SCREEN_ATLAS);
+        atlas = PenguTD.getInstance().getAssetManager().get(Assets.START_SCREEN_ATLAS);
 
         buildUi();
 
@@ -194,16 +194,16 @@ public class StartScreen implements Screen {
         background.setScaling(Scaling.fill);
         background.setFillParent(true);
 
-        title = new Image(new TextureRegionDrawable(textureAtlas.findRegion("title")));
+        title = new Image(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "title")));
 
         buttons = new ImageButton[6];
 
-        buttons[0] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("new_game_button")));
-        buttons[1] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("load_game_button")));
-        buttons[2] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("settings_button")));
-        buttons[3] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("account_button")));
-        buttons[4] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("stats_button")));
-        buttons[5] = new ImageButton(new TextureRegionDrawable(textureAtlas.findRegion("exit_button")));
+        buttons[0] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "new_game_button")));
+        buttons[1] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "load_game_button")));
+        buttons[2] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "settings_button")));
+        buttons[3] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "account_button")));
+        buttons[4] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "stats_button")));
+        buttons[5] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "exit_button")));
 
         Arrays.stream(buttons).forEach((btn) -> btn.getImage().setScaling(Scaling.fit));
 

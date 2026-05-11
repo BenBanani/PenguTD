@@ -33,6 +33,7 @@ public class PenguTD extends Game {
     }
 
     private void loadAssets() {
+        assetManager.load(Assets.MISSING_TEXTURE, Texture.class);
         assetManager.load(Assets.TOWER1, Texture.class);
         assetManager.load(Assets.UI_BACKGROUND, Texture.class);
         assetManager.load(Assets.SNOWBALL_PROJECTILE, Texture.class);

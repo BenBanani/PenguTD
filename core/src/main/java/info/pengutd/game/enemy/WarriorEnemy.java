@@ -33,7 +33,7 @@ public class WarriorEnemy extends Enemy {
 
         createAnimators(atlas);
 
-        popTexture = atlas.findRegion("pop");
+        popTexture = Assets.findRegionOrMissing(atlas, "pop");
     }
 
     private void createAnimators(TextureAtlas atlas) {

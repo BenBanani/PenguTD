@@ -3,6 +3,7 @@ package info.pengutd.game.enemy;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import info.pengutd.Assets;
 import org.jetbrains.annotations.NotNull;
 
 /// EnemyAnimator kümmert sich um die Animation von Gegnern.
@@ -29,7 +30,7 @@ public class EnemyAnimator {
     public EnemyAnimator(@NotNull String textureName, int amount, TextureAtlas atlas, float frameDuration) {
         textures = new Array<>(amount);
         for (int i = 0; i < amount; i++) {
-            textures.add(atlas.findRegion(textureName + i));
+            textures.add(Assets.findRegionOrMissing(atlas, textureName + i));
         }
         this.frameDuration = frameDuration;
     }

@@ -66,7 +66,7 @@ public class SettingsScreen implements Screen {
         root.setFillParent(true);
         root.top().pad(20);
 
-        title = new Image(atlas.findRegion("title"));
+        title = new Image(Assets.findRegionOrMissing(atlas, "title"));
         root.add(title)
             .width(300).height(108)
             .colspan(2)
@@ -97,7 +97,7 @@ public class SettingsScreen implements Screen {
     }
 
     private ImageButton createBackButton() {
-        ImageButton backButton = new ImageButton(new TextureRegionDrawable(atlas.findRegion("back_button")));
+        ImageButton backButton = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "back_button")));
         backButton.setSize(50, 50);
         backButton.setPosition(25, stage.getHeight() - 75);
 
@@ -132,7 +132,7 @@ public class SettingsScreen implements Screen {
     private Stack createSlider(String labelName, float initialValue, SliderCallback callback, boolean fromLeft) {
         Stack stack = new Stack();
 
-        Image bg = new Image(atlas.findRegion("button"));
+        Image bg = new Image(Assets.findRegionOrMissing(atlas, "button"));
         stack.add(bg);
 
         Table content = new Table();
@@ -163,7 +163,7 @@ public class SettingsScreen implements Screen {
     private Stack createFullscreenButton() {
         Stack stack = new Stack();
 
-        Image background = new Image(atlas.findRegion("button"));
+        Image background = new Image(Assets.findRegionOrMissing(atlas, "button"));
         stack.add(background);
 
         Table content = new Table();
@@ -210,7 +210,7 @@ public class SettingsScreen implements Screen {
             )
         );
     }
-    
+
     @Override
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);

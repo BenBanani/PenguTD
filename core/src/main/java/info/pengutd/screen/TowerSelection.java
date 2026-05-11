@@ -41,7 +41,7 @@ public class TowerSelection implements Disposable {
         Table sidebar = new Table();
         sidebar.top();
         sidebar.setBackground(
-            new TextureRegionDrawable(atlas.findRegion("background")).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
+            new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background")).tint(new Color(1, 1, 1, 0.6f))  // 40% transparent
         );
         sidebar.defaults().growX().pad(10);
 
@@ -71,14 +71,14 @@ public class TowerSelection implements Disposable {
 
     private Stack towerElement(int i) {
         Stack stack = new Stack();
-        Image buttonBackground = new Image(atlas.findRegion("button_blue"));
+        Image buttonBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
         buttonBackground.getColor().a = 0.9f;
         buttonBackground.setScaling(Scaling.stretch);
         stack.add(buttonBackground);
 
         // Table, weil stack alle inhalte immer auf volle größe erweitert
         Table content = new Table().center();
-        Image image = new Image(atlas.findRegion("tower" + i));
+        Image image = new Image(Assets.findRegionOrMissing(atlas, "tower" + i));
         content.add(image).width(40f).height(40f);
         stack.add(content);
 
@@ -94,7 +94,7 @@ public class TowerSelection implements Disposable {
 
     private Actor pauseButton() {
         Stack stack = new Stack();
-        Image buttonBackground = new Image(atlas.findRegion("button_blue"));
+        Image buttonBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
         buttonBackground.getColor().a = 0.9f;
         buttonBackground.setScaling(Scaling.stretch);
         stack.add(buttonBackground);
@@ -118,16 +118,16 @@ public class TowerSelection implements Disposable {
     /// das blaue rechteck oben, in dem Geld und Hp angezeigt werden
     private Stack topElement() {
         Stack stack = new Stack();
-        Image topBackground = new Image(atlas.findRegion("button_blue"));
+        Image topBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
         topBackground.getColor().a = 0.9f;
         topBackground.setScaling(Scaling.stretch);
 
         topContent = new Table();
-        topContent.add(new Image(atlas.findRegion("money"))).size(40f, 40f).pad(5);
+        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "money"))).size(40f, 40f).pad(5);
         moneyLabel = new Label("" + world.getMoney(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         topContent.add(moneyLabel).row();
 
-        topContent.add(new Image(atlas.findRegion("hp"))).size(40f, 40f).pad(5);
+        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "hp"))).size(40f, 40f).pad(5);
         hpLabel = new Label("" + world.getHp(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         topContent.add(hpLabel).row();
 
