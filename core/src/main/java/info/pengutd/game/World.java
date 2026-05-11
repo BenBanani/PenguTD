@@ -58,6 +58,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int money = START_MONEY;
     private int hp = START_HP;
     private int score;
+    private boolean paused = false;
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -111,9 +112,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void render(float delta) {
-        updateLogic(delta);
+        if (!paused) {
+            updateLogic(delta);
 
-        updateGraphics(delta);
+            updateGraphics(delta);
+        }
     }
 
     private void updateGraphics(float delta) {
@@ -229,6 +232,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean keyTyped(char character) {
+        if (character == 'p') {
+            paused = !paused;
+        }
         return false;
     }
 
@@ -261,10 +267,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     ///  Setzt den aktuell ausgewählten Preview Tower
-    /// @param type:
-    ///     0 => Kein Tower
-    ///     1 => Snowball Tower
-    ///     2 => ...
+    ///
+    /// @param type: 0 => Kein Tower
+    ///                  1 => Snowball Tower
+    ///                  2 => ...
     public void setSelectedTower(int type) {
         if (type == 0) {
             previewTower = null;
