@@ -250,10 +250,21 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (previewTower == null) return false;
+
+        if (previewTower.getCost() > getMoney()) {
+            setSelectedTower(0);
+            return false;
+        }
+
         previewTower.setPos(viewport.unproject(new Vector2(screenX, screenY)));
         return false;
     }
 
+    ///  Setzt den aktuell ausgewählten Preview Tower
+    /// @param type:
+    ///     0 => Kein Tower
+    ///     1 => Snowball Tower
+    ///     2 => ...
     public void setSelectedTower(int type) {
         if (type == 0) {
             previewTower = null;
@@ -262,7 +273,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         switch (type) {
             case 1:
-                previewTower = new SnowballTower(this, new Vector2()).preview();
+                previewTower = new SnowballTower(this, new Vector2(-100, -100)).preview();  // -100 für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
                 break;
 
             // später weitere types
