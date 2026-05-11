@@ -71,6 +71,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         this.fromJson = fromJson;
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
     @Override
     public void show() {
         batch = new SpriteBatch();
@@ -114,9 +118,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     public void render(float delta) {
         if (!paused) {
             updateLogic(delta);
-
-            updateGraphics(delta);
         }
+        updateGraphics(delta);
     }
 
     private void updateGraphics(float delta) {
@@ -190,12 +193,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public void pause() {
-        // todo pause game
+        paused = true;
     }
 
     @Override
     public void resume() {
-
+        paused = false;
     }
 
     @Override
@@ -212,6 +215,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (paused) return false;  // keine Tower platzieren während pausiert ist
         enemies.add(new WarriorEnemy(3, this, createEntityId()));
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
@@ -255,6 +259,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (paused) return false; // keine Tower platzieren während pausiert ist
         if (previewTower == null) return false;
 
         if (previewTower.getCost() > getMoney()) {
@@ -269,9 +274,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     ///  Setzt den aktuell ausgewählten Preview Tower
     ///
     /// @param type: 0 => Kein Tower
-    ///                  1 => Snowball Tower
-    ///                  2 => ...
+    ///                                                         1 => Snowball Tower
+    ///                                                         2 => ...
     public void setSelectedTower(int type) {
+        if (paused) return; // keine Tower platzieren während pausiert ist
         if (type == 0) {
             previewTower = null;
             return;
