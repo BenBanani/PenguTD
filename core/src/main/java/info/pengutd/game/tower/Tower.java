@@ -15,6 +15,7 @@ import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.save.JsonSerializable;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -218,6 +219,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
         value.addChild("shot_cooldown", new JsonValue(getShotCooldown()));
@@ -226,6 +228,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
         setShotCooldown(json.get("shot_cooldown").asFloat());

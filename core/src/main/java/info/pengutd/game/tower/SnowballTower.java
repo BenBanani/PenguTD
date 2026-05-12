@@ -10,6 +10,7 @@ import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.game.tower.projectile.SnowballProjectile;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
 /// Der erste einfachste Turm

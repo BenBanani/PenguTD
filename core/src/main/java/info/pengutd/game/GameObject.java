@@ -1,6 +1,5 @@
 package info.pengutd.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.save.JsonSerializable;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
 /// Base Klasse für alle GameObjects.
@@ -86,6 +86,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public @NotNull JsonValue toJson() {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
         value.addChild("x", new JsonValue(getX()));
@@ -95,6 +96,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public void fromJson(@NotNull JsonValue json) {
         setPos(new Vector2(json.getFloat("x"), json.getFloat("y")));
         setRotationDeg(json.getFloat("rotation"));
