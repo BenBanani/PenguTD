@@ -26,14 +26,16 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     private boolean debug = false;
     private int id;
     private float popTimeLeft = 0f;
-    private Direction direction = Direction.UP;
+    private @NotNull Direction direction = Direction.DOWN;
 
-    protected Enemy(@NotNull World world, Vector2 pos, int id) {
+    protected Enemy(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos);
         findPath();
         this.id = id;
     }
 
+    /// Setzt den Pfad für den Enemy aus dem MapLayer "path"
+    /// die wegpunkte sind für jedes Enemy leicht zufällig versetzt
     private void findPath() {
         // Path finding initialisieren
         MapLayer mapLayer = getWorld().getMap().getLayers().get("path");
@@ -61,6 +63,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         return path;
     }
 
+    /// Hit cooldown
     public float getPopTimeLeft() {
         return popTimeLeft;
     }
@@ -94,8 +97,8 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         }
     }
 
-    @Override
     /// Logik update des Enemies
+    @Override
     public void update(float delta) {
         if (popTimeLeft > 0) {
             popTimeLeft -= delta;
@@ -121,7 +124,9 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         setPos(getPos().add(dir.scl(getSpeed() * delta)));
     }
 
-    private void updateDirection(Vector2 dir) {
+    /// Setzt die richtung auf die, in die
+    /// @param dir zeigt
+    private void updateDirection(@NotNull Vector2 dir) {
         if (Math.abs(dir.x) > Math.abs(dir.y)) {
             if (dir.x > 0) {
                 direction = Direction.RIGHT;
@@ -173,11 +178,13 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
     /// Schaltet den Debug Modus an
     /// Jetzt werden zusätzlich die Hitbox und der Path gezeichnet
-    public Enemy debug() {
+    public @NotNull Enemy debug() {
         debug = true;
         return this;
     }
 
+    /// @return aktuelle Richtung in die der gegner läuft
+    /// @see Direction
     public @NotNull Direction getDirection() {
         return direction;
     }

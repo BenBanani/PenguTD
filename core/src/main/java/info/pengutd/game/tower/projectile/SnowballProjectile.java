@@ -10,6 +10,7 @@ import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
+/// Standard Projektil
 public class SnowballProjectile extends Projectile {
     // speed in tiles pro sekunde
     private static final float SPEED = 7.5f;

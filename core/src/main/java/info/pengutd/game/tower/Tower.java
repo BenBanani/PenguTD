@@ -25,7 +25,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     private @Nullable Enemy targetEnemy = null;
     private float shotCooldown = 0f;
 
-    protected Tower(@NotNull World world, Vector2 pos) {
+    protected Tower(@NotNull World world, @NotNull Vector2 pos) {
         super(world, pos);
     }
 
@@ -40,8 +40,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     public abstract float getAttackSpeed();
 
     /// @return ziel des Turmes
-    @Nullable
-    public Enemy getTargetEnemy() {
+    public @Nullable Enemy getTargetEnemy() {
         return targetEnemy;
     }
 
@@ -115,11 +114,16 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
     }
 
+    ///  Setzt den Tower in den preview modus.
+    /// Der Tower wird jetzt transparent gezeichnet und die Range angezeigt.
+    /// Der Tower kann nicht schießen und es sollte kein update aufgerufen werden.
     public Tower preview() {
         preview = true;
         return this;
     }
 
+    ///  Platziert einen preview Tower an der aktuellen Position
+    /// → Setzt preview auf false
     public Tower place() {
         preview = false;
         return this;
@@ -148,18 +152,27 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
     }
 
+    /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde ein Gegner trifft.
+    /// Hier können zum Beispiel stats erhöht werden
     public void onProjectileHit(@NotNull Projectile projectile, @NotNull Enemy enemy) {
         // todo stats?
     }
 
+    /// Schießt ein Projektil von diesem Tower.
+    /// Setzt den shotCooldown zurück.
+    /// Achtung diese Methode prüft nicht, ob überhaupt geschossen werden kann
     private void shoot() {
         shotCooldown = 1 / getAttackSpeed();
         Projectile projectile = createProjectile();
         getWorld().addProjectile(projectile);
     }
 
+    /// Erstellt ein neues Projektil.
+    /// Dieses sollte schon voll initialisiert sein und muss nur noch zur Welt hinzugefügt werden
     protected abstract @NotNull Projectile createProjectile();
 
+
+    /// @return das nächste Enemy zum Turm, oder null, wenn es keines gibt
     private @Nullable Enemy findNewTarget() {
         Enemy target = null;
 
@@ -181,6 +194,8 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         return target;
     }
 
+
+    ///  @return ist targetEnemy innerhalb der Range des Towers
     private boolean inRange(@Nullable Enemy targetEnemy) {
         if (targetEnemy == null) return false;
         return this.getPos().dst2(targetEnemy.getPos()) <= getRange() * getRange();
@@ -188,7 +203,6 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     /// Schaltet den Debug Modus an
     /// Jetzt werden zusätzlich die Hitbox, Range und Target gezeichnet
-    ///
     /// @return this
     public @NotNull Tower debug() {
         debug = true;

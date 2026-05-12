@@ -27,7 +27,7 @@ public class EnemyAnimator {
     /// @param amount Anzahl der Texturen
     /// @param atlas TextureAtlas
     /// @param frameDuration Dauer in Sekunden pro Frame
-    public EnemyAnimator(@NotNull String textureName, int amount, TextureAtlas atlas, float frameDuration) {
+    public EnemyAnimator(@NotNull String textureName, int amount, @NotNull TextureAtlas atlas, float frameDuration) {
         textures = new Array<>(amount);
         for (int i = 0; i < amount; i++) {
             textures.add(Assets.findRegionOrMissing(atlas, textureName + i));

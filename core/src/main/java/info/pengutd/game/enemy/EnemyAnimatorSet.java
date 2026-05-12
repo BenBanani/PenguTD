@@ -3,6 +3,9 @@ package info.pengutd.game.enemy;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.jetbrains.annotations.NotNull;
 
+/// Ein EnemyAnimatorSet kombiniert 3 EnemyAnimators (eins für oben, eins für unten und eins für die Seiten).
+/// Ein Gegner der in alle 4 Richtungen laufen kann, kann die drei EnemyAnimators in ein EnemyAnimatorSet packen
+/// @see EnemyAnimator
 public class EnemyAnimatorSet {
     private final @NotNull EnemyAnimator up;
     private final @NotNull EnemyAnimator down;
@@ -32,7 +35,8 @@ public class EnemyAnimatorSet {
         side.update(delta);
     }
 
-    public @NotNull TextureRegion getTexture(Enemy.Direction direction) {
+    /// Gibt die aktuelle Textur des EnemyAnimators für die gegebene Richtung zurück
+    public @NotNull TextureRegion getTexture(@NotNull Enemy.Direction direction) {
         switch (direction) {
             case UP: return up.getTexture();
             case DOWN: return down.getTexture();
@@ -43,6 +47,7 @@ public class EnemyAnimatorSet {
         throw new IllegalArgumentException("Invalid direction: " + direction);
     }
 
+    /// Setzt die Frame-Dauer für alle drei EnemyAnimators
     public void setFrameDuration(float duration) {
         up.setFrameDuration(duration);
         down.setFrameDuration(duration);

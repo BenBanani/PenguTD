@@ -1,5 +1,6 @@
 package info.pengutd.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -36,15 +37,17 @@ public abstract class GameObject implements Disposable, JsonSerializable {
             getWidth(), getHeight(), flipX() ? -1 : 1, flipY() ? -1 : 1, rotationDeg);
     }
 
+    /// Soll die Textur auf der x-Achse gespiegelt sein
     protected boolean flipX() {
         return false;
     }
 
+    /// Soll die Texture auf der y-Achse gespiegelt sein
     protected boolean flipY() {
         return false;
     }
 
-    /// @return hähe des Gegners in Pixel
+    /// @return höhe des Gegners in Pixel
     public abstract float getHeight();
 
     /// @return breite des Gegners in Pixel
@@ -60,6 +63,8 @@ public abstract class GameObject implements Disposable, JsonSerializable {
         return pos.y;
     }
 
+    /// logik update
+    /// @param delta Zeit seit dem letzten update() in Sekunden
     public abstract void update(float delta);
 
     public @NotNull World getWorld() {

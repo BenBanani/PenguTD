@@ -2,11 +2,13 @@ package info.pengutd;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.LifecycleListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import info.pengutd.screen.StartScreen;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -47,7 +49,7 @@ public class PenguTD extends Game {
         assetManager.finishLoading();
     }
 
-    public AssetManager getAssetManager() {
+    public @NotNull AssetManager getAssetManager() {
         return assetManager;
     }
 
@@ -58,7 +60,7 @@ public class PenguTD extends Game {
     }
 
     // Muss aufgerufen werden, um Screens zu ändern, wenn der alte Screen nicht mehr gebraucht wird (sonst Memory Leak)
-    public void setScreenAndDispose(Screen newScreen) {
+    public void setScreenAndDispose(@NotNull Screen newScreen) {
         Screen oldScreen = getScreen();
         Gdx.app.postRunnable(() -> {
             setScreen(newScreen);

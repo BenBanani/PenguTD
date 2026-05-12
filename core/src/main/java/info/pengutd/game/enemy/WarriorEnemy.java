@@ -36,14 +36,10 @@ public class WarriorEnemy extends Enemy {
         popTexture = Assets.findRegionOrMissing(atlas, "pop");
     }
 
-    private void createAnimators(TextureAtlas atlas) {
+    private void createAnimators(@NotNull TextureAtlas atlas) {
         for (int i = 0; i < 4; i++) { // bis jetzt nur 4 levels
             int enemyLevel = i + 1;
-            animators.add(new EnemyAnimatorSet(
-                new EnemyAnimator("warrior_" + enemyLevel + "_up", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME),
-                new EnemyAnimator("warrior_" + enemyLevel + "_down", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME),
-                new EnemyAnimator("warrior_" + enemyLevel + "_side", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME)
-            ));
+            animators.add(new EnemyAnimatorSet(new EnemyAnimator("warrior_" + enemyLevel + "_up", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME), new EnemyAnimator("warrior_" + enemyLevel + "_down", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME), new EnemyAnimator("warrior_" + enemyLevel + "_side", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME)));
         }
     }
 
@@ -88,14 +84,14 @@ public class WarriorEnemy extends Enemy {
         setPopTimeLeft(POP_DURATION);
         if (level <= 0) die();
         animators.forEach((e) -> e.setFrameDuration((1f / getSpeed()) * SPEED_TO_ANIMATION_TIME));
-        // todo Geld geben + stats erhöhen
+        // stats erhöhen
         getWorld().addMoney(1);
     }
 
     @Override
     public void die() {
         level = 0;
-        // todo Geld geben + stats erhöhen
+        // stats erhöhen
         getWorld().addMoney(5);
     }
 

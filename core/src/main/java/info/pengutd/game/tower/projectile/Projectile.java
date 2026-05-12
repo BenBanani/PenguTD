@@ -9,6 +9,7 @@ import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/// Base Klasse für alle Projektile
 public abstract class Projectile extends GameObject {
     private final int damage;
     private final @NotNull Vector2 direction;
@@ -43,7 +44,7 @@ public abstract class Projectile extends GameObject {
         }
     }
 
-    /// @return der enemy das getroffen wurde oder null, wenn keiner getroffen wurde
+    /// @return der enemy mit dem das projectile kollidiert oder null, wenn keiner diesen frame getroffen wurde
     private @Nullable Enemy checkCollision() {
         Array<Enemy> enemies = getWorld().getEnemies();
         for (int i = 0; i < enemies.size; i++) {

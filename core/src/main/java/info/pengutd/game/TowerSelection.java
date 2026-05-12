@@ -20,8 +20,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import org.jetbrains.annotations.NotNull;
 
-// todo: falsches scaling wenn World unterschiedlich groß ist?
 public class TowerSelection implements Disposable {
     public static final float SIDEBAR_WIDTH = 130f;
     private final Stage uiStage;
@@ -41,7 +41,6 @@ public class TowerSelection implements Disposable {
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
-        // table auf ganzem Screen
 
         // sidebar table
         Table sidebar = new Table();
@@ -86,7 +85,7 @@ public class TowerSelection implements Disposable {
         uiStage.getViewport().update(width, height, true);
     }
 
-    private Stack towerElement(int i) {
+    private @NotNull Stack towerElement(int i) {
         Stack stack = new Stack();
         Image buttonBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
         buttonBackground.getColor().a = 0.9f;
@@ -112,7 +111,7 @@ public class TowerSelection implements Disposable {
         return stack;
     }
 
-    private Actor pauseButton() {
+    private @NotNull Actor pauseButton() {
         Stack stack = new Stack();
         Image buttonBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
         buttonBackground.getColor().a = 0.9f;
@@ -136,7 +135,7 @@ public class TowerSelection implements Disposable {
     }
 
     /// das blaue rechteck oben, in dem Geld und Hp angezeigt werden
-    private Stack topElement() {
+    private @NotNull Stack topElement() {
         Stack stack = new Stack();
         Image topBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
         topBackground.getColor().a = 0.9f;
@@ -156,11 +155,13 @@ public class TowerSelection implements Disposable {
         return stack;
     }
 
+    /// Updated den Text von den HP und dem Geld auf aktuelle Werte
     public void updateTopElement() {
         moneyLabel.setText("" + world.getMoney());
         hpLabel.setText("" + world.getHp());
     }
 
+    ///  Zeichnet die TowerSelection
     public void render(float delta) {
         uiStage.getViewport().apply();
         uiStage.act(delta);

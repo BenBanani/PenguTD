@@ -125,7 +125,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     /// @return die map oder null, wenn noch keine map geladen wurde
-    public TiledMap getMap() {
+    public @NotNull TiledMap getMap() {
         return map;
     }
 
@@ -138,6 +138,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         updateGraphics(delta);
     }
 
+    /// rundet die Kameraposition auf ganze Zahlenwerte. Dadurch sollen render Fehler in der Map minimiert werden
     private void updateCamera() {
         OrthographicCamera camera = (OrthographicCamera) viewport.getCamera();
 
@@ -147,6 +148,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         camera.update();
     }
 
+    /// Zeichnet alle Elemente auf den Bildschirm
     private void updateGraphics(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
@@ -180,6 +182,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
     }
 
+    /// Updated alle Objekte in der Welt
     private void updateLogic(float delta) {
         enemies.forEach(e -> e.update(delta));
         towers.forEach(t -> t.update(delta));
@@ -200,6 +203,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
     }
 
+    /// Zeichnet Hindernisse der map
     private void renderMapObjects() {
         MapLayer objectLayer = map.getLayers().get("detail_tiles");
 
@@ -211,6 +215,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 objects.add(texObj);
             }
         }
+        /// Depth sorting damit Objekte weiter vorne auch über anderen gezeichnet werden
         objects.sort((a, b) -> Float.compare(b.getY(), a.getY()));
         objects.forEach((obj) -> batch.draw(obj.getTextureRegion(), obj.getX(), obj.getY()));
     }
@@ -240,7 +245,16 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     @Override
     public void dispose() {
         batch.dispose();
+        map.dispose();
         mapRenderer.dispose();
+        towerSelection.dispose();
+        pauseOverlay.dispose();
+        enemies.forEach(Disposable::dispose);
+        towers.forEach(Disposable::dispose);
+        projectiles.forEach(Disposable::dispose);
+        if (previewTower != null) {
+            previewTower.dispose();
+        }
     }
 
 
@@ -305,7 +319,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     ///  Setzt den aktuell ausgewählten Preview Tower
     ///
     /// @param type: 0 => Kein Tower
-    ///                                                                                                             1 => Snowball Tower
+    ///              1 => Snowball Tower                                                                                               1 => Snowball Tower
     ///                                                                                                             2 => ...
     public void setSelectedTower(int type) {
         if (paused) return; // keine Tower platzieren während pausiert ist
@@ -449,7 +463,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         return enemy;
     }
 
-    public boolean canPlaceTower(@NotNull Vector2 pos, Tower tower) {
+    /// @return ob der tower an der Stelle in der Welt platziert werden kann
+    /// pos könnte entfernt werden, und tower.pos verwendet werden
+    public boolean canPlaceTower(@NotNull Vector2 pos, @NotNull Tower tower) {
         TiledMapTileLayer groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
         TiledMapTileLayer.Cell cell = groundLayer.getCell((int) (pos.x / tileWidth), (int) (pos.y / tileHeight));
         if (cell == null) return false;
@@ -485,7 +501,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         return true;
     }
 
-    public void addProjectile(Projectile projectile) {
+    /// fügt ein Projektil in die Welt hinzu.
+    public void addProjectile(@NotNull Projectile projectile) {
         projectiles.add(projectile);
     }
 

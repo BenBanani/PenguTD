@@ -87,7 +87,7 @@ public class PauseOverlay implements Disposable {
         });
     }
 
-
+    /// muss aufgerufen werden bevor das PauseOverlay sichtbar wird
     public void show() {
         world.getInputProcessor().addProcessor(0, uiStage);
 
@@ -100,6 +100,8 @@ public class PauseOverlay implements Disposable {
         visible = true;
     }
 
+    /// Zeichnet und updated das Overlay
+    /// show sollte vorher aufgerufen worden sein
     public void render(float delta) {
         if (!visible) throw new IllegalStateException("PauseOverlay.render() called without show()");
         uiStage.getViewport().apply(true);
@@ -111,6 +113,7 @@ public class PauseOverlay implements Disposable {
         uiStage.getViewport().update(width, height, true);
     }
 
+    /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
     public void hide() {
         world.getInputProcessor().removeProcessor(uiStage);
         visible = false;
