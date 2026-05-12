@@ -62,7 +62,7 @@ public class PauseOverlay implements Disposable {
         resumeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                world.setPaused(false);
+                close();
             }
         });
 
@@ -79,12 +79,22 @@ public class PauseOverlay implements Disposable {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.ESCAPE) {
-                    world.setPaused(false);
+                    close();
                     return true;
                 }
                 return false;
             }
         });
+    }
+
+    private void close() {
+        title.addAction(sequence(moveBy(0, 150, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(0, -150, 0.5f)));
+        resumeButton.addAction(sequence(moveBy(-600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(600, -500, 0.5f)));
+        settingsButton.addAction(sequence(moveBy(600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(-600, -500, 0.5f)));
+        mainMenuButton.addAction(sequence(moveBy(-600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(600, -500, 0.5f)));
+        content.addAction(sequence(moveBy(0, -500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(0, 500)));
+
+        uiStage.addAction(sequence(fadeOut(0.5f), run(() -> world.setPaused(false))));
     }
 
     /// muss aufgerufen werden bevor das PauseOverlay sichtbar wird
@@ -97,16 +107,21 @@ public class PauseOverlay implements Disposable {
         mainMenuButton.addAction(sequence(moveBy(-600, 500), moveBy(600, -500, 0.5f, Interpolation.smoother)));
         content.addAction(sequence(moveBy(0, -500), moveBy(0, 500, 0.5f, Interpolation.smoother)));
 
+        uiStage.addAction(sequence(fadeIn(0.5f)));
+
         visible = true;
     }
 
     /// Zeichnet und updated das Overlay
     /// show sollte vorher aufgerufen worden sein
-    public void render(float delta) {
+    public void render(float ignoredDelta) {
         if (!visible) throw new IllegalStateException("PauseOverlay.render() called without show()");
         uiStage.getViewport().apply(true);
-        uiStage.act(delta);
         uiStage.draw();
+    }
+
+    public void act(float delta) {
+        uiStage.act(delta);
     }
 
     public void resize(int width, int height) {

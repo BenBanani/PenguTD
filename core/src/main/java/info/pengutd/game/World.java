@@ -177,6 +177,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         towerSelection.render(delta);
 
+        pauseOverlay.act(delta); // act immer, damit animationen fertig werden
         if (paused) {
             pauseOverlay.render(delta);
         }
