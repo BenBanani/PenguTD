@@ -77,6 +77,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     public void setPaused(boolean paused) {
+        if (this.paused == paused) return; // nicht mehrmals aufrufen
+
         this.paused = paused;
         if (paused) {
             pauseOverlay.show();

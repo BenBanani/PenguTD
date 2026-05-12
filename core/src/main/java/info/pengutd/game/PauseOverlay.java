@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,9 +18,16 @@ import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import org.jetbrains.annotations.NotNull;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+
 public class PauseOverlay implements Disposable {
     private final @NotNull World world;
-    private final Stage uiStage;
+    private final @NotNull Stage uiStage;
+    private final @NotNull Table content;
+    private final @NotNull Image title;
+    private final @NotNull Image resumeButton;
+    private final @NotNull Image settingsButton;
+    private final @NotNull Image mainMenuButton;
     private boolean visible = false;
 
     public PauseOverlay(@NotNull World world) {
@@ -38,19 +45,19 @@ public class PauseOverlay implements Disposable {
             .tint(new Color(1, 1, 1, 0.6f)));
         uiStage.addActor(background);
 
-        Table content = new Table();
+        content = new Table();
         content.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background_banner")));
 
         content.setSize(300, 350);
         content.setPosition((800 - 300 - 50) / 2f, (480 - 350) / 2f); // 50 nach links → nicht ganz mitte aber sieht gut aus wo es ist
         uiStage.addActor(content);
 
-        Image title = new Image(Assets.findRegionOrMissing(atlas, "title_banner"));
-        title.setSize(400, 75);
-        title.setPosition((800 - 400 - 50) / 2f, 370);
+        title = new Image(Assets.findRegionOrMissing(atlas, "title_banner"));
+        title.setSize(400, 100);
+        title.setPosition((800 - 400 - 50) / 2f, 350);
         uiStage.addActor(title);
 
-        Image resumeButton = new Image(Assets.findRegionOrMissing(atlas, "resume_button"));
+        resumeButton = new Image(Assets.findRegionOrMissing(atlas, "resume_button"));
         content.add(resumeButton).size(200, 60).pad(10).row();
         resumeButton.addListener(new ClickListener() {
             @Override
@@ -59,11 +66,11 @@ public class PauseOverlay implements Disposable {
             }
         });
 
-        Image settingsButton = new Image(Assets.findRegionOrMissing(atlas, "settings_button"));
+        settingsButton = new Image(Assets.findRegionOrMissing(atlas, "settings_button"));
         content.add(settingsButton).size(200, 60).pad(10).row();
         // todo mini settings
 
-        Image mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
+        mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
         content.add(mainMenuButton).size(200, 60).pad(10).row();
         // todo speichern
 
@@ -80,20 +87,16 @@ public class PauseOverlay implements Disposable {
         });
     }
 
-    /// Rechnet die Koordinaten der rechten Kante des spielbaren Bereichs aus (linke kante von TowerSelection)
-    private float computeUsableMapEnd() {
-        float blackBar = world.getViewport().getScreenWidth() - world.getViewport().getRightGutterWidth(); // anfang schwarzer streifen rechts in screen pixeln
-        return uiStage.getViewport().unproject(new Vector2(blackBar, 0)).x;
-    }
-
-    /// Rechnet die Koordinaten der linken Kante des spielbaren Bereichs aus (rechtes ende vom schwarzen Balken links)
-    private float computUsableMapBegin() {
-        float blackBar = world.getViewport().getLeftGutterWidth(); // dicke schwarzer streifen links in screen pixeln
-        return uiStage.getViewport().unproject(new Vector2(blackBar, 0)).x; // screen => ui
-    }
 
     public void show() {
         world.getInputProcessor().addProcessor(0, uiStage);
+
+        title.addAction(sequence(moveBy(0, 150), moveBy(0, -150, 0.5f, Interpolation.smoother)));
+        resumeButton.addAction(sequence(moveBy(-600, 500), moveBy(600, -500, 0.5f, Interpolation.smoother)));
+        settingsButton.addAction(sequence(moveBy(600, 500), moveBy(-600, -500, 0.5f, Interpolation.smoother)));
+        mainMenuButton.addAction(sequence(moveBy(-600, 500), moveBy(600, -500, 0.5f, Interpolation.smoother)));
+        content.addAction(sequence(moveBy(0, -500), moveBy(0, 500, 0.5f, Interpolation.smoother)));
+
         visible = true;
     }
 
