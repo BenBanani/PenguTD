@@ -20,12 +20,14 @@
     import com.badlogic.gdx.utils.*;
     import com.badlogic.gdx.utils.viewport.FitViewport;
     import com.badlogic.gdx.utils.viewport.Viewport;
+    import info.pengutd.PenguTD;
     import info.pengutd.game.enemy.Enemy;
     import info.pengutd.game.enemy.WarriorEnemy;
     import info.pengutd.game.tower.SnowballTower;
     import info.pengutd.game.tower.Tower;
     import info.pengutd.game.tower.projectile.Projectile;
     import info.pengutd.save.JsonSerializable;
+    import info.pengutd.screen.StartScreen;
     import org.jetbrains.annotations.NotNull;
     import org.jetbrains.annotations.Nullable;
 
@@ -563,5 +565,12 @@
         /// muss genutzt werden, wenn der inputHandler von World verwendet wird
         public InputMultiplexer getInputProcessor() {
             return multiplexer;
+        }
+
+        ///  Welt schließen und zurück zum Startbildschirm kommen
+        public void close() {
+            StartScreen newScreen = new StartScreen();
+            newScreen.setFirstOpenAnimation(false);
+            PenguTD.getInstance().setScreenAndDispose(newScreen);
         }
     }

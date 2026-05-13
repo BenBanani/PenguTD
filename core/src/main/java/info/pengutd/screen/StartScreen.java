@@ -46,6 +46,10 @@ public class StartScreen implements Screen {
     private Image title;
     private boolean firstOpenAnimation = true;
 
+    public void setFirstOpenAnimation(boolean firstOpenAnimation) {
+        this.firstOpenAnimation = firstOpenAnimation;
+    }
+
     @Override
     public void show() {
         stage = new Stage(new FitViewport(800, 480));
@@ -84,10 +88,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[0].addAction(sequence(
-                    delay(1f),
-                    run(() -> PenguTD.getInstance().setScreen(new World()))
-                ));
+                buttons[0].addAction(sequence(delay(1f), run(() -> PenguTD.getInstance().setScreenAndDispose(new World()))));
             }
         });
 
@@ -95,14 +96,11 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[1].addAction(sequence(
-                    delay(1f),
-                    run(() -> {
-                        World world = new World(true);
-                        world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
-                        PenguTD.getInstance().setScreen(world);
-                    })
-                ));
+                buttons[1].addAction(sequence(delay(1f), run(() -> {
+                    World world = new World(true);
+                    world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
+                    PenguTD.getInstance().setScreenAndDispose(world);
+                })));
             }
         });
 
@@ -110,10 +108,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[2].addAction(sequence(
-                    delay(0.5f),
-                    run(() -> PenguTD.getInstance().setScreen(new SettingsScreen(PenguTD.getInstance().getScreen())))
-                ));
+                buttons[2].addAction(sequence(delay(0.5f), run(() -> PenguTD.getInstance().setScreen(new SettingsScreen(PenguTD.getInstance().getScreen())))));
             }
         });
 
@@ -134,21 +129,9 @@ public class StartScreen implements Screen {
     private void addAnimations() {
         //  Animation: Title
         if (firstOpenAnimation) {
-            title.addAction(
-                sequence(
-                    moveBy(0, -100),
-                    delay(1f),
-                    moveBy(0, 100, 1f, Interpolation.smooth),
-                    run(() -> firstOpenAnimation = false)
-                )
-            );
+            title.addAction(sequence(moveBy(0, -100), delay(1f), moveBy(0, 100, 1f, Interpolation.smooth), run(() -> firstOpenAnimation = false)));
         } else {
-            title.addAction(
-                sequence(
-                    moveBy(0, 200),
-                    moveBy(0, -200, 0.5f, Interpolation.smooth)
-                )
-            );
+            title.addAction(sequence(moveBy(0, 200), moveBy(0, -200, 0.5f, Interpolation.smooth)));
         }
 
         animateButton(buttons[0], -1);
@@ -175,18 +158,12 @@ public class StartScreen implements Screen {
     private void animateButton(ImageButton btn, float direction) {
         int moveDistance = 475;
 
-        btn.addAction(sequence(
-            moveBy(direction * moveDistance, 0),
-            delay(firstOpenAnimation ? 2f : 0f),
-            moveBy(-direction * moveDistance, 0, 0.5f, Interpolation.smoother)
-        ));
+        btn.addAction(sequence(moveBy(direction * moveDistance, 0), delay(firstOpenAnimation ? 2f : 0f), moveBy(-direction * moveDistance, 0, 0.5f, Interpolation.smoother)));
     }
 
     private void animateButtonExit(ImageButton btn, float direction) {
         int moveDistance = 475;
-        btn.addAction(
-            moveBy(direction * moveDistance, 0, 0.5f, Interpolation.smoother)
-        );
+        btn.addAction(moveBy(direction * moveDistance, 0, 0.5f, Interpolation.smoother));
     }
 
     private void buildUi() {

@@ -7,8 +7,8 @@
 "score": 0,
 "enemies": [
 	{
-		"x": 863.4039916992188,
-		"y": 714.9826049804688,
+		"x": 863.5140991210938,
+		"y": 746.7257690429688,
 		"rotation": 0.0,
 		"id": 0,
 		"currentPathIndex": 1,
@@ -22,7 +22,7 @@
 		"x": 200.0,
 		"y": 300.0,
 		"rotation": 0.0,
-		"shot_cooldown": -1.832275390625,
+		"shot_cooldown": -1.1475300788879395,
 		"target": -1,
 		"type": "snowball_tower"
 	}

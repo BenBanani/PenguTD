@@ -64,7 +64,9 @@ public class PenguTD extends Game {
         Screen oldScreen = getScreen();
         Gdx.app.postRunnable(() -> {
             setScreen(newScreen);
-            if (oldScreen != null) oldScreen.dispose();
+            if (oldScreen != null) {
+                Gdx.app.postRunnable(oldScreen::dispose);
+            }
         });
     }
 }

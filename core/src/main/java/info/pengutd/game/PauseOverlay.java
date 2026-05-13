@@ -182,7 +182,7 @@ public class PauseOverlay implements Disposable {
             public void clicked(InputEvent event, float x, float y) {
                 world.saveGame();
                 close();
-                // close world
+                world.close();
             }
         });
 
@@ -190,7 +190,7 @@ public class PauseOverlay implements Disposable {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 close();
-                // close world
+                world.close();
             }
         });
 
