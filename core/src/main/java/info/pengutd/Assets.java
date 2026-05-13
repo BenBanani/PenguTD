@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class Assets {
     private Assets() {}
 
+
     public static final String TOWER1 = "game/tower/tower1.png";
     public static final String UI_BACKGROUND = "background.png";
     public static final String MISSING_TEXTURE = "missing_texture.png";
@@ -19,6 +20,7 @@ public class Assets {
     public static final String PAUSE_SCREEN_ATLAS = "atlas/pause_screen_ui.atlas";
     public static final String WARRIOR_ENEMY_ATLAS = "atlas/enemies.atlas";
     public static final String PROJECTILE_ATLAS = "atlas/projectiles.atlas";
+    public static final String TOWER_ATLAS = "atlas/towers.atlas";
 
     /// @return the texture region or the missing texture if the region is not found
     public static @NotNull TextureRegion findRegionOrMissing(@NotNull TextureAtlas atlas, @NotNull String name) {

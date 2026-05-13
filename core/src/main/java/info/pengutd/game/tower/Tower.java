@@ -25,6 +25,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     private boolean preview = false;
     private @Nullable Enemy targetEnemy = null;
     private float shotCooldown = 0f;
+    private float timeSinceLastAttack = 0f;
     private int id;
 
     protected Tower(@NotNull World world, @NotNull Vector2 pos, int id) {
@@ -149,6 +150,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
 
         shotCooldown -= delta;
+        timeSinceLastAttack += delta;
 
         if (targetEnemy != null && shotCooldown <= 0) {
             shoot();
@@ -166,6 +168,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     /// Achtung diese Methode prüft nicht, ob überhaupt geschossen werden kann
     private void shoot() {
         shotCooldown = 1 / getAttackSpeed();
+        timeSinceLastAttack = 0;
         Projectile projectile = createProjectile();
         getWorld().addProjectile(projectile);
     }
@@ -221,11 +224,16 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         this.shotCooldown = shotCooldown;
     }
 
+    public float getTimeSinceLastAttack() {
+        return timeSinceLastAttack;
+    }
+
     @Override
     @MustBeInvokedByOverriders
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
         value.addChild("shot_cooldown", new JsonValue(getShotCooldown()));
+        value.addChild("time_since_last_attack", new JsonValue(getTimeSinceLastAttack()));
         value.addChild("target", new JsonValue(getTargetEnemy() != null ? getTargetEnemy().getId() : -1));
         value.addChild("id", new JsonValue(getId()));
         return value;
@@ -236,6 +244,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
         setShotCooldown(json.get("shot_cooldown").asFloat());
+        timeSinceLastAttack = json.get("time_since_last_attack").asFloat();
         setTargetEnemy(getWorld().getEnemyFromId(json.get("target").asInt()));
         id = json.get("id").asInt();
     }

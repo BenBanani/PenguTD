@@ -1,0 +1,96 @@
+
+towers.png
+size: 512, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+tower1
+  rotate: false
+  xy: 2, 134
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+tower1_attack1
+  rotate: false
+  xy: 430, 467
+  size: 33, 27
+  orig: 33, 27
+  offset: 0, 0
+  index: -1
+tower1_attack2
+  rotate: false
+  xy: 68, 39
+  size: 33, 27
+  orig: 33, 27
+  offset: 0, 0
+  index: -1
+tower1_attack3
+  rotate: false
+  xy: 364, 335
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+tower1_idle
+  rotate: false
+  xy: 134, 105
+  size: 33, 27
+  orig: 33, 27
+  offset: 0, 0
+  index: -1
+tower2
+  rotate: false
+  xy: 2, 68
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tower3
+  rotate: false
+  xy: 364, 430
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tower4
+  rotate: false
+  xy: 2, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tower5
+  rotate: false
+  xy: 68, 68
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+tower6
+  rotate: false
+  xy: 364, 364
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+
+towers2.png
+size: 64, 64
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+projectile/fish
+  rotate: false
+  xy: 2, 2
+  size: 5, 11
+  orig: 5, 11
+  offset: 0, 0
+  index: -1
+projectile/snowball
+  rotate: false
+  xy: 2, 15
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

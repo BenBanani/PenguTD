@@ -14,5 +14,6 @@ public class TexturePackerHelper {
         TexturePacker.process(assets + "/game/pause_screen",assets + "atlas", "pause_screen_ui");
         TexturePacker.process(assets + "/game/enemy",assets + "atlas", "enemies");
         TexturePacker.process(assets + "/game/tower/projectile", output, "projectiles");
+        TexturePacker.process(assets + "/game/tower/", output, "towers");
     }
 }

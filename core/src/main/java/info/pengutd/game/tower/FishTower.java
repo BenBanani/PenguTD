@@ -18,18 +18,18 @@ public class FishTower extends Tower {
     ///  breite in tiles
     private static final float WIDTH = .75f;
     ///  höhe in tiles
-    private static final float HEIGHT = .75f;
+    private static final float HEIGHT = .6f;
     /// range in tiles
     private static final float RANGE = 2f;
     /// damage
     private static final int DAMAGE = 1;
     /// attack speed in seconds
     private static final float ATTACK_SPEED = 1f;
-    private final @NotNull Texture texture;
+    private final @NotNull TowerAnimator animator;
 
     public FishTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
-        texture = PenguTD.getInstance().getAssetManager().get(Assets.TOWER1);
+        animator = new TowerAnimator("tower1", PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class FishTower extends Tower {
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return new TextureRegion(texture);
+        return animator.getTexture(getShotCooldown(), getTimeSinceLastAttack(), getTargetEnemy() != null);
     }
 
     @Override

@@ -507,15 +507,12 @@
         }
 
         public @Nullable Tower getTowerFromId(int id) {
-            System.out.println("World.getTowerFromId");
             for (int i = 0; i < towers.size; i++) {
                 Tower tower = towers.get(i);
-                System.out.println("tower.getId() = " + tower.getId());
                 if (tower.getId() == id) {
                     return tower;
                 }
             }
-            System.out.println(towers);
             return null;
         }
 
