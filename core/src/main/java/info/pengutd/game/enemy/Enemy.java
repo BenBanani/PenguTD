@@ -108,7 +108,8 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         if (path.size == 0) return;
         if (currentPathIndex >= path.size - 1) {
             getWorld().damageHp(1);
-            die();
+            getWorld().getEnemies().removeValue(this, true);
+            this.dispose();
             return;
         }
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f); // lerp damit der weg nicht so eckig ist

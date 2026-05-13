@@ -109,10 +109,6 @@
 
                 viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
                 viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-
-                enemies.add(new WarriorEnemy(1, this, nextEntityId++));
-
-                towers.add(new SnowballTower(this, new Vector2(200, 300)));
             }
 
             createTowerSelection();
