@@ -1,6 +1,7 @@
 package info.pengutd.game;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -275,7 +276,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (keycode == Input.Keys.ESCAPE) {
             setSelectedTower(0);
         } else if (keycode == Input.Keys.S) {
-            System.out.println(this.toJson());
+            JsonValue json = this.toJson();
+            FileHandle handle = Gdx.files.local("saves/test.json");
+            handle.writeString(json.prettyPrint(JsonWriter.OutputType.json, 1), false);
         }
         return false;
     }
