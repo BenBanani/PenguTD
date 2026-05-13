@@ -12,15 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class PauseOverlay implements Disposable {
+    public static final int DIALOG_PADDING = 50;
     private final @NotNull World world;
     private final @NotNull Stage uiStage;
     private final @NotNull Table content;
@@ -28,6 +31,7 @@ public class PauseOverlay implements Disposable {
     private final @NotNull Image resumeButton;
     private final @NotNull Image settingsButton;
     private final @NotNull Image mainMenuButton;
+    private @Nullable Table saveDialog;
     private boolean visible = false;
 
     public PauseOverlay(@NotNull World world) {
@@ -40,21 +44,19 @@ public class PauseOverlay implements Disposable {
 
         Table background = new Table();
         background.setFillParent(true);
-        background.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(
-            PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background"))
-            .tint(new Color(1, 1, 1, 0.6f)));
+        background.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background")).tint(new Color(1, 1, 1, 0.6f)));
         uiStage.addActor(background);
 
         content = new Table();
         content.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background_banner")));
 
         content.setSize(300, 350);
-        content.setPosition((800 - 300 - 50) / 2f, (480 - 350) / 2f); // 50 nach links → nicht ganz mitte aber sieht gut aus wo es ist
+        content.setPosition((800 - 300 - DIALOG_PADDING) / 2f, (480 - 350) / 2f); // 50 nach links → nicht ganz mitte aber sieht gut aus wo es ist
         uiStage.addActor(content);
 
         title = new Image(Assets.findRegionOrMissing(atlas, "title_banner"));
         title.setSize(400, 100);
-        title.setPosition((800 - 400 - 50) / 2f, 350);
+        title.setPosition((800 - 400 - DIALOG_PADDING) / 2f, 350);
         uiStage.addActor(title);
 
         resumeButton = new Image(Assets.findRegionOrMissing(atlas, "resume_button"));
@@ -73,6 +75,13 @@ public class PauseOverlay implements Disposable {
         mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
         content.add(mainMenuButton).size(200, 60).pad(10).row();
         // todo speichern
+        mainMenuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                saveDialog = getSaveDialog();
+                uiStage.addActor(saveDialog);
+            }
+        });
 
 
         uiStage.addListener(new InputListener() {
@@ -93,6 +102,10 @@ public class PauseOverlay implements Disposable {
         settingsButton.addAction(sequence(moveBy(600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(-600, -500, 0.5f)));
         mainMenuButton.addAction(sequence(moveBy(-600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(600, -500, 0.5f)));
         content.addAction(sequence(moveBy(0, -500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(0, 500)));
+
+        if (saveDialog != null) {
+            saveDialog.remove();
+        }
 
         uiStage.addAction(sequence(fadeOut(0.5f), run(() -> world.setPaused(false))));
     }
@@ -137,5 +150,53 @@ public class PauseOverlay implements Disposable {
     @Override
     public void dispose() {
         uiStage.dispose();
+    }
+
+    private Table getSaveDialog() {
+        @Nullable Table dialogOverlay = new Table();
+        dialogOverlay.setFillParent(true);
+
+        dialogOverlay.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background")).tint(new Color(0, 0, 0, 0.2f)));
+
+        @Nullable Table dialogBox = new Table();
+        dialogBox.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "background_banner")));
+
+        dialogBox.setSize(250, 180);
+        dialogBox.setPosition((800 - 250 - DIALOG_PADDING) / 2f, (480 - 180) / 2f);
+
+        dialogBox.setOrigin(Align.center);
+        dialogBox.setTransform(true);
+        dialogBox.addAction(sequence(scaleTo(0f, 0f), scaleTo(1f, 1f, 0.5f, Interpolation.smoother)));
+
+        dialogOverlay.addActor(dialogBox);
+
+        // todo button textur!
+        Image yesButton = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "resume_button"));
+
+
+        // todo button textur!
+        Image noButton = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "settings_button"));
+
+        yesButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                world.saveGame();
+                close();
+                // close world
+            }
+        });
+
+        noButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                close();
+                // close world
+            }
+        });
+
+        dialogBox.add(yesButton).size(160, 50).pad(10).row();
+        dialogBox.add(noButton).size(160, 50).pad(10);
+
+        return dialogOverlay;
     }
 }

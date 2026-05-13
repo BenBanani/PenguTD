@@ -1,17 +1,17 @@
 {
 "type": "world",
 "map": "map1",
-"next_entity_id": 4,
-"money": 24,
+"next_entity_id": 1,
+"money": 50,
 "hp": 100,
 "score": 0,
 "enemies": [
 	{
-		"x": 436.8360290527344,
-		"y": 733.6050415039062,
+		"x": 863.4039916992188,
+		"y": 714.9826049804688,
 		"rotation": 0.0,
 		"id": 0,
-		"currentPathIndex": 11,
+		"currentPathIndex": 1,
 		"popTimeLeft": 0.0,
 		"type": "warrior_enemy",
 		"level": 1
@@ -21,16 +21,8 @@
 	{
 		"x": 200.0,
 		"y": 300.0,
-		"rotation": -14.195060729980469,
-		"shot_cooldown": 0.36685630679130554,
-		"target": -1,
-		"type": "snowball_tower"
-	},
-	{
-		"x": 291.0315856933594,
-		"y": 667.3333129882812,
-		"rotation": 27.693359375,
-		"shot_cooldown": -0.36669743061065674,
+		"rotation": 0.0,
+		"shot_cooldown": -1.832275390625,
 		"target": -1,
 		"type": "snowball_tower"
 	}

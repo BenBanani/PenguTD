@@ -273,9 +273,7 @@
             if (keycode == Input.Keys.ESCAPE) {
                 setSelectedTower(0);
             } else if (keycode == Input.Keys.S) {
-                JsonValue json = this.toJson();
-                FileHandle handle = Gdx.files.local("saves/test.json");
-                handle.writeString(json.prettyPrint(JsonWriter.OutputType.json, 1), false);
+                saveGame();
             }
             return false;
         }
@@ -481,6 +479,13 @@
                 }
             }
             return enemy;
+        }
+
+        public void saveGame() {
+            // todo richtige datei speichern
+            JsonValue json = this.toJson();
+            FileHandle handle = Gdx.files.local("saves/test.json");
+            handle.writeString(json.prettyPrint(JsonWriter.OutputType.json, 1), false);
         }
 
         /// @return ob der tower an der Stelle in der Welt platziert werden kann
