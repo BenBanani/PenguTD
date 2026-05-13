@@ -111,8 +111,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             enemies.add(new WarriorEnemy(1, this, nextEntityId++));
 
             towers.add(new SnowballTower(this, new Vector2(200, 300)));
+
+            towerSelection = new TowerSelection(this);
         }
-        towerSelection = new TowerSelection(this);
+
         pauseOverlay = new PauseOverlay(this);
 
         multiplexer = new InputMultiplexer();
@@ -415,6 +417,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         tileHeight = map.getProperties().get("tileheight", Integer.class);
 
         viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
+        towerSelection = new TowerSelection(this);  // neuer Viewport desewegen neue Towerselection
 
         nextEntityId = json.getInt("next_entity_id");
         money = json.getInt("money");
@@ -451,6 +454,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             tower.fromJson(jsonTower);
             towers.add(tower);
         }
+
     }
 
     public int createEntityId() {
