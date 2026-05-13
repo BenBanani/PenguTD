@@ -1,71 +1,384 @@
 {
     type: world
     map: map1
-    next_entity_id: 4
+    next_entity_id: 43
+    money: 35
+    hp: 99
+    score: 0
     enemies: [
         {
-            x: 305.08245849609375
-            y: 539.2112426757812
+            x: 430.2058410644531
+            y: 106.37529754638672
             rotation: 0.0
-            id: 0
-            currentPathIndex: 29
-            popTimeLeft: 0.5
+            id: 6
+            currentPathIndex: 66
+            popTimeLeft: -4.871748387813568E-5
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 735.64599609375
+            y: 273.5310974121094
+            rotation: 0.0
+            id: 8
+            currentPathIndex: 48
+            popTimeLeft: -0.016796626150608063
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 837.2017211914062
+            y: 102.71951293945312
+            rotation: 0.0
+            id: 9
+            currentPathIndex: 59
+            popTimeLeft: -1.593753695487976E-4
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 354.8337097167969
+            y: 224.60179138183594
+            rotation: 0.0
+            id: 10
+            currentPathIndex: 69
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 734.0090942382812
+            y: 253.00303649902344
+            rotation: 0.0
+            id: 11
+            currentPathIndex: 48
+            popTimeLeft: -0.01612873747944832
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 399.27313232421875
+            y: 220.4066925048828
+            rotation: 0.0
+            id: 12
+            currentPathIndex: 68
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 413.0457763671875
+            y: 201.3063201904297
+            rotation: 0.0
+            id: 13
+            currentPathIndex: 68
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 725.8006591796875
+            y: 226.25741577148438
+            rotation: 0.0
+            id: 14
+            currentPathIndex: 47
+            popTimeLeft: -3.380086272954941E-4
             type: warrior_enemy
             level: 1
         }
         {
-            x: 127.50462341308594
-            y: 356.705810546875
+            x: 863.3630981445312
+            y: 164.79083251953125
             rotation: 0.0
-            id: 1
-            currentPathIndex: 24
-            popTimeLeft: 0.0
+            id: 15
+            currentPathIndex: 58
+            popTimeLeft: -0.016784243285655975
             type: warrior_enemy
             level: 2
         }
         {
-            x: 96.73638153076172
-            y: 571.22705078125
+            x: 417.3544006347656
+            y: 140.5333709716797
             rotation: 0.0
-            id: 2
-            currentPathIndex: 20
+            id: 16
+            currentPathIndex: 67
             popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 418.6033630371094
+            y: 126.50556945800781
+            rotation: 0.0
+            id: 17
+            currentPathIndex: 67
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 656.2782592773438
+            y: 222.02101135253906
+            rotation: 0.0
+            id: 18
+            currentPathIndex: 46
+            popTimeLeft: -0.01677660085260868
             type: warrior_enemy
             level: 2
         }
         {
-            x: 864.1326293945312
-            y: 802.3147583007812
+            x: 771.0271606445312
+            y: 100.75473022460938
             rotation: 0.0
-            id: 3
-            currentPathIndex: 0
+            id: 20
+            currentPathIndex: 61
             popTimeLeft: 0.0
             type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 607.3507690429688
+            y: 278.521484375
+            rotation: 0.0
+            id: 21
+            currentPathIndex: 44
+            popTimeLeft: -1.7797574400901794E-4
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 607.4427490234375
+            y: 451.03948974609375
+            rotation: 0.0
+            id: 22
+            currentPathIndex: 41
+            popTimeLeft: -1.3494957238435745E-4
+            type: warrior_enemy
             level: 2
+        }
+        {
+            x: 836.1300048828125
+            y: 101.59390258789062
+            rotation: 0.0
+            id: 23
+            currentPathIndex: 60
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 856.6207275390625
+            y: 114.8043212890625
+            rotation: 0.0
+            id: 24
+            currentPathIndex: 59
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 862.9989013671875
+            y: 136.8310546875
+            rotation: 0.0
+            id: 25
+            currentPathIndex: 59
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 862.8569946289062
+            y: 157.3413543701172
+            rotation: 0.0
+            id: 26
+            currentPathIndex: 58
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 863.4412841796875
+            y: 175.38121032714844
+            rotation: 0.0
+            id: 27
+            currentPathIndex: 58
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 606.8895874023438
+            y: 331.8701171875
+            rotation: 0.0
+            id: 28
+            currentPathIndex: 43
+            popTimeLeft: -7.093511521816254E-5
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 352.7213134765625
+            y: 388.1949768066406
+            rotation: 0.0
+            id: 29
+            currentPathIndex: 32
+            popTimeLeft: -1.377314329147339E-4
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 747.8226928710938
+            y: 470.7109375
+            rotation: 0.0
+            id: 30
+            currentPathIndex: 51
+            popTimeLeft: -4.5068562030792236E-5
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 865.0669555664062
+            y: 267.0113830566406
+            rotation: 0.0
+            id: 31
+            currentPathIndex: 56
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 864.1500854492188
+            y: 294.5966796875
+            rotation: 0.0
+            id: 32
+            currentPathIndex: 56
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 736.8412475585938
+            y: 452.4454345703125
+            rotation: 0.0
+            id: 33
+            currentPathIndex: 51
+            popTimeLeft: -1.5143677592277527E-4
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 607.060546875
+            y: 373.39056396484375
+            rotation: 0.0
+            id: 34
+            currentPathIndex: 42
+            popTimeLeft: -4.853084683418274E-4
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 352.2575988769531
+            y: 433.75653076171875
+            rotation: 0.0
+            id: 35
+            currentPathIndex: 31
+            popTimeLeft: -8.785724639892578E-5
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 864.850830078125
+            y: 417.3858337402344
+            rotation: 0.0
+            id: 36
+            currentPathIndex: 54
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 839.8532104492188
+            y: 476.2930908203125
+            rotation: 0.0
+            id: 37
+            currentPathIndex: 52
+            popTimeLeft: -1.744590699672699E-4
+            type: warrior_enemy
+            level: 2
+        }
+        {
+            x: 607.49267578125
+            y: 406.8447265625
+            rotation: 0.0
+            id: 38
+            currentPathIndex: 42
+            popTimeLeft: -3.813393414020538E-5
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 833.1173095703125
+            y: 475.6286315917969
+            rotation: 0.0
+            id: 39
+            currentPathIndex: 53
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 352.3466796875
+            y: 494.7732238769531
+            rotation: 0.0
+            id: 40
+            currentPathIndex: 31
+            popTimeLeft: -0.0166833084076643
+            type: warrior_enemy
+            level: 1
+        }
+        {
+            x: 783.8721923828125
+            y: 475.2618713378906
+            rotation: 0.0
+            id: 41
+            currentPathIndex: 52
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
+        }
+        {
+            x: 863.2720336914062
+            y: 714.322021484375
+            rotation: 0.0
+            id: 42
+            currentPathIndex: 1
+            popTimeLeft: 0.0
+            type: warrior_enemy
+            level: 3
         }
     ]
     towers: [
         {
             x: 200.0
             y: 300.0
-            rotation: 51.9674072265625
-            shot_cooldown: 0.0
-            target: 1
-            type: snowball_tower
-        }
-        {
-            x: 412.29473876953125
-            y: 450.66668701171875
-            rotation: 0.0
-            shot_cooldown: 0.0
+            rotation: -209.0281982421875
+            shot_cooldown: -1.0660923719406128
             target: -1
             type: snowball_tower
         }
         {
-            x: 540.4871826171875
-            y: 294.6666564941406
+            x: 695.6561279296875
+            y: 564.5714111328125
+            rotation: -135.3529052734375
+            shot_cooldown: 0.03368823975324631
+            target: 41
+            type: snowball_tower
+        }
+        {
+            x: 565.272216796875
+            y: 654.5396728515625
             rotation: 0.0
-            shot_cooldown: 0.0
+            shot_cooldown: -0.6161061525344849
             target: -1
             type: snowball_tower
         }

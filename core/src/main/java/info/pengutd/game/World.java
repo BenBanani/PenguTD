@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
-    private static final int START_MONEY = 50000;
+    private static final int START_MONEY = 50;
     private static final int START_HP = 100;
     private final @NotNull Array<Enemy> enemies = new Array<>();
     private final @NotNull Array<Tower> towers = new Array<>();
@@ -274,6 +274,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.ESCAPE) {
             setSelectedTower(0);
+        } else if (keycode == Input.Keys.S) {
+            System.out.println(this.toJson());
         }
         return false;
     }
