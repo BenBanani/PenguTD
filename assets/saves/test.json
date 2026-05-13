@@ -2,29 +2,29 @@
 "type": "world",
 "map": "map1",
 "next_entity_id": 1,
-"money": 50,
+"money": 1,
 "hp": 100,
 "score": 0,
 "enemies": [
 	{
-		"x": 863.5140991210938,
-		"y": 746.7257690429688,
+		"x": 817.146240234375,
+		"y": 609.8514404296875,
 		"rotation": 0.0,
 		"id": 0,
-		"currentPathIndex": 1,
-		"popTimeLeft": 0.0,
+		"currentPathIndex": 4,
+		"popTimeLeft": -0.017436327412724495,
 		"type": "warrior_enemy",
-		"level": 1
+		"level": 2
 	}
 ],
 "towers": [
 	{
-		"x": 200.0,
-		"y": 300.0,
-		"rotation": 0.0,
-		"shot_cooldown": -1.1475300788879395,
-		"target": -1,
-		"type": "snowball_tower"
+		"x": 772.8802490234375,
+		"y": 531.5555419921875,
+		"rotation": -29.48236846923828,
+		"shot_cooldown": 0.49006199836730957,
+		"target": 0,
+		"type": "fish_tower"
 	}
 ]
 }

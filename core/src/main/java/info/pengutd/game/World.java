@@ -23,7 +23,7 @@
     import info.pengutd.PenguTD;
     import info.pengutd.game.enemy.Enemy;
     import info.pengutd.game.enemy.WarriorEnemy;
-    import info.pengutd.game.tower.SnowballTower;
+    import info.pengutd.game.tower.FishTower;
     import info.pengutd.game.tower.Tower;
     import info.pengutd.game.tower.projectile.Projectile;
     import info.pengutd.save.JsonSerializable;
@@ -318,8 +318,8 @@
         ///  Setzt den aktuell ausgewählten Preview Tower
         ///
         /// @param type: 0 => Kein Tower
-        ///              1 => Snowball Tower                                                                                               1 => Snowball Tower
-        ///                                                                                                             2 => ...
+        ///              1 => Fish Tower
+        ///
         public void setSelectedTower(int type) {
             if (paused) return; // keine Tower platzieren während pausiert ist
             if (type == 0) {
@@ -329,7 +329,7 @@
 
             switch (type) {
                 case 1:
-                    previewTower = new SnowballTower(this, new Vector2(-100, -100)).preview();  // -100 für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
+                    previewTower = new FishTower(this, new Vector2(-100, -100)).preview();  // -100 für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
                     break;
 
                 // später weitere types
@@ -438,8 +438,8 @@
             for (JsonValue jsonTower : jsonTowers) {
                 Tower tower;
                 String towerType = jsonTower.getString("type");
-                if (SnowballTower.JSON_TYPE.equals(towerType)) {
-                    tower = new SnowballTower(this, new Vector2());
+                if (FishTower.JSON_TYPE.equals(towerType)) {
+                    tower = new FishTower(this, new Vector2());
                 } else {
                     throw new IllegalArgumentException("Unknown tower type: " + towerType);
                 }

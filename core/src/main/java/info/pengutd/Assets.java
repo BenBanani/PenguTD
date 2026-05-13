@@ -11,7 +11,6 @@ public class Assets {
 
     public static final String TOWER1 = "game/tower/tower1.png";
     public static final String UI_BACKGROUND = "background.png";
-    public static final String SNOWBALL_PROJECTILE = "game/tower/projectile/snowball.png";
     public static final String MISSING_TEXTURE = "missing_texture.png";
 
     public static final String SETTINGS_SCREEN_ATLAS = "atlas/settings_screen_ui.atlas";
@@ -19,6 +18,7 @@ public class Assets {
     public static final String TOWER_SELECTION_ATLAS = "atlas/tower_selection_ui.atlas";
     public static final String PAUSE_SCREEN_ATLAS = "atlas/pause_screen_ui.atlas";
     public static final String WARRIOR_ENEMY_ATLAS = "atlas/enemies.atlas";
+    public static final String PROJECTILE_ATLAS = "atlas/projectiles.atlas";
 
     /// @return the texture region or the missing texture if the region is not found
     public static @NotNull TextureRegion findRegionOrMissing(@NotNull TextureAtlas atlas, @NotNull String name) {

@@ -9,13 +9,12 @@ import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.tower.projectile.Projectile;
-import info.pengutd.game.tower.projectile.SnowballProjectile;
-import org.jetbrains.annotations.MustBeInvokedByOverriders;
+import info.pengutd.game.tower.projectile.FishProjectile;
 import org.jetbrains.annotations.NotNull;
 
 /// Der erste einfachste Turm
-public class SnowballTower extends Tower {
-    public static final String JSON_TYPE = "snowball_tower";
+public class FishTower extends Tower {
+    public static final String JSON_TYPE = "fish_tower";
     ///  breite in tiles
     private static final float WIDTH = .75f;
     ///  höhe in tiles
@@ -28,7 +27,7 @@ public class SnowballTower extends Tower {
     private static final float ATTACK_SPEED = 1f;
     private final @NotNull Texture texture;
 
-    public SnowballTower(@NotNull World world, @NotNull Vector2 pos) {
+    public FishTower(@NotNull World world, @NotNull Vector2 pos) {
         super(world, pos);
         texture = PenguTD.getInstance().getAssetManager().get(Assets.TOWER1);
     }
@@ -59,7 +58,7 @@ public class SnowballTower extends Tower {
         if (target == null) {
             throw new IllegalStateException("shoot auf leeres enemy");
         }
-        return new SnowballProjectile(getWorld(), getPos(), target.getPos().sub(getPos()).nor(), this, getDamage());
+        return new FishProjectile(getWorld(), getPos(), target.getPos().sub(getPos()).nor(), this, getDamage());
     }
 
     @Override
