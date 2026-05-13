@@ -27,8 +27,8 @@ public class FishTower extends Tower {
     private static final float ATTACK_SPEED = 1f;
     private final @NotNull Texture texture;
 
-    public FishTower(@NotNull World world, @NotNull Vector2 pos) {
-        super(world, pos);
+    public FishTower(@NotNull World world, @NotNull Vector2 pos, int id) {
+        super(world, pos, id);
         texture = PenguTD.getInstance().getAssetManager().get(Assets.TOWER1);
     }
 

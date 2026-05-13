@@ -25,9 +25,11 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     private boolean preview = false;
     private @Nullable Enemy targetEnemy = null;
     private float shotCooldown = 0f;
+    private int id;
 
-    protected Tower(@NotNull World world, @NotNull Vector2 pos) {
+    protected Tower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos);
+        this.id = id;
     }
 
     public abstract int getCost();
@@ -196,7 +198,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     }
 
 
-    ///  @return ist targetEnemy innerhalb der Range des Towers
+    /// @return ist targetEnemy innerhalb der Range des Towers
     private boolean inRange(@Nullable Enemy targetEnemy) {
         if (targetEnemy == null) return false;
         return this.getPos().dst2(targetEnemy.getPos()) <= getRange() * getRange();
@@ -204,6 +206,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     /// Schaltet den Debug Modus an
     /// Jetzt werden zusätzlich die Hitbox, Range und Target gezeichnet
+    ///
     /// @return this
     public @NotNull Tower debug() {
         debug = true;
@@ -224,6 +227,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         JsonValue value = super.toJson();
         value.addChild("shot_cooldown", new JsonValue(getShotCooldown()));
         value.addChild("target", new JsonValue(getTargetEnemy() != null ? getTargetEnemy().getId() : -1));
+        value.addChild("id", new JsonValue(getId()));
         return value;
     }
 
@@ -233,5 +237,10 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         super.fromJson(json);
         setShotCooldown(json.get("shot_cooldown").asFloat());
         setTargetEnemy(getWorld().getEnemyFromId(json.get("target").asInt()));
+        id = json.get("id").asInt();
+    }
+
+    public int getId() {
+        return id;
     }
 }

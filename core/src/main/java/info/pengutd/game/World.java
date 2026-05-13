@@ -25,6 +25,7 @@
     import info.pengutd.game.enemy.WarriorEnemy;
     import info.pengutd.game.tower.FishTower;
     import info.pengutd.game.tower.Tower;
+    import info.pengutd.game.tower.projectile.FishProjectile;
     import info.pengutd.game.tower.projectile.Projectile;
     import info.pengutd.save.JsonSerializable;
     import info.pengutd.screen.StartScreen;
@@ -53,6 +54,7 @@
         private PauseOverlay pauseOverlay;
         private InputMultiplexer multiplexer;
         private int nextEntityId = 0;
+        private int nextTowerId = 0;
         private @Nullable Tower previewTower;
         ///  game state
         private int money = START_MONEY;
@@ -329,7 +331,7 @@
 
             switch (type) {
                 case 1:
-                    previewTower = new FishTower(this, new Vector2(-100, -100)).preview();  // -100 für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
+                    previewTower = new FishTower(this, new Vector2(-100, -100), createTowerId()).preview();  // -100 für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
                     break;
 
                 // später weitere types
@@ -366,6 +368,7 @@
             value.addChild("type", new JsonValue("world"));
             value.addChild("map", new JsonValue(mapName));
             value.addChild("next_entity_id", new JsonValue(nextEntityId));
+            value.addChild("next_tower_id", new JsonValue(nextTowerId));
             value.addChild("money", new JsonValue(money));
             value.addChild("hp", new JsonValue(hp));
             value.addChild("score", new JsonValue(score));
@@ -377,6 +380,10 @@
             JsonValue jsonTowers = new JsonValue(JsonValue.ValueType.array);
             towers.forEach(t -> jsonTowers.addChild(t.toJson()));
             value.addChild("towers", jsonTowers);
+            // projektile
+            JsonValue jsonProjectiles = new JsonValue(JsonValue.ValueType.array);
+            projectiles.forEach(p -> jsonProjectiles.addChild(p.toJson()));
+            value.addChild("projectiles", jsonProjectiles);
 
             return value;
         }
@@ -412,6 +419,7 @@
             createTowerSelection();  // neuer Viewport desewegen neue TowerSelection
 
             nextEntityId = json.getInt("next_entity_id");
+            nextTowerId = json.getInt("next_tower_id");
             money = json.getInt("money");
             hp = json.getInt("hp");
             score = json.getInt("score");
@@ -439,7 +447,7 @@
                 Tower tower;
                 String towerType = jsonTower.getString("type");
                 if (FishTower.JSON_TYPE.equals(towerType)) {
-                    tower = new FishTower(this, new Vector2());
+                    tower = new FishTower(this, new Vector2(), jsonTower.getInt("id"));
                 } else {
                     throw new IllegalArgumentException("Unknown tower type: " + towerType);
                 }
@@ -447,6 +455,21 @@
                 towers.add(tower);
             }
 
+            // projectiles
+            JsonValue jsonProjectiles = json.get("projectiles");
+            projectiles.forEach(Disposable::dispose);
+            projectiles.clear();
+            for (JsonValue jsonProjectile : jsonProjectiles) {
+                Projectile projectile;
+                String projectileType = jsonProjectile.getString("type");
+                if (FishProjectile.JSON_TYPE.equals(projectileType)) {
+                    projectile = new FishProjectile(this, new Vector2(), new Vector2(), null, 0);  // tower als null ist ok, da dieser sowieso in fromJson updated wird
+                } else {
+                    throw new IllegalArgumentException("Unknown projectile type: " + projectileType);
+                }
+                projectile.fromJson(jsonProjectile);
+                projectiles.add(projectile);
+            }
         }
 
         private void createTowerSelection() {
@@ -467,6 +490,10 @@
             return nextEntityId++;
         }
 
+        public int createTowerId() {
+            return nextTowerId++;
+        }
+
         /// @return ein Enemy mit der gegebenen ID oder null wenn es keinen gibt
         public @Nullable Enemy getEnemyFromId(int id) {
             Enemy enemy = null;
@@ -477,6 +504,19 @@
                 }
             }
             return enemy;
+        }
+
+        public @Nullable Tower getTowerFromId(int id) {
+            System.out.println("World.getTowerFromId");
+            for (int i = 0; i < towers.size; i++) {
+                Tower tower = towers.get(i);
+                System.out.println("tower.getId() = " + tower.getId());
+                if (tower.getId() == id) {
+                    return tower;
+                }
+            }
+            System.out.println(towers);
+            return null;
         }
 
         public void saveGame() {

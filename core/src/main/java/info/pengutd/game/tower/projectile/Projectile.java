@@ -2,6 +2,7 @@ package info.pengutd.game.tower.projectile;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
@@ -11,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 /// Base Klasse für alle Projektile
 public abstract class Projectile extends GameObject {
-    private final int damage;
+    private int damage;
     private final @NotNull Vector2 direction;
-    private final @NotNull Tower tower;
+    private @NotNull Tower tower;
     private boolean alive = true;
 
     protected Projectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
@@ -76,5 +77,26 @@ public abstract class Projectile extends GameObject {
 
     public @NotNull Tower getTower() {
         return tower;
+    }
+
+    @Override
+    public @NotNull JsonValue toJson() {
+        JsonValue json = super.toJson();
+        json.addChild("damage", new JsonValue(damage));
+        json.addChild("direction_x", new JsonValue(direction.x));
+        json.addChild("direction_y", new JsonValue(direction.y));
+        json.addChild("tower", new JsonValue(tower.getId()));
+        return json;
+    }
+
+    @Override
+    public void fromJson(@NotNull JsonValue json) {
+        super.fromJson(json);
+        damage = json.getInt("damage");
+        direction.set(json.getFloat("direction_x"), json.getFloat("direction_y"));
+
+        Tower tower = getWorld().getTowerFromId(json.getInt("tower"));
+        if (tower == null) throw new IllegalStateException("Parent tower vom Projectile ist null!");
+        this.tower = tower;
     }
 }
