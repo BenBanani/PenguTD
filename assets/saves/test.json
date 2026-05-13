@@ -1,106 +1,36 @@
 {
 "type": "world",
 "map": "map1",
-"next_entity_id": 9,
-"money": 9,
+"next_entity_id": 4,
+"money": 24,
 "hp": 100,
 "score": 0,
 "enemies": [
 	{
-		"x": 374.1544189453125,
-		"y": 733.8843994140625,
+		"x": 436.8360290527344,
+		"y": 733.6050415039062,
 		"rotation": 0.0,
 		"id": 0,
-		"currentPathIndex": 12,
+		"currentPathIndex": 11,
 		"popTimeLeft": 0.0,
 		"type": "warrior_enemy",
 		"level": 1
-	},
-	{
-		"x": 477.8393859863281,
-		"y": 374.4942932128906,
-		"rotation": 0.0,
-		"id": 2,
-		"currentPathIndex": 36,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
-	},
-	{
-		"x": 457.9233703613281,
-		"y": 355.9743347167969,
-		"rotation": 0.0,
-		"id": 3,
-		"currentPathIndex": 35,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
-	},
-	{
-		"x": 435.4737243652344,
-		"y": 354.9103698730469,
-		"rotation": 0.0,
-		"id": 4,
-		"currentPathIndex": 34,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
-	},
-	{
-		"x": 246.5760955810547,
-		"y": 534.9852905273438,
-		"rotation": 0.0,
-		"id": 5,
-		"currentPathIndex": 28,
-		"popTimeLeft": -0.015526020899415016,
-		"type": "warrior_enemy",
-		"level": 2
-	},
-	{
-		"x": 863.0921630859375,
-		"y": 655.2498779296875,
-		"rotation": 0.0,
-		"id": 6,
-		"currentPathIndex": 2,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
-	},
-	{
-		"x": 863.8980712890625,
-		"y": 674.864990234375,
-		"rotation": 0.0,
-		"id": 7,
-		"currentPathIndex": 2,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
-	},
-	{
-		"x": 863.49658203125,
-		"y": 698.0711669921875,
-		"rotation": 0.0,
-		"id": 8,
-		"currentPathIndex": 2,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
 	}
 ],
 "towers": [
 	{
 		"x": 200.0,
 		"y": 300.0,
-		"rotation": -10.281692504882812,
-		"shot_cooldown": -1.1160067319869995,
+		"rotation": -14.195060729980469,
+		"shot_cooldown": 0.36685630679130554,
 		"target": -1,
 		"type": "snowball_tower"
 	},
 	{
-		"x": 542.9913940429688,
-		"y": 599.2380981445312,
-		"rotation": 0.0,
-		"shot_cooldown": -12.54854965209961,
+		"x": 291.0315856933594,
+		"y": 667.3333129882812,
+		"rotation": 27.693359375,
+		"shot_cooldown": -0.36669743061065674,
 		"target": -1,
 		"type": "snowball_tower"
 	}
