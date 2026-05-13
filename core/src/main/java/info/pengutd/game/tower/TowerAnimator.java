@@ -2,6 +2,7 @@ package info.pengutd.game.tower;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import info.pengutd.Assets;
 import org.jetbrains.annotations.NotNull;
 
 /// TowerAnimator kümmert sich um die Animation von Towers.
@@ -17,10 +18,10 @@ public class TowerAnimator {
     private final @NotNull TextureRegion attack3;
 
     public TowerAnimator(@NotNull String name, @NotNull TextureAtlas atlas) {
-        idle = atlas.findRegion(name + "_idle");
-        attack1 = atlas.findRegion(name + "_attack1");
-        attack2 = atlas.findRegion(name + "_attack2");
-        attack3 = atlas.findRegion(name + "_attack3");
+        idle = Assets.findRegionOrMissing(atlas, name + "_idle");
+        attack1 = Assets.findRegionOrMissing(atlas, name + "_attack1");
+        attack2 = Assets.findRegionOrMissing(atlas, name + "_attack2");
+        attack3 = Assets.findRegionOrMissing(atlas, name + "_attack3");
     }
 
     /// @return die aktuelle Textur des Towers
