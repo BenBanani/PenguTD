@@ -1,6 +1,5 @@
 package info.pengutd.game.tower.projectile;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -41,12 +40,12 @@ public class FishProjectile extends Projectile {
 
     @Override
     public float getHeight() {
-        return 0.5f * getWorld().getTileHeight();
+        return 0.25f * getWorld().getTileHeight();
     }
 
     @Override
     public float getWidth() {
-        return 0.25f * getWorld().getTileWidth();
+        return 0.125f * getWorld().getTileWidth();
     }
 
     @Override

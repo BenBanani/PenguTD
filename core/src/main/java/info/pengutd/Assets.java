@@ -8,9 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class Assets {
     private Assets() {}
-
-
-    public static final String TOWER1 = "game/tower/tower1.png";
     public static final String UI_BACKGROUND = "background.png";
     public static final String MISSING_TEXTURE = "missing_texture.png";
 

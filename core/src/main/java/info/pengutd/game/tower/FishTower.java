@@ -1,6 +1,5 @@
 package info.pengutd.game.tower;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -29,7 +28,7 @@ public class FishTower extends Tower {
 
     public FishTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
-        animator = new TowerAnimator("tower1", PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
+        animator = new TowerAnimator(JSON_TYPE, PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
     }
 
     @Override
@@ -58,7 +57,12 @@ public class FishTower extends Tower {
         if (target == null) {
             throw new IllegalStateException("shoot auf leeres enemy");
         }
-        return new FishProjectile(getWorld(), getPos(), target.getPos().sub(getPos()).nor(), this, getDamage());
+        return new FishProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor(), this, getDamage());
+    }
+
+    @Override
+    protected float getHandOffset() {
+        return 20f;
     }
 
     @Override

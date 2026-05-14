@@ -140,6 +140,9 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     ///  logik update des Towers
     @Override
     public void update(float delta) {
+        shotCooldown -= delta;
+        timeSinceLastAttack += delta;
+
         if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {
             targetEnemy = findNewTarget();
         } else {
@@ -147,13 +150,9 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
             float dy = targetEnemy.getPos().y - getPos().y;
             float deg = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx) - 90;
             setRotationDeg(deg);
-        }
-
-        shotCooldown -= delta;
-        timeSinceLastAttack += delta;
-
-        if (targetEnemy != null && shotCooldown <= 0) {
-            shoot();
+            if (shotCooldown <= 0) {
+                shoot();
+            }
         }
     }
 
@@ -172,6 +171,23 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         Projectile projectile = createProjectile();
         getWorld().addProjectile(projectile);
     }
+
+    /// @return die Position der Hand des Towers.
+    /// von hier sollten die Projektile aus geschossen werden
+    protected Vector2 getHandPos() {
+        Vector2 pos = getPos();
+        // Offset der Hand relativ zum Tower-Zentrum
+        Vector2 offset = new Vector2(getHandOffset(), 0f);
+        offset.rotateDeg(getRotationDeg());
+
+        return pos.add(offset);
+    }
+
+    /// @return offset der Hand des Towers in Pixeln.
+    /// Diese wird gebraucht um die HandPosition zu berechnen
+    /// > 0 nach rechts
+    /// < 0 nach links
+    protected abstract float getHandOffset();
 
     /// Erstellt ein neues Projektil.
     /// Dieses sollte schon voll initialisiert sein und muss nur noch zur Welt hinzugefügt werden
