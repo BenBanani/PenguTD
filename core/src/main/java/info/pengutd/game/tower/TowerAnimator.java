@@ -12,29 +12,27 @@ import org.jetbrains.annotations.NotNull;
 ///     attack2: beim Schießen
 ///     attack3: nach dem Schießen
 public class TowerAnimator {
-    private final @NotNull TextureRegion idle;
-    private final @NotNull TextureRegion attack1;
-    private final @NotNull TextureRegion attack2;
-    private final @NotNull TextureRegion attack3;
+    private final @NotNull TextureRegion idle;  // Textur, wenn kein Gegner anvisiert ist
+    private final @NotNull TextureRegion attackIdle; // Textur, wenn Gegner anvisiert ist, aber gerade nicht geschossen wird
+    private final @NotNull TextureRegion attackShoot; // Textur, während Geschossen wird (z.B. ohne Projektil in der Hand)
+    private final @NotNull TextureRegion attackShotOver; // Textur, nachdem geschossen wurde (z.B. Hand unten zum nachladen)
 
     public TowerAnimator(@NotNull String name, @NotNull TextureAtlas atlas) {
         idle = Assets.findRegionOrMissing(atlas, name + "_idle");
-        attack1 = Assets.findRegionOrMissing(atlas, name + "_attack1");
-        attack2 = Assets.findRegionOrMissing(atlas, name + "_attack2");
-        attack3 = Assets.findRegionOrMissing(atlas, name + "_attack3");
+        attackIdle = Assets.findRegionOrMissing(atlas, name + "_attack1");
+        attackShoot = Assets.findRegionOrMissing(atlas, name + "_attack2");
+        attackShotOver = Assets.findRegionOrMissing(atlas, name + "_attack3");
     }
 
     /// @return die aktuelle Textur des Towers
     /// @param timeToNextAttack die Zeit bis zum nächsten Schuss
     /// @param timeSinceLastAttack die Zeit seit dem letzten Schuss
+    /// @param totalCooldown Cooldown Zeit die der Tower hat (normalerweise 1 / getAttackSpeed())
     /// @param isAttacking ob der Tower einen Gegner anvisiert hat.
-    /// gerade geschossen → attack3
-    /// schießt gerade → attack2
-    /// schießt gleich → attack1
-    public @NotNull TextureRegion getTexture(float timeToNextAttack, float timeSinceLastAttack, boolean isAttacking) {
+    public @NotNull TextureRegion getTexture(float timeToNextAttack, float timeSinceLastAttack, float totalCooldown, boolean isAttacking) {
         if (!isAttacking) return idle;
-        if (timeToNextAttack < 0.05 || timeSinceLastAttack < 0.1) return attack2;
-        if (timeSinceLastAttack < 0.2) return attack3;
-        return attack1;
+        if (timeToNextAttack < 0.05 * totalCooldown || timeSinceLastAttack < 0.2 * totalCooldown) return attackShoot;
+        if (timeSinceLastAttack < 0.5 * totalCooldown) return attackShotOver;
+        return attackIdle;
     }
 }

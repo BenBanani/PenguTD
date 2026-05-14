@@ -67,7 +67,7 @@ public class FishTower extends Tower {
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return animator.getTexture(getShotCooldown(), getTimeSinceLastAttack(), getTargetEnemy() != null);
+        return animator.getTexture(getShotCooldown(), getTimeSinceLastAttack(), 1 / getAttackSpeed(), getTargetEnemy() != null);
     }
 
     @Override
