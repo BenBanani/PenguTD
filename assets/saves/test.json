@@ -1,45 +1,12 @@
 {
 "type": "world",
 "map": "map1",
-"next_entity_id": 1,
-"next_tower_id": 1,
-"money": 0,
+"next_entity_id": 0,
+"next_tower_id": 0,
+"money": 50,
 "hp": 100,
 "score": 0,
-"enemies": [
-	{
-		"x": 761.9682006835938,
-		"y": 611.1119384765625,
-		"rotation": 0.0,
-		"id": 0,
-		"currentPathIndex": 5,
-		"popTimeLeft": 0.0,
-		"type": "warrior_enemy",
-		"level": 3
-	}
-],
-"towers": [
-	{
-		"x": 660.0180053710938,
-		"y": 637.8666381835938,
-		"rotation": -104.70458221435547,
-		"shot_cooldown": 0.8431305885314941,
-		"time_since_last_attack": 0.15686942636966705,
-		"target": 0,
-		"id": 0,
-		"type": "fish_tower"
-	}
-],
-"projectiles": [
-	{
-		"x": 715.1145629882812,
-		"y": 625.4769287109375,
-		"rotation": -102.67340087890625,
-		"damage": 1,
-		"direction_x": 0.9756366014480591,
-		"direction_y": -0.21939297020435333,
-		"tower": 0,
-		"type": "fish_projectile"
-	}
-]
+"enemies": [],
+"towers": [],
+"projectiles": []
 }

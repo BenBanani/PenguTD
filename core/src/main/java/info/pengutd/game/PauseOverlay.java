@@ -161,8 +161,8 @@ public class PauseOverlay implements Disposable {
         @Nullable Table dialogBox = new Table();
         dialogBox.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "background_banner")));
 
-        dialogBox.setSize(250, 180);
-        dialogBox.setPosition((800 - 250 - DIALOG_PADDING) / 2f, (480 - 180) / 2f);
+        dialogBox.setSize(300, 300);
+        dialogBox.setPosition((800 - 300 - DIALOG_PADDING) / 2f, (480 - 300) / 2f);
 
         dialogBox.setOrigin(Align.center);
         dialogBox.setTransform(true);
@@ -170,12 +170,12 @@ public class PauseOverlay implements Disposable {
 
         dialogOverlay.addActor(dialogBox);
 
-        // todo button textur!
-        Image yesButton = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "resume_button"));
+        Image saveText = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "save_text"));
+        saveText.setOrigin(Align.center);
 
+        Image yesButton = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "yes_button"));
 
-        // todo button textur!
-        Image noButton = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "settings_button"));
+        Image noButton = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "no_button"));
 
         yesButton.addListener(new ClickListener() {
             @Override
@@ -194,6 +194,7 @@ public class PauseOverlay implements Disposable {
             }
         });
 
+        dialogBox.add(saveText).size(200, 70).pad(10).row();
         dialogBox.add(yesButton).size(160, 50).pad(10).row();
         dialogBox.add(noButton).size(160, 50).pad(10);
 

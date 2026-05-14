@@ -13,23 +13,37 @@ background_banner
   index: -1
 main_menu_button
   rotate: false
-  xy: 338, 230
+  xy: 338, 130
   size: 244, 69
   orig: 244, 69
   offset: 0, 0
   index: -1
+no_button
+  rotate: false
+  xy: 826, 437
+  size: 192, 68
+  orig: 192, 68
+  offset: 0, 0
+  index: -1
 paused_text
   rotate: false
-  xy: 826, 457
+  xy: 338, 80
   size: 182, 48
   orig: 182, 48
   offset: 0, 0
   index: -1
 resume_button
   rotate: false
-  xy: 338, 301
+  xy: 338, 201
   size: 253, 74
   orig: 253, 74
+  offset: 0, 0
+  index: -1
+save_text
+  rotate: false
+  xy: 338, 277
+  size: 268, 98
+  orig: 268, 98
   offset: 0, 0
   index: -1
 settings_button
@@ -44,5 +58,12 @@ title_banner
   xy: 338, 377
   size: 486, 128
   orig: 486, 128
+  offset: 0, 0
+  index: -1
+yes_button
+  rotate: false
+  xy: 608, 307
+  size: 192, 68
+  orig: 192, 68
   offset: 0, 0
   index: -1
