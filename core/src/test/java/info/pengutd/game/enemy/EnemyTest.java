@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PointMapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,7 +100,9 @@ class EnemyTest {
         when(layers.get("path")).thenReturn(pathLayer);
         when(pathLayer.getObjects()).thenReturn(objects);
         // iterator() is called by the for-each in findPath()
-        when(objects.iterator()).thenReturn(List.<com.badlogic.gdx.maps.MapObject>of(point).iterator());
+        Iterator<MapObject> it = Collections.singletonList((MapObject)point).iterator();
+        when(objects.iterator()).thenReturn(it);
+        // when(objects.iterator()).thenReturn(List.<com.badlogic.gdx.maps.MapObject>of(point).iterator());
 
         // update() calls world.getEnemies().removeValue(...) when the enemy reaches
         // the last path point. Return an empty Array so it does not NPE.

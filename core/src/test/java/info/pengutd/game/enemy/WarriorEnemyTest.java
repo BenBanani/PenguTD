@@ -1,5 +1,6 @@
 package info.pengutd.game.enemy;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,7 +48,8 @@ class WarriorEnemyTest {
         doReturn(layers).when(map).getLayers();
         doReturn(pathLayer).when(layers).get("path");
         doReturn(objects).when(pathLayer).getObjects();
-        doReturn(List.<com.badlogic.gdx.maps.MapObject>of(pt).iterator()).when(objects).iterator();
+        doReturn(Collections.singletonList(pt).iterator()).when(objects).iterator();
+        // doReturn(List.<com.badlogic.gdx.maps.MapObject>of(pt).iterator()).when(objects).iterator(); // geht nicht weil java 7
         doReturn(tileW).when(world).getTileWidth();
         doReturn(tileH).when(world).getTileHeight();
 
