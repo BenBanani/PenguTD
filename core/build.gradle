@@ -7,9 +7,13 @@ dependencies {
   api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
+  testImplementation "org.mockito:mockito-core:5.2.0"
+  testImplementation "org.mockito:mockito-junit-jupiter:5.2.0"
+  testImplementation "com.badlogicgames.gdx:gdx-backend-headless:1.12.1"
+  testImplementation "com.badlogicgames.gdx:gdx-platform:1.12.1:natives-desktop"
   compileOnly "org.jetbrains:annotations:26.0.2"
-
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }
@@ -17,4 +21,7 @@ dependencies {
 
 jar {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+test {
+    useJUnitPlatform()
 }
