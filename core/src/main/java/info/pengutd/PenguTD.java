@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import info.pengutd.screen.StartScreen;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,6 +46,8 @@ public class PenguTD extends Game {
         assetManager.load(Assets.WARRIOR_ENEMY_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.PROJECTILE_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.TOWER_ATLAS, TextureAtlas.class);
+
+        assetManager.load(Assets.DEFAULT_SKIN, Skin.class);
 
         assetManager.finishLoading();
     }

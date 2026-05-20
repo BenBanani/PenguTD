@@ -50,7 +50,7 @@ public class SettingsScreen implements Screen {
     }
 
     private void loadAssets() {
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 
         bgTexture = PenguTD.getInstance().getAssetManager().get(Assets.UI_BACKGROUND);
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.SETTINGS_SCREEN_ATLAS);

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -32,8 +31,8 @@ public class PauseOverlay implements Disposable {
     private final @NotNull Image resumeButton;
     private final @NotNull Image settingsButton;
     private final @NotNull Image mainMenuButton;
-    private @Nullable Table dialog;
     private final @NotNull TextureAtlas settingsAtlas;
+    private @Nullable Table dialog;
     private boolean visible = false;
 
     public PauseOverlay(@NotNull World world) {
@@ -77,6 +76,7 @@ public class PauseOverlay implements Disposable {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                uiStage.getRoot().setTouchable(Touchable.disabled);
                 dialog = getSettingsDialog();
                 uiStage.addActor(dialog);
             }
@@ -87,6 +87,7 @@ public class PauseOverlay implements Disposable {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                uiStage.getRoot().setTouchable(Touchable.disabled);
                 dialog = getSaveDialog();
                 uiStage.addActor(dialog);
             }
@@ -106,6 +107,7 @@ public class PauseOverlay implements Disposable {
     }
 
     private void close() {
+        uiStage.getRoot().setTouchable(Touchable.disabled);
         title.addAction(sequence(moveBy(0, 150, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(0, -150, 0.5f)));
         resumeButton.addAction(sequence(moveBy(-600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(600, -500, 0.5f)));
         settingsButton.addAction(sequence(moveBy(600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(-600, -500, 0.5f)));
@@ -114,6 +116,7 @@ public class PauseOverlay implements Disposable {
 
         if (dialog != null) {
             dialog.remove();
+            dialog = null;
         }
 
         uiStage.addAction(sequence(fadeOut(0.5f), run(() -> world.setPaused(false))));
@@ -127,7 +130,7 @@ public class PauseOverlay implements Disposable {
         resumeButton.addAction(sequence(moveBy(-600, 500), moveBy(600, -500, 0.5f, Interpolation.smoother)));
         settingsButton.addAction(sequence(moveBy(600, 500), moveBy(-600, -500, 0.5f, Interpolation.smoother)));
         mainMenuButton.addAction(sequence(moveBy(-600, 500), moveBy(600, -500, 0.5f, Interpolation.smoother)));
-        content.addAction(sequence(moveBy(0, -500), moveBy(0, 500, 0.5f, Interpolation.smoother)));
+        content.addAction(sequence(moveBy(0, -500), moveBy(0, 500, 0.5f, Interpolation.smoother), run(() -> uiStage.getRoot().setTouchable(Touchable.enabled))));
 
         uiStage.addAction(sequence(fadeIn(0.5f)));
 
@@ -138,7 +141,7 @@ public class PauseOverlay implements Disposable {
     /// show sollte vorher aufgerufen worden sein
     public void render(float ignoredDelta) {
         if (!visible) throw new IllegalStateException("PauseOverlay.render() called without show()");
-        uiStage.getViewport().apply(true);
+        uiStage.getViewport().apply();
         uiStage.draw();
     }
 
@@ -175,7 +178,7 @@ public class PauseOverlay implements Disposable {
 
         dialogBox.setOrigin(Align.center);
         dialogBox.setTransform(true);
-        dialogBox.addAction(sequence(scaleTo(0f, 0f), scaleTo(1f, 1f, 0.5f, Interpolation.smoother)));
+        dialogBox.addAction(sequence(scaleTo(0f, 0f), scaleTo(1f, 1f, 0.5f, Interpolation.smoother), run(() -> uiStage.getRoot().setTouchable(Touchable.enabled))));
 
         dialogOverlay.addActor(dialogBox);
 
@@ -189,6 +192,7 @@ public class PauseOverlay implements Disposable {
         yesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                uiStage.getRoot().setTouchable(Touchable.disabled);
                 world.saveGame();
                 close();
                 world.close();
@@ -198,6 +202,7 @@ public class PauseOverlay implements Disposable {
         noButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                uiStage.getRoot().setTouchable(Touchable.disabled);
                 close();
                 world.close();
             }
@@ -224,7 +229,7 @@ public class PauseOverlay implements Disposable {
 
         dialogBox.setOrigin(Align.center);
         dialogBox.setTransform(true);
-        dialogBox.addAction(sequence(scaleTo(0f, 0f), scaleTo(1f, 1f, 0.5f, Interpolation.smoother)));
+        dialogBox.addAction(sequence(scaleTo(0f, 0f), scaleTo(1f, 1f, 0.5f, Interpolation.smoother), run(() -> uiStage.getRoot().setTouchable(Touchable.enabled))));
 
         dialogOverlay.addActor(dialogBox);
 
@@ -256,7 +261,14 @@ public class PauseOverlay implements Disposable {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                close();
+                uiStage.getRoot().setTouchable(Touchable.disabled);
+                assert dialog != null;
+                dialog.getChild(0).addAction(sequence(  // dialog.getChild(0) ist die dialogBox
+                    parallel(fadeOut(0.5f), scaleTo(0, 0, 0.5f, Interpolation.smoother)), run(() -> {
+                        uiStage.getRoot().setTouchable(Touchable.enabled);
+                        dialog.remove();
+                        dialog = null;
+                    })));
             }
         });
 
@@ -267,7 +279,7 @@ public class PauseOverlay implements Disposable {
         Table content = new Table();
         content.pad(5);
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
         Label lbl = new Label(labelName, skin);
 
         Slider slider = new Slider(0f, 1f, 0.01f, false, skin);
@@ -288,12 +300,9 @@ public class PauseOverlay implements Disposable {
 
     private Table createFullscreenButton() {
         Table content = new Table();
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 
-        Label fullscreenLabel = new Label(
-            "Fullscreen: " + (Settings.get().getFullScreen() ? "On" : "Off"),
-            skin
-        );
+        Label fullscreenLabel = new Label("Fullscreen: " + (Settings.get().getFullScreen() ? "On" : "Off"), skin);
 
         content.add(fullscreenLabel);
 
@@ -310,9 +319,7 @@ public class PauseOverlay implements Disposable {
                     Gdx.graphics.setWindowedMode(800, 480);
                 }
 
-                fullscreenLabel.setText(
-                    "Fullscreen: " + (newValue ? "On" : "Off")
-                );
+                fullscreenLabel.setText("Fullscreen: " + (newValue ? "On" : "Off"));
             }
         });
         return content;

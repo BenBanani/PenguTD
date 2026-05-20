@@ -19,6 +19,8 @@ public class Assets {
     public static final String PROJECTILE_ATLAS = "atlas/projectiles.atlas";
     public static final String TOWER_ATLAS = "atlas/towers.atlas";
 
+    public static final String DEFAULT_SKIN = "uiskin.json";
+
     /// @return the texture region or the missing texture if the region is not found
     public static @NotNull TextureRegion findRegionOrMissing(@NotNull TextureAtlas atlas, @NotNull String name) {
         TextureRegion region = atlas.findRegion(name);
