@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class FishProjectile extends Projectile {
     public static final String JSON_TYPE = "fish_projectile";
     // speed in tiles pro sekunde
-    private static final float SPEED = 5f;
+    private static final float SPEED = 7.5f;
     private final @NotNull TextureRegion texture;
 
     public FishProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {

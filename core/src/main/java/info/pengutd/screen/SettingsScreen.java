@@ -245,7 +245,7 @@ public class SettingsScreen implements Screen {
         stage.dispose();
     }
 
-    private interface SliderCallback {
+    public interface SliderCallback {
         void onChange(float value);
     }
 }

@@ -6,63 +6,70 @@ filter: Nearest, Nearest
 repeat: none
 background_banner
   rotate: false
-  xy: 2, 72
+  xy: 2, 70
   size: 334, 433
   orig: 334, 433
   offset: 0, 0
   index: -1
 main_menu_button
   rotate: false
-  xy: 338, 130
+  xy: 338, 58
   size: 244, 69
   orig: 244, 69
   offset: 0, 0
   index: -1
 no_button
   rotate: false
-  xy: 826, 437
+  xy: 826, 435
   size: 192, 68
   orig: 192, 68
   offset: 0, 0
   index: -1
 paused_text
   rotate: false
-  xy: 338, 80
+  xy: 826, 385
   size: 182, 48
   orig: 182, 48
   offset: 0, 0
   index: -1
 resume_button
   rotate: false
-  xy: 338, 201
+  xy: 338, 199
   size: 253, 74
   orig: 253, 74
   offset: 0, 0
   index: -1
 save_text
   rotate: false
-  xy: 338, 277
+  xy: 338, 275
   size: 268, 98
   orig: 268, 98
   offset: 0, 0
   index: -1
 settings_button
   rotate: false
-  xy: 2, 2
+  xy: 338, 129
   size: 252, 68
   orig: 252, 68
   offset: 0, 0
   index: -1
+settings_text
+  rotate: false
+  xy: 2, 2
+  size: 325, 66
+  orig: 325, 66
+  offset: 0, 0
+  index: -1
 title_banner
   rotate: false
-  xy: 338, 377
+  xy: 338, 375
   size: 486, 128
   orig: 486, 128
   offset: 0, 0
   index: -1
 yes_button
   rotate: false
-  xy: 608, 307
+  xy: 608, 305
   size: 192, 68
   orig: 192, 68
   offset: 0, 0

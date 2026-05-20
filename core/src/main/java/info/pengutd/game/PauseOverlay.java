@@ -5,11 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -17,6 +16,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.Settings;
+import info.pengutd.screen.SettingsScreen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +32,8 @@ public class PauseOverlay implements Disposable {
     private final @NotNull Image resumeButton;
     private final @NotNull Image settingsButton;
     private final @NotNull Image mainMenuButton;
-    private @Nullable Table saveDialog;
+    private @Nullable Table dialog;
+    private final @NotNull TextureAtlas settingsAtlas;
     private boolean visible = false;
 
     public PauseOverlay(@NotNull World world) {
@@ -41,6 +43,7 @@ public class PauseOverlay implements Disposable {
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS);
+        settingsAtlas = PenguTD.getInstance().getAssetManager().get(Assets.SETTINGS_SCREEN_ATLAS);
 
         Table background = new Table();
         background.setFillParent(true);
@@ -71,15 +74,21 @@ public class PauseOverlay implements Disposable {
         settingsButton = new Image(Assets.findRegionOrMissing(atlas, "settings_button"));
         content.add(settingsButton).size(200, 60).pad(10).row();
         // todo mini settings
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dialog = getSettingsDialog();
+                uiStage.addActor(dialog);
+            }
+        });
 
         mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
         content.add(mainMenuButton).size(200, 60).pad(10).row();
-        // todo speichern
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                saveDialog = getSaveDialog();
-                uiStage.addActor(saveDialog);
+                dialog = getSaveDialog();
+                uiStage.addActor(dialog);
             }
         });
 
@@ -103,8 +112,8 @@ public class PauseOverlay implements Disposable {
         mainMenuButton.addAction(sequence(moveBy(-600, 500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(600, -500, 0.5f)));
         content.addAction(sequence(moveBy(0, -500, 0.5f, Interpolation.smoother), delay(0.1f), moveBy(0, 500)));
 
-        if (saveDialog != null) {
-            saveDialog.remove();
+        if (dialog != null) {
+            dialog.remove();
         }
 
         uiStage.addAction(sequence(fadeOut(0.5f), run(() -> world.setPaused(false))));
@@ -153,12 +162,12 @@ public class PauseOverlay implements Disposable {
     }
 
     private Table getSaveDialog() {
-        @Nullable Table dialogOverlay = new Table();
+        Table dialogOverlay = new Table();
         dialogOverlay.setFillParent(true);
 
         dialogOverlay.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background")).tint(new Color(0, 0, 0, 0.2f)));
 
-        @Nullable Table dialogBox = new Table();
+        Table dialogBox = new Table();
         dialogBox.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "background_banner")));
 
         dialogBox.setSize(300, 300);
@@ -200,4 +209,113 @@ public class PauseOverlay implements Disposable {
 
         return dialogOverlay;
     }
+
+    private Table getSettingsDialog() {
+        Table dialogOverlay = new Table();
+        dialogOverlay.setFillParent(true);
+
+        dialogOverlay.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background")).tint(new Color(0, 0, 0, 0.2f)));
+
+        Table dialogBox = new Table();
+        dialogBox.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "background_banner")));
+
+        dialogBox.setSize(450, 350);
+        dialogBox.setPosition((800 - 450 - DIALOG_PADDING) / 2f, (480 - 400) / 2f);
+
+        dialogBox.setOrigin(Align.center);
+        dialogBox.setTransform(true);
+        dialogBox.addAction(sequence(scaleTo(0f, 0f), scaleTo(1f, 1f, 0.5f, Interpolation.smoother)));
+
+        dialogOverlay.addActor(dialogBox);
+
+        Image settingsText = new Image(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "settings_text"));
+        settingsText.setOrigin(Align.center);
+
+        Table soundSlider = createSlider("Sound Volume", Settings.get().getSoundVolume(), v -> Settings.get().setSoundVolume(v));
+
+        Table musicSlider = createSlider("Music Volume", Settings.get().getMusicVolume(), v -> Settings.get().setMusicVolume(v));
+
+        Table fullscreenButton = createFullscreenButton();
+
+        ImageButton backButton = createBackButton();
+
+        dialogBox.add(settingsText).size(200, 40).pad(10).padTop(20).row();
+        dialogBox.add(musicSlider).width(400).height(70).row();
+        dialogBox.add(soundSlider).width(400).height(70).row();
+        dialogBox.add(fullscreenButton).width(400).height(70).row();
+        dialogBox.addActor(backButton);
+
+        return dialogOverlay;
+    }
+
+    private ImageButton createBackButton() {
+        ImageButton backButton = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(settingsAtlas, "back_button")));
+        backButton.setSize(50, 50);
+        backButton.setPosition(50, 250);
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                close();
+            }
+        });
+
+        return backButton;
+    }
+
+    private Table createSlider(String labelName, float initialValue, SettingsScreen.SliderCallback callback) {
+        Table content = new Table();
+        content.pad(5);
+
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Label lbl = new Label(labelName, skin);
+
+        Slider slider = new Slider(0f, 1f, 0.01f, false, skin);
+        slider.setValue(initialValue);
+
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                callback.onChange(slider.getValue());
+            }
+        });
+
+        content.add(lbl).left().row();
+        content.add(slider).width(300);
+
+        return content;
+    }
+
+    private Table createFullscreenButton() {
+        Table content = new Table();
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        Label fullscreenLabel = new Label(
+            "Fullscreen: " + (Settings.get().getFullScreen() ? "On" : "Off"),
+            skin
+        );
+
+        content.add(fullscreenLabel);
+
+        content.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                boolean newValue = !Settings.get().getFullScreen();
+
+                Settings.get().setFullScreen(newValue);
+
+                if (newValue) {
+                    Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                } else {
+                    Gdx.graphics.setWindowedMode(800, 480);
+                }
+
+                fullscreenLabel.setText(
+                    "Fullscreen: " + (newValue ? "On" : "Off")
+                );
+            }
+        });
+        return content;
+    }
+
 }
