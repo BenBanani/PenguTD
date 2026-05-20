@@ -260,6 +260,9 @@
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             if (paused) return false;  // keine Tower platzieren während pausiert ist
+            if (button == Input.Buttons.RIGHT) {
+                setSelectedTower(0);
+            }
             enemies.add(new WarriorEnemy(4, this, createEntityId()));
             if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
                 towers.add(previewTower.place());
