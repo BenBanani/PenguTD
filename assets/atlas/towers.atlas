@@ -1,77 +1,63 @@
 
 towers.png
-size: 512, 512
+size: 512, 32
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 fish_tower_attack1
   rotate: false
-  xy: 430, 467
+  xy: 151, 2
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 fish_tower_attack2
   rotate: false
-  xy: 68, 39
+  xy: 186, 2
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 fish_tower_attack3
   rotate: false
-  xy: 364, 335
+  xy: 256, 2
   size: 30, 27
   orig: 30, 27
   offset: 0, 0
   index: -1
 fish_tower_idle
   rotate: false
-  xy: 134, 105
+  xy: 221, 2
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
-tower1
+snowball_tower_attack1
   rotate: false
-  xy: 2, 134
-  size: 360, 360
-  orig: 360, 360
+  xy: 40, 2
+  size: 35, 27
+  orig: 35, 27
   offset: 0, 0
   index: -1
-tower2
-  rotate: false
-  xy: 2, 68
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower3
-  rotate: false
-  xy: 364, 430
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower4
+snowball_tower_attack2
   rotate: false
   xy: 2, 2
-  size: 64, 64
-  orig: 64, 64
+  size: 36, 27
+  orig: 36, 27
   offset: 0, 0
   index: -1
-tower5
+snowball_tower_attack3
   rotate: false
-  xy: 68, 68
-  size: 64, 64
-  orig: 64, 64
+  xy: 77, 2
+  size: 35, 27
+  orig: 35, 27
   offset: 0, 0
   index: -1
-tower6
+snowball_tower_idle
   rotate: false
-  xy: 364, 364
-  size: 64, 64
-  orig: 64, 64
+  xy: 114, 2
+  size: 35, 27
+  orig: 35, 27
   offset: 0, 0
   index: -1
 
@@ -80,14 +66,14 @@ size: 64, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-projectile/fish
+projectile/fish_projectile
   rotate: false
   xy: 2, 2
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
-projectile/snowball
+projectile/snowball_projectile
   rotate: false
   xy: 2, 15
   size: 32, 32

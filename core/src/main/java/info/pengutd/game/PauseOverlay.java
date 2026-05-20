@@ -225,7 +225,7 @@ public class PauseOverlay implements Disposable {
         dialogBox.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.PAUSE_SCREEN_ATLAS), "background_banner")));
 
         dialogBox.setSize(450, 350);
-        dialogBox.setPosition((800 - 450 - DIALOG_PADDING) / 2f, (480 - 400) / 2f);
+        dialogBox.setPosition((800 - 450 - DIALOG_PADDING) / 2f, (480 - 350) / 2f);
 
         dialogBox.setOrigin(Align.center);
         dialogBox.setTransform(true);
@@ -256,7 +256,7 @@ public class PauseOverlay implements Disposable {
     private ImageButton createBackButton() {
         ImageButton backButton = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(settingsAtlas, "back_button")));
         backButton.setSize(50, 50);
-        backButton.setPosition(50, 250);
+        backButton.setPosition(60, 250);
 
         backButton.addListener(new ClickListener() {
             @Override

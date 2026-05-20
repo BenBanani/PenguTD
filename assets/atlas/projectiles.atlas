@@ -4,14 +4,14 @@ size: 64, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-fish
+fish_projectile
   rotate: false
   xy: 2, 2
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
-snowball
+snowball_projectile
   rotate: false
   xy: 2, 15
   size: 32, 32

@@ -22,7 +22,7 @@ public class FishProjectile extends Projectile {
     public FishProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
         super(world, pos, direction, tower, damage);
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.PROJECTILE_ATLAS, TextureAtlas.class);
-        texture = Assets.findRegionOrMissing(atlas, "fish");
+        texture = Assets.findRegionOrMissing(atlas, JSON_TYPE);
 
         float deg = MathUtils.radiansToDegrees * MathUtils.atan2(direction.y, direction.x) - 90;
         setRotationDeg(deg);
