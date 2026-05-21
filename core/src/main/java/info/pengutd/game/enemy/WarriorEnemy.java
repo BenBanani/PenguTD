@@ -102,6 +102,11 @@ public class WarriorEnemy extends Enemy {
         animators.get(level - 1).update(delta);
     }
 
+    @Override
+    protected void setHealth(int value) {
+        this.level = value;
+    }
+
     /// Zum Speichern des Gegners als .json datei
     @Override
     public @NotNull JsonValue toJson() {

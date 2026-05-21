@@ -66,6 +66,11 @@ public class FatEnemy extends Enemy {
     }
 
     @Override
+    protected void setHealth(int value) {
+        this.health = value;
+    }
+
+    @Override
     public @NotNull TextureRegion getTexture() {
         return animator.getTexture(getDirection());
     }

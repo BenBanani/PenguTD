@@ -107,8 +107,9 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
         if (path.size == 0) return;
         if (currentPathIndex >= path.size - 1) {
-            getWorld().damageHp(1);
+            getWorld().damageHp(getHealth());
             getWorld().getEnemies().removeValue(this, true);
+            setHealth(0);
             this.dispose();
             return;
         }
@@ -124,6 +125,8 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
 
         setPos(getPos().add(dir.scl(getSpeed() * delta)));
     }
+
+    protected abstract void setHealth(int value);
 
     /// Setzt die richtung auf die, in die
     /// @param dir zeigt

@@ -64,6 +64,12 @@ class EnemyTest {
         @Override public float getHeight() { return 20f; }
         @Override public int   getHealth() { return health; }
         @Override public float getSpeed()  { return 100f; }
+
+        @Override
+        protected void setHealth(int value) {
+
+        }
+
         @Override public void  pop(int damage) { health -= damage; }
         @Override public void  die() { health = 0; }
         @Override public void  dispose() {}
