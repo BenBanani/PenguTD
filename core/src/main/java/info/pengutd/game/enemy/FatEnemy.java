@@ -76,6 +76,11 @@ public class FatEnemy extends Enemy {
     }
 
     @Override
+    public @NotNull String getType() {
+        return JSON_TYPE;
+    }
+
+    @Override
     public float getHeight() {
         return HEIGHT * getWorld().getTileHeight();
     }
@@ -98,7 +103,6 @@ public class FatEnemy extends Enemy {
     @Override
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue(JSON_TYPE));
         value.addChild("health", new JsonValue(health));
         return value;
     }

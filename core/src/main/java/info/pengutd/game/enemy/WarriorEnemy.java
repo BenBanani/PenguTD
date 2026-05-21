@@ -50,6 +50,11 @@ public class WarriorEnemy extends Enemy {
     }
 
     @Override
+    public @NotNull String getType() {
+        return JSON_TYPE;
+    }
+
+    @Override
     protected boolean flipX() {
         return getDirection() == Direction.LEFT;
     }
@@ -111,7 +116,6 @@ public class WarriorEnemy extends Enemy {
     @Override
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue(JSON_TYPE));
         value.addChild("level", new JsonValue(level));
         return value;
     }

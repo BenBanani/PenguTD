@@ -39,6 +39,11 @@ public class FishProjectile extends Projectile {
     }
 
     @Override
+    public @NotNull String getType() {
+        return JSON_TYPE;
+    }
+
+    @Override
     public float getHeight() {
         return 0.25f * getWorld().getTileHeight();
     }
@@ -63,7 +68,6 @@ public class FishProjectile extends Projectile {
     @Override
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue(JSON_TYPE));
         return value;
     }
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy.Direction;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -60,6 +61,12 @@ class EnemyTest {
         }
 
         @Override public TextureRegion getTexture() { return null; }
+
+        @Override
+        public @NotNull String getType() {
+            return "";
+        }
+
         @Override public float getWidth()  { return 20f; }
         @Override public float getHeight() { return 20f; }
         @Override public int   getHealth() { return health; }

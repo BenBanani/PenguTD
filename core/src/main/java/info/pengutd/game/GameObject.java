@@ -28,6 +28,9 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     /// @return Textur die gerendert wird (Animationen müssen hier gehandelt werden)
     public abstract @NotNull TextureRegion getTexture();
 
+    /// @return Typ des GameObjects für JSON Serialisierung und Ressourcen
+    public abstract @NotNull String getType();
+
     /// Zeichnet das GameObject auf den Screen
     /// SpriteBatch.begin() muss davor aufgerufen werden
     /// Unterklassen sollten debug funktionen implementieren und super.draw() aufrufen
@@ -89,6 +92,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     @MustBeInvokedByOverriders
     public @NotNull JsonValue toJson() {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
+        value.addChild("type", new JsonValue(getType()));
         value.addChild("x", new JsonValue(getX()));
         value.addChild("y", new JsonValue(getY()));
         value.addChild("rotation", new JsonValue(getRotationDeg()));

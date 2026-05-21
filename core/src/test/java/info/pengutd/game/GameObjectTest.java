@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,6 +39,11 @@ class GameObjectTest {
         @Override
         public TextureRegion getTexture() {
             return null; // not needed for any test here
+        }
+
+        @Override
+        public @NotNull String getType() {
+            return "";
         }
 
         @Override

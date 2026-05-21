@@ -39,6 +39,11 @@ public class SnowballProjectile extends Projectile {
     }
 
     @Override
+    public @NotNull String getType() {
+        return JSON_TYPE;
+    }
+
+    @Override
     public float getHeight() {
         return 0.15f * getWorld().getTileHeight();
     }
@@ -68,12 +73,5 @@ public class SnowballProjectile extends Projectile {
     @Override
     public void dispose() {
 
-    }
-
-    @Override
-    public @NotNull JsonValue toJson() {
-        JsonValue value = super.toJson();
-        value.addChild("type", new JsonValue(JSON_TYPE));
-        return value;
     }
 }
