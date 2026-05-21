@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
@@ -140,8 +141,9 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     ///  logik update des Towers
     @Override
     public void update(float delta) {
-        shotCooldown -= delta;
-        timeSinceLastAttack += delta;
+        float speedMultiplier = getAttackSpeedMultiplier();
+        shotCooldown -= delta * speedMultiplier;
+        timeSinceLastAttack += delta * speedMultiplier;
 
         if (targetEnemy == null || !targetEnemy.isAlive() || !inRange(targetEnemy)) {
             targetEnemy = findNewTarget();
@@ -154,6 +156,20 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
                 shoot();
             }
         }
+    }
+
+    /// slow Effekte von FatEnemy etc.
+    public float getAttackSpeedMultiplier() {
+        final float[] multiplier = {1f};
+
+        getWorld().getEnemies().forEach(e -> {
+            if (e instanceof FatEnemy) {
+                if (e.isAlive() && ((FatEnemy) e).affectsTower(this)) {
+                    multiplier[0] *= FatEnemy.SLOW_MULTIPLIER;
+                }
+            }
+        });
+        return (float) Math.max(multiplier[0], 0.5);
     }
 
     /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde ein Gegner trifft.

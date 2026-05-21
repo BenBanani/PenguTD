@@ -1,5 +1,6 @@
 package info.pengutd.game.enemy;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
 // Dicker Pinguin mit mehr leben
@@ -15,11 +17,15 @@ public class FatEnemy extends Enemy {
     // in tiles
     public static final float HEIGHT = 0.9f;
     public static final float WIDTH = 0.9f;
-    public static final String JSON_TYPE = "fat_enemy";
+    public static final float FROST_RADIUS = 1.5f;
     public static final float SPEED = 0.5f;
+    public static final String JSON_TYPE = "fat_enemy";
+    public static final float SLOW_MULTIPLIER = 0.75f;
+    // in Sek
     public static final float FRAME_DURATION = (1f / SPEED) / 4f;
     public static final float POP_DURATION = 0.1f;
     private final @NotNull EnemyAnimatorSet animator;
+    private final @NotNull TextureRegion aura;
     private int health = 5;
 
     public FatEnemy(@NotNull World world, int id) {
@@ -28,13 +34,37 @@ public class FatEnemy extends Enemy {
         animator = new EnemyAnimatorSet(
             new EnemyAnimator("fat_up", 4, atlas, FRAME_DURATION),
             new EnemyAnimator("fat_down", 4, atlas, FRAME_DURATION),
-        new EnemyAnimator("fat_side", 4, atlas, FRAME_DURATION)
+            new EnemyAnimator("fat_side", 4, atlas, FRAME_DURATION)
         );
+
+        aura = Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_ATLAS), "fat_aura");
     }
 
     @Override
     public int getHealth() {
         return health;
+    }
+
+    @Override
+    protected void setHealth(int value) {
+        this.health = value;
+    }
+
+    public boolean affectsTower(@NotNull Tower tower) {
+        float radius2 = FROST_RADIUS * getWorld().getTileWidth();
+        radius2 *= radius2;
+        return tower.getPos().dst2(getPos()) <= radius2;
+    }
+
+    @Override
+    public void draw(@NotNull SpriteBatch batch) {
+        super.draw(batch);
+        float radius = FROST_RADIUS * getWorld().getTileWidth();
+
+        batch.setColor(0.7f, 0.9f, 1f, 0.35f);
+        batch.draw(aura, getPos().x-radius, getPos().y - radius,  radius * 2, radius * 2);
+
+        batch.setColor(1,1,1,1);
     }
 
     @Override
@@ -63,11 +93,6 @@ public class FatEnemy extends Enemy {
         super.update(delta);
         if (health <= 0) return;
         animator.update(delta);
-    }
-
-    @Override
-    protected void setHealth(int value) {
-        this.health = value;
     }
 
     @Override
