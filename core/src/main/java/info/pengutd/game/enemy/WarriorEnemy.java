@@ -29,7 +29,7 @@ public class WarriorEnemy extends Enemy {
     public WarriorEnemy(int level, @NotNull World world, int id) {
         super(world, new Vector2(), id); // placeholder position
         this.level = level;
-        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.WARRIOR_ENEMY_ATLAS);
+        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_ATLAS);
 
         createAnimators(atlas);
 

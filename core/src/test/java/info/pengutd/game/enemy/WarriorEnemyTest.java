@@ -1,7 +1,6 @@
 package info.pengutd.game.enemy;
 
 import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -58,7 +57,7 @@ class WarriorEnemyTest {
         TextureAtlas atlas      = mock(TextureAtlas.class);
 
         doReturn(mock(TextureAtlas.AtlasRegion.class)).when(atlas).findRegion(anyString());
-        doReturn(atlas).when(assetMgr).get(Assets.WARRIOR_ENEMY_ATLAS);
+        doReturn(atlas).when(assetMgr).get(Assets.ENEMY_ATLAS);
         doReturn(assetMgr).when(penguTD).getAssetManager();
 
         MockedStatic<PenguTD> staticMock = mockStatic(PenguTD.class);

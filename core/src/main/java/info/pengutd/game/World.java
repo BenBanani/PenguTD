@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.PenguTD;
 import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.enemy.WarriorEnemy;
 import info.pengutd.game.tower.FishTower;
 import info.pengutd.game.tower.SnowballTower;
@@ -265,7 +266,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        enemies.add(new WarriorEnemy(4, this, createEntityId()));
+        if (Math.random() < 0.5f) {
+            enemies.add(new WarriorEnemy(4, this, createEntityId()));
+        } else {
+            enemies.add(new FatEnemy(this, createEntityId()));
+        }
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
             setSelectedTower(0);
@@ -436,10 +441,15 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         for (JsonValue jsonEnemy : jsonEnemies) {
             Enemy enemy;
             String enemyType = jsonEnemy.getString("type");
-            if (WarriorEnemy.JSON_TYPE.equals(enemyType)) {
-                enemy = new WarriorEnemy(0, this, jsonEnemy.getInt("id"));
-            } else {
-                throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
+            switch (enemyType) {
+                case WarriorEnemy.JSON_TYPE:
+                    enemy = new WarriorEnemy(0, this, jsonEnemy.getInt("id"));
+                    break;
+                case FatEnemy.JSON_TYPE:
+                    enemy = new FatEnemy(this, jsonEnemy.getInt("id"));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
             enemy.fromJson(jsonEnemy);
             enemies.add(enemy);
