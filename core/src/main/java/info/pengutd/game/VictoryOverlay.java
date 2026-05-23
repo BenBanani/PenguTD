@@ -1,0 +1,116 @@
+package info.pengutd.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import info.pengutd.Assets;
+import info.pengutd.PenguTD;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+
+public class VictoryOverlay {
+    private final @NotNull World world;
+    private final @NotNull Stage uiStage;
+    private final @NotNull Table content;
+    private final @NotNull Image title;
+    private final @NotNull Image mainMenuButton;
+    private final @NotNull Table stats;
+    private boolean visible;
+
+    public VictoryOverlay(@NotNull World world) {
+        this.world = world;
+
+        uiStage = new Stage(new FitViewport(800f, 480f));
+        uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.DEFEAT_SCREEN_ATLAS);
+        Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
+
+        Table background = new Table();
+        background.setFillParent(true);
+        background.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS), "background")).tint(new Color(1, 1, 1, 0.6f)));
+        uiStage.addActor(background);
+
+        content = new Table();
+        content.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background_banner")));
+
+        content.setSize(500, 350);
+        content.setPosition((800 - 500) / 2f, (480 - 350) / 2f);
+        uiStage.addActor(content);
+
+        title = new Image(Assets.findRegionOrMissing(atlas, "title"));
+        title.setSize(400, 100);
+        title.setPosition((800 - 400) / 2f, 350);
+        uiStage.addActor(title);
+
+        stats = new Table();
+        HashMap<String, String> statsMap = new HashMap<>(); // Stats.getStatsAsMap()
+        statsMap.put("money", "" + world.getMoney());
+        statsMap.put("kills", "" + 100);
+        statsMap.forEach((k, v) -> {
+            stats.add(new Label(k + ": " + v, skin)).row();
+        });
+        content.add(stats).row();
+
+        mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
+        content.add(mainMenuButton).size(200, 60);
+
+        mainMenuButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                uiStage.getRoot().setTouchable(Touchable.disabled);
+                close();
+            }
+        });
+    }
+
+    public void render(float delta) {
+        uiStage.act(delta);
+        uiStage.getViewport().apply();
+        uiStage.getBatch().setColor(Color.GREEN);
+        uiStage.draw();
+        uiStage.getBatch().setColor(Color.WHITE);
+    }
+
+    private void close() {
+        hide();
+        world.close();
+    }
+
+    /// muss aufgerufen werden bevor das DefeatOverlay sichtbar wird
+    public void show() {
+        world.getInputProcessor().addProcessor(0, uiStage);
+
+        // animate open
+
+        uiStage.addAction(sequence(fadeIn(0.5f)));
+
+        visible = true;
+    }
+
+
+    /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
+    public void hide() {
+        world.getInputProcessor().removeProcessor(uiStage);
+        visible = false;
+    }
+
+    public void resize(int width, int height) {
+        uiStage.getViewport().update(width, height, true);
+    }
+
+}

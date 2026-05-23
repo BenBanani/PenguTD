@@ -56,6 +56,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int tileHeight;
     private TowerSelection towerSelection;
     private PauseOverlay pauseOverlay;
+    private DefeatOverlay defeatOverlay;
+    private VictoryOverlay victoryOverlay;
     private InputMultiplexer multiplexer;
     private int nextEntityId = 0;
     private int nextTowerId = 0;
@@ -65,6 +67,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int hp = START_HP;
     private int score;
     private boolean paused = false;
+    private boolean won = false;
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -120,6 +123,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         createTowerSelection();
 
         pauseOverlay = new PauseOverlay(this);
+        defeatOverlay = new DefeatOverlay(this);
+        victoryOverlay = new VictoryOverlay(this);
     }
 
     public @NotNull Array<Enemy> getEnemies() {
@@ -182,6 +187,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         pauseOverlay.act(delta); // act immer, damit animationen fertig werden
         if (paused) {
             pauseOverlay.render(delta);
+        } else if (getHp() <= 0) {
+            defeatOverlay.render(delta);
+        } else if (won) {
+            victoryOverlay.render(delta);
         }
     }
 
@@ -228,6 +237,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         viewport.update(width, height, true);
         towerSelection.resize(width, height);
         pauseOverlay.resize(width, height);
+        defeatOverlay.resize(width, height);
+        victoryOverlay.resize(width, height);
     }
 
     @Override
@@ -267,11 +278,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        if (Math.random() < 0.5f) {
-            enemies.add(new BushEnemy(this, createEntityId()));
-        } else {
-            enemies.add(new FatEnemy(this, createEntityId()));
-        }
+        //enemies.add(new BushEnemy(this, createEntityId()));
+        //enemies.add(new FatEnemy(this, createEntityId()));
+        enemies.add(new WarriorEnemy(4, this, createEntityId()));
+
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
             setSelectedTower(0);
@@ -285,6 +295,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             setSelectedTower(0);
         } else if (keycode == Input.Keys.S) {
             saveGame();
+        } else if (keycode == Input.Keys.V) {
+            won = true;
+            victoryOverlay.show();
+        } else if (keycode == Input.Keys.X) {
+            damageHp(START_HP);
+            defeatOverlay.show();
         }
         return false;
     }
@@ -617,7 +633,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     public void damageHp(int amount) {
         hp -= amount;
 
-        if (hp < 0) hp = 0;
+        if (hp <= 0) {
+            hp = 0;
+        }
         towerSelection.updateTopElement();
     }
 

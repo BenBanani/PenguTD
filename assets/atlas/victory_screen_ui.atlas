@@ -1,0 +1,27 @@
+
+victory_screen_ui.png
+size: 1024, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+background_banner
+  rotate: false
+  xy: 2, 73
+  size: 334, 433
+  orig: 334, 433
+  offset: 0, 0
+  index: -1
+main_menu_button
+  rotate: false
+  xy: 2, 2
+  size: 244, 69
+  orig: 244, 69
+  offset: 0, 0
+  index: -1
+title
+  rotate: false
+  xy: 338, 378
+  size: 486, 128
+  orig: 486, 128
+  offset: 0, 0
+  index: -1
