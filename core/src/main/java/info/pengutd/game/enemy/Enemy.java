@@ -169,6 +169,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         value.addChild("id", new JsonValue(id));
         value.addChild("currentPathIndex", new JsonValue(currentPathIndex));
         value.addChild("popTimeLeft", new JsonValue(popTimeLeft));
+        value.addChild("health", new JsonValue(getHealth()));
         return value;
     }
 
@@ -178,6 +179,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
         id = json.getInt("id");
         this.currentPathIndex = json.getInt("currentPathIndex");
         this.popTimeLeft = json.getFloat("popTimeLeft");
+        setHealth(json.getInt("health"));
     }
 
     /// Schaltet den Debug Modus an

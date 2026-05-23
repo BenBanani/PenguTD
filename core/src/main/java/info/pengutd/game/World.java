@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.PenguTD;
+import info.pengutd.game.enemy.BushEnemy;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.enemy.WarriorEnemy;
@@ -267,7 +268,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             setSelectedTower(0);
         }
         if (Math.random() < 0.5f) {
-            enemies.add(new WarriorEnemy(4, this, createEntityId()));
+            enemies.add(new BushEnemy(this, createEntityId()));
         } else {
             enemies.add(new FatEnemy(this, createEntityId()));
         }

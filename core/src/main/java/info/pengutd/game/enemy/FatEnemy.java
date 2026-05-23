@@ -124,17 +124,4 @@ public class FatEnemy extends Enemy {
     public void dispose() {
 
     }
-
-    @Override
-    public @NotNull JsonValue toJson() {
-        JsonValue value = super.toJson();
-        value.addChild("health", new JsonValue(health));
-        return value;
-    }
-
-    @Override
-    public void fromJson(@NotNull JsonValue json) {
-        super.fromJson(json);
-        health = json.getInt("health");
-    }
 }

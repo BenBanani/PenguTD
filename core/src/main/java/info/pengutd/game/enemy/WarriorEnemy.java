@@ -112,20 +112,11 @@ public class WarriorEnemy extends Enemy {
         this.level = value;
     }
 
-    /// Zum Speichern des Gegners als .json datei
-    @Override
-    public @NotNull JsonValue toJson() {
-        JsonValue value = super.toJson();
-        value.addChild("level", new JsonValue(level));
-        return value;
-    }
-
     /// Lädt einen Gegner aus json ein.
     /// world muss bereits gesetzt sein, level ist egal
     @Override
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
-        this.level = json.getInt("level");
         animators.forEach((e) -> e.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME));
     }
 
