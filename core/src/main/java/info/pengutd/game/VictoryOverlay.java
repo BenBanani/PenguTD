@@ -3,6 +3,7 @@ package info.pengutd.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -19,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class VictoryOverlay {
     private final @NotNull World world;
@@ -96,14 +97,47 @@ public class VictoryOverlay {
         world.getInputProcessor().addProcessor(0, uiStage);
 
         // animate open
+        content.addAction(sequence(
+            moveBy(0, -500),
+            moveBy(0, 500, 0.5f, Interpolation.smoother)
+        ));
 
-        uiStage.addAction(sequence(fadeIn(0.5f)));
+        title.addAction(sequence(
+            moveBy(-800, 0),
+            moveBy(800, 0, 0.5f, Interpolation.smoother)
+        ));
+
+        mainMenuButton.addAction(sequence(
+            moveBy(600, 500),
+            moveBy(-600, -500, 0.5f, Interpolation.smoother)
+        ));
+
+
+        uiStage.addAction(sequence(alpha(0), fadeIn(0.5f)));
     }
 
 
     /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
     public void hide() {
         world.getInputProcessor().removeProcessor(uiStage);
+
+        content.addAction(sequence(
+            moveBy(0, 500, 0.5f, Interpolation.smoother),
+            moveBy(0, -500)
+            ));
+
+        title.addAction(sequence(
+            moveBy(800, 0, 0.5f, Interpolation.smoother),
+            moveBy(-800, 0)
+            ));
+
+        mainMenuButton.addAction(sequence(
+            moveBy(-600, -500, 0.5f, Interpolation.smoother),
+            moveBy(600, 500)
+            ));
+
+
+        uiStage.addAction(fadeOut(0.5f));
     }
 
     public void resize(int width, int height) {
