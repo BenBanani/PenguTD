@@ -29,7 +29,7 @@ public class VictoryOverlay {
     private final @NotNull Image title;
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
-    private boolean visible;
+    public static final int DIALOG_PADDING = 50;
 
     public VictoryOverlay(@NotNull World world) {
         this.world = world;
@@ -37,7 +37,7 @@ public class VictoryOverlay {
         uiStage = new Stage(new FitViewport(800f, 480f));
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.DEFEAT_SCREEN_ATLAS);
+        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.VICTORY_SCREEN_ATLAS);
         Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 
         Table background = new Table();
@@ -48,13 +48,13 @@ public class VictoryOverlay {
         content = new Table();
         content.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background_banner")));
 
-        content.setSize(500, 350);
-        content.setPosition((800 - 500) / 2f, (480 - 350) / 2f);
+        content.setSize(450, 350);
+        content.setPosition((800 - 450) / 2f - DIALOG_PADDING, (480 - 350) / 2f);
         uiStage.addActor(content);
 
         title = new Image(Assets.findRegionOrMissing(atlas, "title"));
-        title.setSize(400, 100);
-        title.setPosition((800 - 400) / 2f, 350);
+        title.setSize(450, 150);
+        title.setPosition((800 - 450) / 2f - DIALOG_PADDING, 275);
         uiStage.addActor(title);
 
         stats = new Table();
@@ -98,15 +98,12 @@ public class VictoryOverlay {
         // animate open
 
         uiStage.addAction(sequence(fadeIn(0.5f)));
-
-        visible = true;
     }
 
 
     /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
     public void hide() {
         world.getInputProcessor().removeProcessor(uiStage);
-        visible = false;
     }
 
     public void resize(int width, int height) {

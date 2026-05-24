@@ -29,7 +29,7 @@ public class DefeatOverlay {
     private final @NotNull Image title;
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
-    private boolean visible = false;
+    public static final int DIALOG_PADDING = 50;
 
     public DefeatOverlay(@NotNull World world) {
         this.world = world;
@@ -48,13 +48,13 @@ public class DefeatOverlay {
         content = new Table();
         content.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background_banner")));
 
-        content.setSize(500, 350);
-        content.setPosition((800 - 500) / 2f, (480 - 350) / 2f);
+        content.setSize(450, 350);
+        content.setPosition((800 - 450) / 2f - DIALOG_PADDING, (480 - 350) / 2f);
         uiStage.addActor(content);
 
         title = new Image(Assets.findRegionOrMissing(atlas, "title"));
-        title.setSize(400, 100);
-        title.setPosition((800 - 400) / 2f, 350);
+        title.setSize(450, 150);
+        title.setPosition((800 - 450) / 2f - DIALOG_PADDING, 275);
         uiStage.addActor(title);
 
         stats = new Table();
@@ -102,15 +102,12 @@ public class DefeatOverlay {
         // animate open
 
         uiStage.addAction(sequence(fadeIn(0.5f)));
-
-        visible = true;
     }
 
 
     /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
     public void hide() {
         world.getInputProcessor().removeProcessor(uiStage);
-        visible = false;
     }
 
 }
