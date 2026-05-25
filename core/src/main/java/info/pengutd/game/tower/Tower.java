@@ -4,12 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
+import info.pengutd.Assets;
+import info.pengutd.PenguTD;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.BushEnemy;
@@ -29,10 +32,17 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     private float shotCooldown = 0f;
     private float timeSinceLastAttack = 0f;
     private int id;
+    private final @NotNull TowerAnimator animator;
 
     protected Tower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos);
         this.id = id;
+        animator = new TowerAnimator(getType(), PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
+    }
+
+    @Override
+    public @NotNull TextureRegion getTexture() {
+        return animator.getTexture(shotCooldown, 1/getAttackSpeed(), getTargetEnemy() != null);
     }
 
     public abstract int getCost();

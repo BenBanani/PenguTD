@@ -61,11 +61,6 @@ public class SniperTower extends Tower {
     }
 
     @Override
-    public @NotNull TextureRegion getTexture() {
-        return animator.getTexture(getTimeSinceLastAttack(), 1/getAttackSpeed(), getTargetEnemy() != null);
-    }
-
-    @Override
     public @NotNull String getType() {
         return JSON_TYPE;
     }
