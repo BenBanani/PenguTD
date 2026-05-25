@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
+import info.pengutd.game.enemy.BushEnemy;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.tower.projectile.Projectile;
@@ -221,8 +222,11 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
             float dst2 = getPos().dst2(enemy.getPos());
 
-            if (dst2 <= getRange() * getRange()
-                && dst2 < closestDst2) {
+            if (dst2 <= getRange() * getRange() && dst2 < closestDst2) {
+                if (enemy instanceof BushEnemy) {
+                    BushEnemy bush = ((BushEnemy) enemy);
+                    if (!bush.isVisibleTo(this)) continue;
+                }
 
                 closestDst2 = dst2;
                 target = enemy;

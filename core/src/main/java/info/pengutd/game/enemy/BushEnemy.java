@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.tower.SnowballTower;
+import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
 /// Pinguin der sich im Busch versteckt. Er kann zum Beispiel nur vom SniperPinguin gesehen werden,
@@ -92,6 +93,12 @@ public class BushEnemy extends Enemy {
         } else {
             animators.get(0).update(delta);
         }
+    }
+
+    /// @return kann dieser Turm den BushEnemy anvisiseren
+    public boolean isVisibleTo(@NotNull Tower tower) {
+        if (visible) return true;
+        return tower instanceof SnowballTower; // todo snipertower oder sowas
     }
 
     @Override
