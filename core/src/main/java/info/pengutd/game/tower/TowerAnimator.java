@@ -25,13 +25,12 @@ public class TowerAnimator {
     }
 
     /// @return die aktuelle Textur des Towers
-    /// @param timeToNextAttack die Zeit bis zum nächsten Schuss
     /// @param timeSinceLastAttack die Zeit seit dem letzten Schuss
     /// @param totalCooldown Cooldown Zeit die der Tower hat (normalerweise 1 / getAttackSpeed())
     /// @param isAttacking ob der Tower einen Gegner anvisiert hat.
-    public @NotNull TextureRegion getTexture(float timeToNextAttack, float timeSinceLastAttack, float totalCooldown, boolean isAttacking) {
+    public @NotNull TextureRegion getTexture(float timeSinceLastAttack, float totalCooldown, boolean isAttacking) {
         if (!isAttacking) return idle;
-        if (timeToNextAttack < 0.05 * totalCooldown || timeSinceLastAttack < 0.2 * totalCooldown) return attackShoot;
+        if (timeSinceLastAttack < 0.2 * totalCooldown) return attackShoot;
         if (timeSinceLastAttack < 0.5 * totalCooldown) return attackShotOver;
         return attackIdle;
     }

@@ -26,9 +26,11 @@ import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.enemy.WarriorEnemy;
 import info.pengutd.game.tower.FishTower;
+import info.pengutd.game.tower.SniperTower;
 import info.pengutd.game.tower.SnowballTower;
 import info.pengutd.game.tower.Tower;
 import info.pengutd.game.tower.projectile.FishProjectile;
+import info.pengutd.game.tower.projectile.IceProjectile;
 import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.game.tower.projectile.SnowballProjectile;
 import info.pengutd.save.JsonSerializable;
@@ -37,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
-    private static final int START_MONEY = 75;
+    private static final int START_MONEY = 100;
     private static final int START_HP = 100;
     private final @NotNull Array<Enemy> enemies = new Array<>();
     private final @NotNull Array<Tower> towers = new Array<>();
@@ -278,9 +280,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        enemies.add(new BushEnemy(this, createEntityId()));
+        //enemies.add(new BushEnemy(this, createEntityId()));
         //enemies.add(new FatEnemy(this, createEntityId()));
-        //enemies.add(new WarriorEnemy(4, this, createEntityId()));
+        enemies.add(new WarriorEnemy(4, this, createEntityId()));
 
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
@@ -298,6 +300,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         } else if (keycode == Input.Keys.V) {
             won = true;
             victoryOverlay.show();
+        } else if (keycode == Input.Keys.M) {
+            addMoney(10);
         } else if (keycode == Input.Keys.X) {
             damageHp(START_HP);
             defeatOverlay.show();
@@ -358,11 +362,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         switch (type) {
             case 1:
-                previewTower = new FishTower(this, new Vector2(-100, -100), createTowerId()).preview();  // -100 für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
+                previewTower = new FishTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();  // für außerhalb vom Feld → nicht sichtbar bis Maus Bewegt
                 break;
             case 2:
-                previewTower = new SnowballTower(this, new Vector2(-100, -100), createTowerId()).preview();
+                previewTower = new SnowballTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
                 break;
+            case 3:
+                previewTower = new SniperTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
             // später weitere types
         }
     }
@@ -465,6 +471,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 case FatEnemy.JSON_TYPE:
                     enemy = new FatEnemy(this, jsonEnemy.getInt("id"));
                     break;
+                case BushEnemy.JSON_TYPE:
+                    enemy = new BushEnemy(this, jsonEnemy.getInt("id"));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
@@ -486,6 +495,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 case SnowballTower.JSON_TYPE:
                     tower = new SnowballTower(this, new Vector2(), jsonTower.getInt("id"));
                     break;
+                case SniperTower.JSON_TYPE:
+                    tower = new SniperTower(this, new Vector2(), jsonTower.getInt("id"));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }
@@ -506,6 +518,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                     break;
                 case SnowballProjectile.JSON_TYPE:
                     projectile = new SnowballProjectile(this, new Vector2(), new Vector2(), null, 0, 0f);  // tower als null ist ok, da dieser sowieso in fromJson updated wird
+                    break;
+                case IceProjectile.JSON_TYPE:
+                    projectile = new IceProjectile(this, new Vector2(), new Vector2(), null, 0);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown projectile type: " + projectileType);

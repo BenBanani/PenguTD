@@ -11,14 +11,12 @@ import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
-/// Standard Projektil
-public class FishProjectile extends Projectile {
-    public static final String JSON_TYPE = "fish_projectile";
-    // speed in tiles pro sekunde
-    private static final float SPEED = 7.5f;
+public class IceProjectile extends Projectile {
+    public static final String JSON_TYPE = "ice_projectile";
+    private static final float SPEED = 15f;
     private final @NotNull TextureRegion texture;
 
-    public FishProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
+    public IceProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
         super(world, pos, direction, tower, damage);
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.PROJECTILE_ATLAS, TextureAtlas.class);
         texture = Assets.findRegionOrMissing(atlas, JSON_TYPE);
@@ -32,6 +30,7 @@ public class FishProjectile extends Projectile {
         return SPEED * getWorld().getTileWidth();
     }
 
+
     @Override
     public @NotNull TextureRegion getTexture() {
         return texture;
@@ -44,17 +43,12 @@ public class FishProjectile extends Projectile {
 
     @Override
     public float getHeight() {
-        return 0.25f * getWorld().getTileHeight();
+        return 0.5f * getWorld().getTileHeight();
     }
 
     @Override
     public float getWidth() {
-        return 0.125f * getWorld().getTileWidth();
-    }
-
-    @Override
-    public void update(float delta) {
-        super.update(delta);
+        return 0.1f * getWorld().getTileWidth();
     }
 
     @Override
@@ -66,6 +60,6 @@ public class FishProjectile extends Projectile {
 
     @Override
     public void dispose() {
-        // nichts texture ist in TextreManager
+
     }
 }

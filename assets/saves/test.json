@@ -1,12 +1,425 @@
 {
 "type": "world",
 "map": "map1",
-"next_entity_id": 0,
-"next_tower_id": 0,
-"money": 75,
+"next_entity_id": 39,
+"next_tower_id": 1,
+"money": 0,
 "hp": 100,
 "score": 0,
-"enemies": [],
-"towers": [],
-"projectiles": []
+"enemies": [
+	{
+		"type": "bush_enemy",
+		"x": 96.3854751586914,
+		"y": 522.3145751953125,
+		"rotation": 0.0,
+		"id": 0,
+		"currentPathIndex": 20,
+		"popTimeLeft": -0.016547899693250656,
+		"health": 1
+	},
+	{
+		"type": "bush_enemy",
+		"x": 367.7170715332031,
+		"y": 732.7471923828125,
+		"rotation": 0.0,
+		"id": 1,
+		"currentPathIndex": 13,
+		"popTimeLeft": -1.9107013940811157E-4,
+		"health": 1
+	},
+	{
+		"type": "bush_enemy",
+		"x": 673.6273193359375,
+		"y": 733.8363647460938,
+		"rotation": 0.0,
+		"id": 2,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 681.3478393554688,
+		"y": 734.5796508789062,
+		"rotation": 0.0,
+		"id": 3,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 687.1304931640625,
+		"y": 734.196533203125,
+		"rotation": 0.0,
+		"id": 4,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 695.0821533203125,
+		"y": 733.3207397460938,
+		"rotation": 0.0,
+		"id": 5,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 704.6027221679688,
+		"y": 734.6376342773438,
+		"rotation": 0.0,
+		"id": 6,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 712.2046508789062,
+		"y": 733.6842651367188,
+		"rotation": 0.0,
+		"id": 7,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 720.35205078125,
+		"y": 734.59521484375,
+		"rotation": 0.0,
+		"id": 8,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 725.557861328125,
+		"y": 732.2611083984375,
+		"rotation": 0.0,
+		"id": 9,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 733.1039428710938,
+		"y": 728.8191528320312,
+		"rotation": 0.0,
+		"id": 10,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 736.1888427734375,
+		"y": 714.1428833007812,
+		"rotation": 0.0,
+		"id": 11,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.7474365234375,
+		"y": 706.8193969726562,
+		"rotation": 0.0,
+		"id": 12,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.8576049804688,
+		"y": 697.8457641601562,
+		"rotation": 0.0,
+		"id": 13,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.2048950195312,
+		"y": 687.2319946289062,
+		"rotation": 0.0,
+		"id": 14,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.3997192382812,
+		"y": 682.6104125976562,
+		"rotation": 0.0,
+		"id": 15,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.0330810546875,
+		"y": 674.3633422851562,
+		"rotation": 0.0,
+		"id": 16,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 736.3413696289062,
+		"y": 667.6063842773438,
+		"rotation": 0.0,
+		"id": 17,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.6716918945312,
+		"y": 657.252685546875,
+		"rotation": 0.0,
+		"id": 18,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 735.319580078125,
+		"y": 650.744873046875,
+		"rotation": 0.0,
+		"id": 19,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 736.8422241210938,
+		"y": 627.8734741210938,
+		"rotation": 0.0,
+		"id": 20,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 738.6780395507812,
+		"y": 618.04248046875,
+		"rotation": 0.0,
+		"id": 21,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 741.6346435546875,
+		"y": 613.5305786132812,
+		"rotation": 0.0,
+		"id": 22,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 748.6057739257812,
+		"y": 609.2722778320312,
+		"rotation": 0.0,
+		"id": 23,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 756.9346313476562,
+		"y": 609.8746337890625,
+		"rotation": 0.0,
+		"id": 24,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 762.3284912109375,
+		"y": 610.0808715820312,
+		"rotation": 0.0,
+		"id": 25,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 771.1736450195312,
+		"y": 608.9441528320312,
+		"rotation": 0.0,
+		"id": 26,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 779.1581420898438,
+		"y": 608.9739379882812,
+		"rotation": 0.0,
+		"id": 27,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 786.1270141601562,
+		"y": 609.0919799804688,
+		"rotation": 0.0,
+		"id": 28,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 794.9607543945312,
+		"y": 609.1583862304688,
+		"rotation": 0.0,
+		"id": 29,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 805.7141723632812,
+		"y": 609.0643310546875,
+		"rotation": 0.0,
+		"id": 30,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 812.0167236328125,
+		"y": 610.3975830078125,
+		"rotation": 0.0,
+		"id": 31,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 817.8822631835938,
+		"y": 610.9722900390625,
+		"rotation": 0.0,
+		"id": 32,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 826.2886352539062,
+		"y": 611.1659545898438,
+		"rotation": 0.0,
+		"id": 33,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 835.2213745117188,
+		"y": 611.9011840820312,
+		"rotation": 0.0,
+		"id": 34,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 838.7417602539062,
+		"y": 613.5711669921875,
+		"rotation": 0.0,
+		"id": 35,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 847.4453125,
+		"y": 614.2280883789062,
+		"rotation": 0.0,
+		"id": 36,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 852.1133422851562,
+		"y": 618.1212768554688,
+		"rotation": 0.0,
+		"id": 37,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 860.0177612304688,
+		"y": 621.7862548828125,
+		"rotation": 0.0,
+		"id": 38,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 2
+	}
+],
+"towers": [
+	{
+		"type": "sniper_tower",
+		"x": 806.7852783203125,
+		"y": 517.6889038085938,
+		"rotation": 89.62696838378906,
+		"shot_cooldown": 1.1833233833312988,
+		"time_since_last_attack": 3.8166744709014893,
+		"target": 0,
+		"id": 0
+	}
+],
+"projectiles": [
+	{
+		"type": "ice_projectile",
+		"x": 578.7132568359375,
+		"y": 608.7113037109375,
+		"rotation": 72.91273498535156,
+		"damage": 3,
+		"direction_x": -0.9558588266372681,
+		"direction_y": 0.2938264012336731,
+		"tower": 0
+	}
+]
 }

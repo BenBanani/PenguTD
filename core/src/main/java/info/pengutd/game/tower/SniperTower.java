@@ -2,43 +2,38 @@ package info.pengutd.game.tower;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.tower.projectile.IceProjectile;
 import info.pengutd.game.tower.projectile.Projectile;
-import info.pengutd.game.tower.projectile.FishProjectile;
 import org.jetbrains.annotations.NotNull;
 
-/// Der erste einfachste Turm
-public class FishTower extends Tower {
-    public static final String JSON_TYPE = "fish_tower";
-    ///  breite in tiles
-    private static final float WIDTH = .75f;
-    ///  höhe in tiles
+/// Sniper Tower hat eine sehr große Range mit viel Schaden, aber langsamen Attack Speed.
+/// Er kann außerdem getarnte Bush Gegner erkennen
+public class SniperTower extends Tower {
+    public static final String JSON_TYPE = "sniper_tower";
+    private static final float WIDTH = 0.75f;
     private static final float HEIGHT = .6f;
-    /// range in tiles
-    private static final float RANGE = 2f;
-    /// damage
-    private static final int DAMAGE = 1;
-    /// attack speed in seconds
-    private static final float ATTACK_SPEED = 1f;
+    private static final float RANGE = 20f;
+    private static final int DAMAGE = 3;
+    private static final float ATTACK_SPEED = 0.2f;
     private final @NotNull TowerAnimator animator;
 
-    public FishTower(@NotNull World world, @NotNull Vector2 pos, int id) {
+    public SniperTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
         animator = new TowerAnimator(JSON_TYPE, PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
     }
 
     @Override
     public int getCost() {
-        return 50;
+        return 100;
     }
 
     @Override
     public float getRange() {
-        return (RANGE * getWorld().getTileWidth());
+        return RANGE * getWorld().getTileWidth();
     }
 
     @Override
@@ -52,22 +47,22 @@ public class FishTower extends Tower {
     }
 
     @Override
+    protected float getHandOffset() {
+        return 20;
+    }
+
+    @Override
     protected @NotNull Projectile createProjectile() {
         Enemy target = getTargetEnemy();
         if (target == null) {
             throw new IllegalStateException("shoot auf leeres enemy");
         }
-        return new FishProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor(), this, getDamage());
-    }
-
-    @Override
-    protected float getHandOffset() {
-        return 20f;
+        return new IceProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor(), this, getDamage());
     }
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return animator.getTexture(getTimeSinceLastAttack(), 1 / getAttackSpeed(), getTargetEnemy() != null);
+        return animator.getTexture(getTimeSinceLastAttack(), 1/getAttackSpeed(), getTargetEnemy() != null);
     }
 
     @Override
@@ -87,12 +82,6 @@ public class FishTower extends Tower {
 
     @Override
     public void dispose() {
-        // nichts da Texturen im AssetManager verwaltet werden
-    }
 
-    /// Türme müssen nach den Gegnern geladen werden
-    @Override
-    public void fromJson(@NotNull JsonValue json) {
-        super.fromJson(json);
     }
 }

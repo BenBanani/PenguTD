@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
-import info.pengutd.game.tower.SnowballTower;
+import info.pengutd.game.tower.SniperTower;
 import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
@@ -98,7 +98,7 @@ public class BushEnemy extends Enemy {
     /// @return kann dieser Turm den BushEnemy anvisiseren
     public boolean isVisibleTo(@NotNull Tower tower) {
         if (visible) return true;
-        return tower instanceof SnowballTower; // todo snipertower oder sowas
+        return tower instanceof SniperTower;
     }
 
     @Override

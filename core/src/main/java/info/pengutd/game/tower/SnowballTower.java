@@ -2,7 +2,6 @@ package info.pengutd.game.tower;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
@@ -65,7 +64,7 @@ public class SnowballTower extends Tower {
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return animator.getTexture(getShotCooldown(), getTimeSinceLastAttack(), 1/getAttackSpeed(), getTargetEnemy() != null);
+        return animator.getTexture(getTimeSinceLastAttack(), 1/getAttackSpeed(), getTargetEnemy() != null);
     }
 
     @Override

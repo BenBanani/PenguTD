@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.tower.FishTower;
+import info.pengutd.game.tower.SniperTower;
 import info.pengutd.game.tower.SnowballTower;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,7 @@ public class TowerSelection implements Disposable {
     {
         towerNames.put(1, FishTower.JSON_TYPE);
         towerNames.put(2, SnowballTower.JSON_TYPE);
-        towerNames.put(3, "ice_tower");
+        towerNames.put(3, SniperTower.JSON_TYPE);
         towerNames.put(4, "fire_tower");
         towerNames.put(5, "machine_gun_tower");
         towerNames.put(6, "mafia_tower");
