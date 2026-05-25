@@ -30,6 +30,7 @@ public class DefeatOverlay {
     private final @NotNull Image title;
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
+    private final @NotNull Image pengus;
 
     public DefeatOverlay(@NotNull World world) {
         this.world = world;
@@ -56,6 +57,11 @@ public class DefeatOverlay {
         title.setSize(450, 150);
         title.setPosition((800 - 450) / 2f - DIALOG_PADDING, 275);
         uiStage.addActor(title);
+
+        pengus = new Image(Assets.findRegionOrMissing(atlas, "pengus"));
+        pengus.setSize(400, 100);
+        pengus.setPosition((800 - 400) / 2f - DIALOG_PADDING, 75);
+        uiStage.addActor(pengus);
 
         stats = new Table();
         HashMap<String, String> statsMap = new HashMap<>(); // Stats.getStatsAsMap()
@@ -106,6 +112,8 @@ public class DefeatOverlay {
 
         mainMenuButton.addAction(sequence(moveBy(600, 500), moveBy(-600, -500, 0.5f, Interpolation.smoother)));
 
+        pengus.addAction(sequence(moveBy(-800, 0), moveBy(800, 0, 0.5f, Interpolation.smoother)));
+
         uiStage.addAction(sequence(alpha(0), fadeIn(0.5f)));
     }
 
@@ -127,6 +135,12 @@ public class DefeatOverlay {
             moveBy(-600, -500, 0.5f, Interpolation.smoother),
             moveBy(600, 500)
             ));
+
+
+        pengus.addAction(sequence(
+            moveBy(800, 0, 0.5f, Interpolation.smoother),
+            moveBy(-800, 0)
+        ));
 
 
         uiStage.addAction(fadeOut(0.5f));

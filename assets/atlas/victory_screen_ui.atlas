@@ -6,28 +6,28 @@ filter: Nearest, Nearest
 repeat: none
 background_banner
   rotate: false
-  xy: 2, 67
+  xy: 2, 62
   size: 195, 171
   orig: 195, 171
   offset: 0, 0
   index: -1
 main_menu_button
   rotate: false
-  xy: 199, 82
+  xy: 199, 164
   size: 244, 69
   orig: 244, 69
   offset: 0, 0
   index: -1
 pengus
   rotate: false
-  xy: 199, 153
-  size: 258, 85
-  orig: 258, 85
+  xy: 2, 2
+  size: 187, 58
+  orig: 187, 58
   offset: 0, 0
   index: -1
 title
   rotate: false
-  xy: 2, 2
+  xy: 199, 99
   size: 202, 63
   orig: 202, 63
   offset: 0, 0

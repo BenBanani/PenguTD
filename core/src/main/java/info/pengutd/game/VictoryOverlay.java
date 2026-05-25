@@ -21,16 +21,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class VictoryOverlay {
+    public static final int DIALOG_PADDING = 50;
     private final @NotNull World world;
     private final @NotNull Stage uiStage;
     private final @NotNull Table content;
     private final @NotNull Image title;
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
-    public static final int DIALOG_PADDING = 50;
+    private final @NotNull Image pengus;
 
     public VictoryOverlay(@NotNull World world) {
         this.world = world;
@@ -57,6 +57,11 @@ public class VictoryOverlay {
         title.setSize(450, 150);
         title.setPosition((800 - 450) / 2f - DIALOG_PADDING, 275);
         uiStage.addActor(title);
+
+        pengus = new Image(Assets.findRegionOrMissing(atlas, "pengus"));
+        pengus.setSize(400, 100);
+        pengus.setPosition((800 - 400) / 2f - DIALOG_PADDING, 75);
+        uiStage.addActor(pengus);
 
         stats = new Table();
         HashMap<String, String> statsMap = new HashMap<>(); // Stats.getStatsAsMap()
@@ -112,6 +117,8 @@ public class VictoryOverlay {
             moveBy(-600, -500, 0.5f, Interpolation.smoother)
         ));
 
+        pengus.addAction(sequence(moveBy(-800, 0), moveBy(800, 0, 0.5f, Interpolation.smoother)));
+
 
         uiStage.addAction(sequence(alpha(0), fadeIn(0.5f)));
     }
@@ -124,17 +131,22 @@ public class VictoryOverlay {
         content.addAction(sequence(
             moveBy(0, 500, 0.5f, Interpolation.smoother),
             moveBy(0, -500)
-            ));
+        ));
 
         title.addAction(sequence(
             moveBy(800, 0, 0.5f, Interpolation.smoother),
             moveBy(-800, 0)
-            ));
+        ));
 
         mainMenuButton.addAction(sequence(
             moveBy(-600, -500, 0.5f, Interpolation.smoother),
             moveBy(600, 500)
-            ));
+        ));
+
+        pengus.addAction(sequence(
+            moveBy(800, 0, 0.5f, Interpolation.smoother),
+            moveBy(-800, 0)
+        ));
 
 
         uiStage.addAction(fadeOut(0.5f));
