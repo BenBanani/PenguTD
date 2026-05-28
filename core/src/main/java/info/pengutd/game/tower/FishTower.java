@@ -1,6 +1,5 @@
 package info.pengutd.game.tower;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
@@ -24,11 +23,9 @@ public class FishTower extends Tower {
     private static final int DAMAGE = 1;
     /// attack speed in seconds
     private static final float ATTACK_SPEED = 1f;
-    private final @NotNull TowerAnimator animator;
 
     public FishTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
-        animator = new TowerAnimator(JSON_TYPE, PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
     }
 
     @Override

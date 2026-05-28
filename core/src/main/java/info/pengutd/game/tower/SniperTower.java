@@ -1,6 +1,5 @@
 package info.pengutd.game.tower;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
@@ -19,11 +18,9 @@ public class SniperTower extends Tower {
     private static final float RANGE = 20f;
     private static final int DAMAGE = 3;
     private static final float ATTACK_SPEED = 0.2f;
-    private final @NotNull TowerAnimator animator;
 
     public SniperTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
-        animator = new TowerAnimator(JSON_TYPE, PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
     }
 
     @Override

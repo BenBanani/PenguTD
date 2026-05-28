@@ -1,6 +1,5 @@
 package info.pengutd.game.tower;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
@@ -21,11 +20,9 @@ public class SnowballTower extends Tower {
     private static final int DAMAGE = 1;
     // in shots/second
     private static final float ATTACK_SPEED = .5f;
-    private final @NotNull TowerAnimator animator;
 
     public SnowballTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
-        animator = new TowerAnimator(JSON_TYPE, PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS));
     }
 
     @Override
