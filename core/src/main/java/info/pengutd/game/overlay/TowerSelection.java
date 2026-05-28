@@ -21,12 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
-import info.pengutd.game.tower.FishTower;
-import info.pengutd.game.tower.SniperTower;
-import info.pengutd.game.tower.SnowballTower;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 
 public class TowerSelection implements Disposable {
     public static final float SIDEBAR_WIDTH = 130f;
@@ -36,16 +31,6 @@ public class TowerSelection implements Disposable {
     private final World world;
     private Label moneyLabel;
     private Label hpLabel;
-    @SuppressWarnings("StaticCollection")
-    private static final HashMap<Integer, String> towerNames = new HashMap<>();
-    {
-        towerNames.put(1, FishTower.JSON_TYPE);
-        towerNames.put(2, SnowballTower.JSON_TYPE);
-        towerNames.put(3, SniperTower.JSON_TYPE);
-        towerNames.put(4, "fire_tower");
-        towerNames.put(5, "machine_gun_tower");
-        towerNames.put(6, "mafia_tower");
-    }
 
     public TowerSelection(World world) {
         this.world = world;
@@ -112,7 +97,7 @@ public class TowerSelection implements Disposable {
 
         // Table, weil stack alle inhalte immer auf volle größe erweitert
         Table content = new Table().center();
-        Image image = new Image(Assets.findRegionOrMissing(towerAtlas, towerNames.get(i) + "_idle"));
+        Image image = new Image(Assets.findRegionOrMissing(towerAtlas, PenguTD.towerNames.get(i) + "_idle"));
         content.add(image).width(32).height(32 * image.getHeight() / image.getWidth());  // richtige aspect ratio
         stack.add(content);
 

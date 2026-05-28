@@ -1,0 +1,71 @@
+{
+"currentProfile": "default",
+"profiles": [
+	{
+		"name": "filip",
+		"towers": [
+			true,
+			true,
+			false,
+			true,
+			false,
+			true
+		]
+	},
+	{
+		"name": "vignon",
+		"towers": [
+			true,
+			true,
+			false,
+			true,
+			false,
+			true
+		]
+	},
+	{
+		"name": "alex",
+		"towers": [
+			true,
+			true,
+			false,
+			true,
+			false,
+			true
+		]
+	},
+	{
+		"name": "rhea",
+		"towers": [
+			true,
+			true,
+			false,
+			true,
+			false,
+			true
+		]
+	},
+	{
+		"name": "martin",
+		"towers": [
+			true,
+			true,
+			false,
+			true,
+			false,
+			true
+		]
+	},
+	{
+		"name": "default",
+		"towers": [
+			false,
+			false,
+			false,
+			false,
+			false,
+			false
+		]
+	}
+]
+}

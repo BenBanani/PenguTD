@@ -1,0 +1,27 @@
+
+account_screen_ui.png
+size: 1024, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+back_button
+  rotate: false
+  xy: 820, 19
+  size: 202, 198
+  orig: 202, 198
+  offset: 0, 0
+  index: -1
+button_bg
+  rotate: false
+  xy: 584, 2
+  size: 234, 215
+  orig: 234, 215
+  offset: 0, 0
+  index: -1
+title
+  rotate: false
+  xy: 2, 11
+  size: 580, 206
+  orig: 580, 206
+  offset: 0, 0
+  index: -1

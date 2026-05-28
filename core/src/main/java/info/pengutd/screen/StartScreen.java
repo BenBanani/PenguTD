@@ -46,6 +46,11 @@ public class StartScreen implements Screen {
     private Image title;
     private boolean firstOpenAnimation = true;
 
+    private static void animateButtonExit(ImageButton btn, float direction) {
+        int moveDistance = 475;
+        btn.addAction(moveBy(direction * moveDistance, 0, 0.5f, Interpolation.smoother));
+    }
+
     public void setFirstOpenAnimation(boolean firstOpenAnimation) {
         this.firstOpenAnimation = firstOpenAnimation;
     }
@@ -112,6 +117,14 @@ public class StartScreen implements Screen {
             }
         });
 
+        buttons[3].addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                animateClose();
+                buttons[3].addAction(sequence(delay(0.5f), run(() -> PenguTD.getInstance().setScreen(new AccountScreen(PenguTD.getInstance().getScreen())))));
+            }
+        });
+
         buttons[4].addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -121,7 +134,8 @@ public class StartScreen implements Screen {
         buttons[5].addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                animateClose();
+                buttons[5].addAction(sequence(delay(0.5f, run(() -> Gdx.app.exit()))));
             }
         });
     }
@@ -159,11 +173,6 @@ public class StartScreen implements Screen {
         int moveDistance = 475;
 
         btn.addAction(sequence(moveBy(direction * moveDistance, 0), delay(firstOpenAnimation ? 2f : 0f), moveBy(-direction * moveDistance, 0, 0.5f, Interpolation.smoother)));
-    }
-
-    private static void animateButtonExit(ImageButton btn, float direction) {
-        int moveDistance = 475;
-        btn.addAction(moveBy(direction * moveDistance, 0, 0.5f, Interpolation.smoother));
     }
 
     private void buildUi() {

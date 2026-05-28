@@ -20,57 +20,15 @@ button_blue
   index: -1
 hp
   rotate: false
-  xy: 304, 24
+  xy: 238, 156
   size: 58, 64
   orig: 58, 64
   offset: 0, 0
   index: -1
 money
   rotate: false
-  xy: 370, 96
+  xy: 238, 96
   size: 58, 58
   orig: 58, 58
-  offset: 0, 0
-  index: -1
-tower1
-  rotate: false
-  xy: 238, 156
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower2
-  rotate: false
-  xy: 238, 90
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower3
-  rotate: false
-  xy: 304, 156
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower4
-  rotate: false
-  xy: 238, 24
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower5
-  rotate: false
-  xy: 304, 90
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-tower6
-  rotate: false
-  xy: 370, 156
-  size: 64, 64
-  orig: 64, 64
   offset: 0, 0
   index: -1

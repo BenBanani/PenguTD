@@ -7,15 +7,35 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import info.pengutd.game.tower.FishTower;
+import info.pengutd.game.tower.SniperTower;
+import info.pengutd.game.tower.SnowballTower;
+import info.pengutd.profile.ProfileManager;
 import info.pengutd.screen.StartScreen;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
 public class PenguTD extends Game {
+    @SuppressWarnings("StaticCollection")
+    public static final Map<Integer, String> towerNames = new HashMap<>();
     private static PenguTD instance;
+
+    static {
+        towerNames.put(1, FishTower.JSON_TYPE);
+        towerNames.put(2, SnowballTower.JSON_TYPE);
+        towerNames.put(3, SniperTower.JSON_TYPE);
+        towerNames.put(4, "fire_tower");
+        towerNames.put(5, "machine_gun_tower");
+        towerNames.put(6, "mafia_tower");
+    }
+
     private AssetManager assetManager;
+    private ProfileManager profileManager;
 
     public static PenguTD getInstance() {
         return instance;
@@ -25,6 +45,7 @@ public class PenguTD extends Game {
     public void create() {
         instance = this;
         assetManager = new AssetManager();
+        profileManager = new ProfileManager();
         if (Settings.get().getFullScreen()) {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         } else {
@@ -35,11 +56,14 @@ public class PenguTD extends Game {
     }
 
     private void loadAssets() {
+        profileManager.loadProfiles();
+
         assetManager.load(Assets.MISSING_TEXTURE, Texture.class);
         assetManager.load(Assets.UI_BACKGROUND, Texture.class);
 
         assetManager.load(Assets.SETTINGS_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.START_SCREEN_ATLAS, TextureAtlas.class);
+        assetManager.load(Assets.ACCOUNT_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.TOWER_SELECTION_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.PAUSE_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.DEFEAT_SCREEN_ATLAS, TextureAtlas.class);
@@ -57,9 +81,14 @@ public class PenguTD extends Game {
         return assetManager;
     }
 
+    public @NotNull ProfileManager getProfileManager() {
+        return profileManager;
+    }
+
     @Override
     public void dispose() {
         assetManager.dispose();
+        profileManager.saveProfiles();
         super.dispose();
     }
 
