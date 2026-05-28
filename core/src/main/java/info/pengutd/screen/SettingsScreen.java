@@ -22,7 +22,6 @@ import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.Settings;
 
-// todo ui
 public class SettingsScreen implements Screen {
 
     private final Screen previousScreen;

@@ -1,4 +1,4 @@
-package info.pengutd.game;
+package info.pengutd.game.overlay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.Settings;
+import info.pengutd.game.World;
 import info.pengutd.screen.SettingsScreen;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +73,6 @@ public class PauseOverlay implements Disposable {
 
         settingsButton = new Image(Assets.findRegionOrMissing(atlas, "settings_button"));
         content.add(settingsButton).size(200, 60).pad(10).row();
-        // todo mini settings
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

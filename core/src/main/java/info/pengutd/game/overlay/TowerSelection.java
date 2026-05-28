@@ -1,4 +1,4 @@
-package info.pengutd.game;
+package info.pengutd.game.overlay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -20,13 +20,13 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.game.World;
 import info.pengutd.game.tower.FishTower;
 import info.pengutd.game.tower.SniperTower;
 import info.pengutd.game.tower.SnowballTower;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class TowerSelection implements Disposable {
     public static final float SIDEBAR_WIDTH = 130f;

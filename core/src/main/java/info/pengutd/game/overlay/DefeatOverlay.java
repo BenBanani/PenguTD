@@ -1,4 +1,4 @@
-package info.pengutd.game;
+package info.pengutd.game.overlay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -16,13 +16,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.game.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
-public class VictoryOverlay {
+public class DefeatOverlay {
     public static final int DIALOG_PADDING = 50;
     private final @NotNull World world;
     private final @NotNull Stage uiStage;
@@ -32,13 +33,13 @@ public class VictoryOverlay {
     private final @NotNull Table stats;
     private final @NotNull Image pengus;
 
-    public VictoryOverlay(@NotNull World world) {
+    public DefeatOverlay(@NotNull World world) {
         this.world = world;
 
         uiStage = new Stage(new FitViewport(800f, 480f));
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.VICTORY_SCREEN_ATLAS);
+        TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.DEFEAT_SCREEN_ATLAS);
         Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 
         Table background = new Table();
@@ -73,28 +74,32 @@ public class VictoryOverlay {
         content.add(stats).row();
 
         mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
-        content.add(mainMenuButton).size(200, 60);
-
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                uiStage.getRoot().setTouchable(Touchable.disabled);
+                System.out.println("DefeatOverlay.clicked");
                 close();
             }
         });
+        content.add(mainMenuButton).size(200, 60);
     }
 
     public void render(float delta) {
         uiStage.act(delta);
         uiStage.getViewport().apply();
-        uiStage.getBatch().setColor(Color.GREEN);
+        uiStage.getBatch().setColor(Color.RED);
         uiStage.draw();
         uiStage.getBatch().setColor(Color.WHITE);
     }
 
     private void close() {
+        uiStage.getRoot().setTouchable(Touchable.disabled);
         hide();
         world.close();
+    }
+
+    public void resize(int width, int height) {
+        uiStage.getViewport().update(width, height, true);
     }
 
     /// muss aufgerufen werden bevor das DefeatOverlay sichtbar wird
@@ -102,27 +107,16 @@ public class VictoryOverlay {
         world.getInputProcessor().addProcessor(0, uiStage);
 
         // animate open
-        content.addAction(sequence(
-            moveBy(0, -500),
-            moveBy(0, 500, 0.5f, Interpolation.smoother)
-        ));
+        content.addAction(sequence(moveBy(0, -500), moveBy(0, 500, 0.5f, Interpolation.smoother)));
 
-        title.addAction(sequence(
-            moveBy(-800, 0),
-            moveBy(800, 0, 0.5f, Interpolation.smoother)
-        ));
+        title.addAction(sequence(moveBy(-800, 0), moveBy(800, 0, 0.5f, Interpolation.smoother)));
 
-        mainMenuButton.addAction(sequence(
-            moveBy(600, 500),
-            moveBy(-600, -500, 0.5f, Interpolation.smoother)
-        ));
+        mainMenuButton.addAction(sequence(moveBy(600, 500), moveBy(-600, -500, 0.5f, Interpolation.smoother)));
 
         pengus.addAction(sequence(moveBy(-800, 0), moveBy(800, 0, 0.5f, Interpolation.smoother)));
 
-
         uiStage.addAction(sequence(alpha(0), fadeIn(0.5f)));
     }
-
 
     /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
     public void hide() {
@@ -131,17 +125,18 @@ public class VictoryOverlay {
         content.addAction(sequence(
             moveBy(0, 500, 0.5f, Interpolation.smoother),
             moveBy(0, -500)
-        ));
+            ));
 
         title.addAction(sequence(
             moveBy(800, 0, 0.5f, Interpolation.smoother),
             moveBy(-800, 0)
-        ));
+            ));
 
         mainMenuButton.addAction(sequence(
             moveBy(-600, -500, 0.5f, Interpolation.smoother),
             moveBy(600, 500)
-        ));
+            ));
+
 
         pengus.addAction(sequence(
             moveBy(800, 0, 0.5f, Interpolation.smoother),
@@ -150,10 +145,6 @@ public class VictoryOverlay {
 
 
         uiStage.addAction(fadeOut(0.5f));
-    }
-
-    public void resize(int width, int height) {
-        uiStage.getViewport().update(width, height, true);
     }
 
 }
