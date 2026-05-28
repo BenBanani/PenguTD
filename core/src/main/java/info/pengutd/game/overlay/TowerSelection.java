@@ -36,7 +36,8 @@ public class TowerSelection implements Disposable {
     private final World world;
     private Label moneyLabel;
     private Label hpLabel;
-    private static final HashMap<Integer, String> towerNames = new HashMap<Integer, String>();
+    @SuppressWarnings("StaticCollection")
+    private static final HashMap<Integer, String> towerNames = new HashMap<>();
     {
         towerNames.put(1, FishTower.JSON_TYPE);
         towerNames.put(2, SnowballTower.JSON_TYPE);

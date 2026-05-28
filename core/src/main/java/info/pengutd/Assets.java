@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.jetbrains.annotations.NotNull;
 
-public class Assets {
-    private Assets() {}
+public enum Assets {
+    ;
     public static final String UI_BACKGROUND = "background.png";
     public static final String MISSING_TEXTURE = "missing_texture.png";
 

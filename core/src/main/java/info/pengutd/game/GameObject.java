@@ -21,8 +21,8 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     protected GameObject(@NotNull World world, @NotNull Vector2 pos) {
         this.world = world;
         this.pos = pos;
-        this.hitbox = new Rectangle(0, 0, getWidth(), getHeight());
-        this.hitbox.setCenter(pos);
+        hitbox = new Rectangle(0, 0, getWidth(), getHeight());
+        hitbox.setCenter(pos);
     }
 
     /// @return Textur die gerendert wird (Animationen müssen hier gehandelt werden)
@@ -81,7 +81,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
 
     public void setPos(@NotNull Vector2 pos) {
         this.pos.set(pos);
-        this.hitbox.setCenter(pos);
+        hitbox.setCenter(pos);
     }
 
     public @NotNull Rectangle getHitbox() {
@@ -95,7 +95,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
         value.addChild("type", new JsonValue(getType()));
         value.addChild("x", new JsonValue(getX()));
         value.addChild("y", new JsonValue(getY()));
-        value.addChild("rotation", new JsonValue(getRotationDeg()));
+        value.addChild("rotation", new JsonValue(rotationDeg));
         return value;
     }
 
@@ -103,7 +103,7 @@ public abstract class GameObject implements Disposable, JsonSerializable {
     @MustBeInvokedByOverriders
     public void fromJson(@NotNull JsonValue json) {
         setPos(new Vector2(json.getFloat("x"), json.getFloat("y")));
-        setRotationDeg(json.getFloat("rotation"));
+        rotationDeg = json.getFloat("rotation");
     }
 
     public float getRotationDeg() {

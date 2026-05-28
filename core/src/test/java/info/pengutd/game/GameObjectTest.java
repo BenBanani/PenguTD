@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Unit tests for GameObject.
- *
+ * <p>
  * GameObject is abstract, so we use a minimal concrete subclass (TestObject) that
  * returns fixed dimensions and a null texture. No LibGDX rendering context is needed
  * because none of the tested methods touch OpenGL.
@@ -37,7 +37,8 @@ class GameObjectTest {
         }
 
         @Override
-        public TextureRegion getTexture() {
+        public @NotNull TextureRegion getTexture() {
+            //noinspection DataFlowIssue
             return null; // not needed for any test here
         }
 
@@ -80,7 +81,7 @@ class GameObjectTest {
         TestObject obj = new TestObject(new Vector2(100f, 200f));
 
         Rectangle hitbox = obj.getHitbox();
-        // hitbox centre must equal the construction position
+        // hitbox center must equal the construction position
         assertEquals(100f, hitbox.x + hitbox.width  / 2f, 0.001f);
         assertEquals(200f, hitbox.y + hitbox.height / 2f, 0.001f);
     }

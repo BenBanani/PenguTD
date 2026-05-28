@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Singleton Klasse für alle Einstellungen.
  * Jede Einstellung ist mit eindeutigen Key in dem App Preferences gespeichert.
  */
-public class Settings {
+public final class Settings {
     private static Settings instance;
     private final @NotNull Preferences preferences;
     private static final String PREF_NAME = "pengutd_settings";

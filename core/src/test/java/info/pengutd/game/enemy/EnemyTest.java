@@ -60,7 +60,10 @@ class EnemyTest {
             this.health = health;
         }
 
-        @Override public TextureRegion getTexture() { return null; }
+        @Override public @NotNull TextureRegion getTexture() {
+            //noinspection DataFlowIssue
+            return null;
+        }
 
         @Override
         public @NotNull String getType() {

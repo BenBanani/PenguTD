@@ -20,6 +20,7 @@ import info.pengutd.game.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -65,12 +66,10 @@ public class VictoryOverlay {
         uiStage.addActor(pengus);
 
         stats = new Table();
-        HashMap<String, String> statsMap = new HashMap<>(); // Stats.getStatsAsMap()
+        Map<String, String> statsMap = new HashMap<>(); // Stats.getStatsAsMap()
         statsMap.put("money", "" + world.getMoney());
         statsMap.put("kills", "" + 100);
-        statsMap.forEach((k, v) -> {
-            stats.add(new Label(k + ": " + v, skin)).row();
-        });
+        statsMap.forEach((k, v) -> stats.add(new Label(k + ": " + v, skin)).row());
         content.add(stats).row();
 
         mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
@@ -125,7 +124,7 @@ public class VictoryOverlay {
     }
 
 
-    /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
+    /// Hide sollte aufgerufen werden, wenn das PauseOverlay geschlossen wird.
     public void hide() {
         world.getInputProcessor().removeProcessor(uiStage);
 

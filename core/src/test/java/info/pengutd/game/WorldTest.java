@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import info.pengutd.save.JsonSerializable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -307,7 +309,7 @@ class WorldTest {
 
     @Test
     void fromJson_throwsIllegalStateWhenFlagIsFalse() {
-        World world = new World(false);
+        JsonSerializable world = new World(false);
         com.badlogic.gdx.utils.JsonValue dummy =
                 new com.badlogic.gdx.utils.JsonValue(com.badlogic.gdx.utils.JsonValue.ValueType.object);
 

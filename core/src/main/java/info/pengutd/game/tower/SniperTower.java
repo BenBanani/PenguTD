@@ -1,8 +1,6 @@
 package info.pengutd.game.tower;
 
 import com.badlogic.gdx.math.Vector2;
-import info.pengutd.Assets;
-import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.BushEnemy;
 import info.pengutd.game.enemy.Enemy;
@@ -55,7 +53,7 @@ public class SniperTower extends Tower {
         if (target == null) {
             throw new IllegalStateException("shoot auf leeres enemy");
         }
-        return new IceProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor(), this, getDamage());
+        return new IceProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor(), this, DAMAGE);
     }
 
     @Override

@@ -109,7 +109,7 @@ public class WarriorEnemy extends Enemy {
 
     @Override
     protected void setHealth(int value) {
-        this.level = value;
+        level = value;
     }
 
     /// Lädt einen Gegner aus json ein.

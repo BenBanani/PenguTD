@@ -3,6 +3,7 @@ package info.pengutd.screen;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import com.badlogic.gdx.Screen;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,7 +91,7 @@ class StartScreenTest {
 
     @Test
     void render_shouldActAndDrawStage() throws Exception {
-        StartScreen screen = new StartScreen();
+        Screen screen = new StartScreen();
         Stage stage = mock(Stage.class);
 
         setPrivateField(screen, "stage", stage);
@@ -103,7 +104,7 @@ class StartScreenTest {
 
     @Test
     void resize_shouldUpdateViewportForPositiveDimensions() throws Exception {
-        StartScreen screen = new StartScreen();
+        Screen screen = new StartScreen();
         Stage stage = mock(Stage.class);
         Viewport viewport = mock(Viewport.class);
 
@@ -117,7 +118,7 @@ class StartScreenTest {
 
     @Test
     void hide_shouldClearInputProcessor() {
-        StartScreen screen = new StartScreen();
+        Screen screen = new StartScreen();
 
         screen.hide();
 
@@ -126,7 +127,7 @@ class StartScreenTest {
 
     @Test
     void dispose_shouldDisposeStage() throws Exception {
-        StartScreen screen = new StartScreen();
+        Screen screen = new StartScreen();
         Stage stage = mock(Stage.class);
 
         setPrivateField(screen, "stage", stage);

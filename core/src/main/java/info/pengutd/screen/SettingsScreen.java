@@ -200,7 +200,7 @@ public class SettingsScreen implements Screen {
         return stack;
     }
 
-    private void addAnimation(Actor actor, boolean fromLeft) {
+    private static void addAnimation(Actor actor, boolean fromLeft) {
         int moveDistance = 600;
         actor.addAction(
             Actions.sequence(
@@ -244,6 +244,7 @@ public class SettingsScreen implements Screen {
         stage.dispose();
     }
 
+    @FunctionalInterface
     public interface SliderCallback {
         void onChange(float value);
     }

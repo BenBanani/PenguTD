@@ -11,15 +11,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
-import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 
 ///  Base Klasse für alle Gegner
-public abstract class Enemy extends GameObject implements Disposable, JsonSerializable {
+public abstract class Enemy extends GameObject {
     private final @NotNull Array<Vector2> path = new Array<>();
     ///  Index des aktuellen Zielpunkts im Pfad
     int currentPathIndex = 0;
@@ -89,7 +87,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             renderer.rect(box.x, box.y, box.width, box.height);
             // Path
             renderer.setColor(Color.GREEN);
-            this.getPath().forEach(vec -> renderer.circle(vec.x, vec.y, 5));
+            path.forEach(vec -> renderer.circle(vec.x, vec.y, 5));
 
             renderer.end();
 
@@ -110,7 +108,7 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
             getWorld().damageHp(getHealth());
             getWorld().getEnemies().removeValue(this, true);
             setHealth(0);
-            this.dispose();
+            dispose();
             return;
         }
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f); // lerp damit der weg nicht so eckig ist
@@ -177,8 +175,8 @@ public abstract class Enemy extends GameObject implements Disposable, JsonSerial
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
         id = json.getInt("id");
-        this.currentPathIndex = json.getInt("currentPathIndex");
-        this.popTimeLeft = json.getFloat("popTimeLeft");
+        currentPathIndex = json.getInt("currentPathIndex");
+        popTimeLeft = json.getFloat("popTimeLeft");
         setHealth(json.getInt("health"));
     }
 

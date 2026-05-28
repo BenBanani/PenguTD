@@ -15,7 +15,7 @@ public class TowerAnimator {
     private final @NotNull TextureRegion idle;  // Textur, wenn kein Gegner anvisiert ist
     private final @NotNull TextureRegion attackStart; // Textur, wenn Gegner anvisiert ist, aber gerade nicht geschossen wird
     private final @NotNull TextureRegion attackShoot; // Textur, während Geschossen wird (z.B. ohne Projektil in der Hand)
-    private final @NotNull TextureRegion attackShotOver; // Textur, nachdem geschossen wurde (z.B. Hand unten zum nachladen)
+    private final @NotNull TextureRegion attackShotOver; // Textur, nachdem geschossen wurde (z.B. Hand unten zum Nachladen)
 
     public TowerAnimator(@NotNull String name, @NotNull TextureAtlas atlas) {
         idle = Assets.findRegionOrMissing(atlas, name + "_idle");

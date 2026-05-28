@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
-import info.pengutd.game.tower.SniperTower;
-import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
 /// Pinguin der sich im Busch versteckt. Er kann zum Beispiel nur vom SniperPinguin gesehen werden,

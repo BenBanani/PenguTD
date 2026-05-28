@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
@@ -19,13 +18,12 @@ import info.pengutd.game.enemy.BushEnemy;
 import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.tower.projectile.Projectile;
-import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /// Base klasse für alle Türme
-public abstract class Tower extends GameObject implements Disposable, JsonSerializable {
+public abstract class Tower extends GameObject {
     private boolean debug = false;
     private boolean preview = false;
     private @Nullable Enemy targetEnemy = null;
@@ -42,7 +40,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return animator.getTexture(timeSinceLastAttack, shotCooldown, 1/getAttackSpeed(), getTargetEnemy() != null);
+        return animator.getTexture(timeSinceLastAttack, shotCooldown, 1/getAttackSpeed(), targetEnemy != null);
     }
 
     public abstract int getCost();
@@ -68,7 +66,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     /// SpriteBatch.begin() muss davor aufgerufen werden
     @Override
     public void draw(@NotNull SpriteBatch batch) {
-        if (isPreview()) {
+        if (preview) {
             Color oldColor = batch.getColor().cpy();
             batch.setColor(1f, 1f, 1f, 0.5f); // transparent zeichnen
             super.draw(batch);
@@ -120,8 +118,8 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
             // Target
             renderer.setColor(Color.GREEN);
-            if (getTargetEnemy() != null) {
-                renderer.line(new Vector2(getX(), getY()), new Vector2(getTargetEnemy().getX(), getTargetEnemy().getY()));
+            if (targetEnemy != null) {
+                renderer.line(new Vector2(getX(), getY()), new Vector2(targetEnemy.getX(), targetEnemy.getY()));
             }
 
             renderer.end();
@@ -171,7 +169,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     /// slow Effekte von FatEnemy etc.
     public float getAttackSpeedMultiplier() {
-        final float[] multiplier = {1f};
+        float[] multiplier = {1f};
 
         getWorld().getEnemies().forEach(e -> {
             if (e instanceof FatEnemy) {
@@ -183,8 +181,9 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         return (float) Math.max(multiplier[0], 0.5);
     }
 
-    /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde ein Gegner trifft.
+    /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde, ein Gegner trifft.
     /// Hier können zum Beispiel stats erhöht werden
+    @SuppressWarnings("NoopMethodInAbstractClass")
     public void onProjectileHit(@NotNull Projectile projectile, @NotNull Enemy enemy) {
         // todo stats?
     }
@@ -254,7 +253,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     /// @return ist targetEnemy innerhalb der Range des Towers
     private boolean inRange(@Nullable Enemy targetEnemy) {
         if (targetEnemy == null) return false;
-        return this.getPos().dst2(targetEnemy.getPos()) <= getRange() * getRange();
+        return getPos().dst2(targetEnemy.getPos()) <= getRange() * getRange();
     }
 
     /// Schaltet den Debug Modus an
@@ -282,10 +281,10 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     @MustBeInvokedByOverriders
     public @NotNull JsonValue toJson() {
         JsonValue value = super.toJson();
-        value.addChild("shot_cooldown", new JsonValue(getShotCooldown()));
-        value.addChild("time_since_last_attack", new JsonValue(getTimeSinceLastAttack()));
-        value.addChild("target", new JsonValue(getTargetEnemy() != null ? getTargetEnemy().getId() : -1));
-        value.addChild("id", new JsonValue(getId()));
+        value.addChild("shot_cooldown", new JsonValue(shotCooldown));
+        value.addChild("time_since_last_attack", new JsonValue(timeSinceLastAttack));
+        value.addChild("target", new JsonValue(targetEnemy != null ? targetEnemy.getId() : -1));
+        value.addChild("id", new JsonValue(id));
         return value;
     }
 
@@ -293,9 +292,9 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
     @MustBeInvokedByOverriders
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
-        setShotCooldown(json.get("shot_cooldown").asFloat());
+        shotCooldown = json.get("shot_cooldown").asFloat();
         timeSinceLastAttack = json.get("time_since_last_attack").asFloat();
-        setTargetEnemy(getWorld().getEnemyFromId(json.get("target").asInt()));
+        targetEnemy = getWorld().getEnemyFromId(json.get("target").asInt());
         id = json.get("id").asInt();
     }
 

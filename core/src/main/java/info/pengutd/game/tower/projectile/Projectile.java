@@ -1,5 +1,6 @@
 package info.pengutd.game.tower.projectile;
 
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
@@ -17,7 +18,7 @@ public abstract class Projectile extends GameObject {
     private @NotNull Tower tower;
     private boolean alive = true;
 
-    protected Projectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
+    protected Projectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector<Vector2> direction, @NotNull Tower tower, int damage) {
         super(world, pos);
         this.damage = damage;
         this.direction = direction.cpy().nor();
@@ -69,7 +70,7 @@ public abstract class Projectile extends GameObject {
     /// @return geschwindigkeit des projectiles in pixeln pro sekunde
     public abstract float getSpeed();
 
-    /// wird aufgerufen wenn der projectile ein enemy trifft
+    /// wird aufgerufen, wenn der projectile ein enemy trifft
     /// @param enemy das getroffen wurde
     public void onHit(@NotNull Enemy enemy) {
         tower.onProjectileHit(this, enemy);

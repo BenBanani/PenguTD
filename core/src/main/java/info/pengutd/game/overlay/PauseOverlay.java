@@ -153,7 +153,7 @@ public class PauseOverlay implements Disposable {
         uiStage.getViewport().update(width, height, true);
     }
 
-    /// Hide sollte aufgerufen werden wenn das PauseOverlay geschlossen wird.
+    /// Hide sollte aufgerufen werden, wenn das PauseOverlay geschlossen wird.
     public void hide() {
         world.getInputProcessor().removeProcessor(uiStage);
         visible = false;
@@ -275,7 +275,7 @@ public class PauseOverlay implements Disposable {
         return backButton;
     }
 
-    private Table createSlider(String labelName, float initialValue, SettingsScreen.SliderCallback callback) {
+    private static Table createSlider(String labelName, float initialValue, SettingsScreen.SliderCallback callback) {
         Table content = new Table();
         content.pad(5);
 
@@ -298,7 +298,7 @@ public class PauseOverlay implements Disposable {
         return content;
     }
 
-    private Table createFullscreenButton() {
+    private static Table createFullscreenButton() {
         Table content = new Table();
         Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 

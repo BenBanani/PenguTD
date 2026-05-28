@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
@@ -47,7 +46,7 @@ public class FatEnemy extends Enemy {
 
     @Override
     protected void setHealth(int value) {
-        this.health = value;
+        health = value;
     }
 
     public boolean affectsTower(@NotNull Tower tower) {

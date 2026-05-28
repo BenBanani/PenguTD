@@ -161,7 +161,7 @@ public class StartScreen implements Screen {
         btn.addAction(sequence(moveBy(direction * moveDistance, 0), delay(firstOpenAnimation ? 2f : 0f), moveBy(-direction * moveDistance, 0, 0.5f, Interpolation.smoother)));
     }
 
-    private void animateButtonExit(ImageButton btn, float direction) {
+    private static void animateButtonExit(ImageButton btn, float direction) {
         int moveDistance = 475;
         btn.addAction(moveBy(direction * moveDistance, 0, 0.5f, Interpolation.smoother));
     }

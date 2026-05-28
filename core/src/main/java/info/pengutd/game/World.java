@@ -193,7 +193,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         pauseOverlay.act(delta); // act immer, damit animationen fertig werden
         if (paused) {
             pauseOverlay.render(delta);
-        } else if (getHp() <= 0) {
+        } else if (hp <= 0) {
             defeatOverlay.render(delta);
         } else if (won) {
             victoryOverlay.render(delta);
@@ -343,7 +343,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (paused) return false; // keine Tower platzieren während pausiert ist
         if (previewTower == null) return false;
 
-        if (previewTower.getCost() > getMoney()) {
+        if (previewTower.getCost() > money) {
             setSelectedTower(0);
             return false;
         }
@@ -518,12 +518,15 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             String projectileType = jsonProjectile.getString("type");
             switch (projectileType) {
                 case FishProjectile.JSON_TYPE:
+                    //noinspection DataFlowIssue
                     projectile = new FishProjectile(this, new Vector2(), new Vector2(), null, 0);  // tower als null ist ok, da dieser sowieso in fromJson updated wird
                     break;
                 case SnowballProjectile.JSON_TYPE:
+                    //noinspection DataFlowIssue
                     projectile = new SnowballProjectile(this, new Vector2(), new Vector2(), null, 0, 0f);  // tower als null ist ok, da dieser sowieso in fromJson updated wird
                     break;
                 case IceProjectile.JSON_TYPE:
+                    //noinspection DataFlowIssue
                     projectile = new IceProjectile(this, new Vector2(), new Vector2(), null, 0);
                     break;
                 default:
@@ -556,7 +559,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         return nextTowerId++;
     }
 
-    /// @return ein Enemy mit der gegebenen ID oder null wenn es keinen gibt
+    /// @return ein Enemy mit der gegebenen ID oder null, wenn es keinen gibt
     public @Nullable Enemy getEnemyFromId(int id) {
         Enemy enemy = null;
         for (int i = 0; i < enemies.size; i++) {
@@ -580,7 +583,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     public void saveGame() {
         // todo richtige datei speichern
-        JsonValue json = this.toJson();
+        JsonValue json = toJson();
         FileHandle handle = Gdx.files.local("saves/test.json");
         handle.writeString(json.prettyPrint(JsonWriter.OutputType.json, 1), false);
     }
