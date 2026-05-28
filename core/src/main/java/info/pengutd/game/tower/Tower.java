@@ -42,7 +42,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        return animator.getTexture(shotCooldown, 1/getAttackSpeed(), getTargetEnemy() != null);
+        return animator.getTexture(timeSinceLastAttack, shotCooldown, 1/getAttackSpeed(), getTargetEnemy() != null);
     }
 
     public abstract int getCost();
