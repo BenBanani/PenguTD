@@ -2,6 +2,7 @@ package info.pengutd.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.physics.box2d.World;
 import info.pengutd.PenguTD;
 
 /** Launches the desktop (LWJGL3) application. */

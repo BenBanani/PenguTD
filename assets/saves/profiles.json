@@ -1,5 +1,5 @@
 {
-"currentProfile": "default",
+"currentProfile": null,
 "profiles": [
 	{
 		"name": "filip",
@@ -54,17 +54,6 @@
 			true,
 			false,
 			true
-		]
-	},
-	{
-		"name": "default",
-		"towers": [
-			false,
-			false,
-			false,
-			false,
-			false,
-			false
 		]
 	}
 ]

@@ -10,29 +10,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ProfileManager {
-    public static final String DEFAULT_PROFILE = "default";
     public static final String SAVE_FILE = "saves/profiles.json";
     private final @NotNull Array<PlayerProfile> profiles = new Array<>();
     private @Nullable PlayerProfile currentProfile;
 
-    /// @return ausgewähltes Profil oder default.
-    public @NotNull PlayerProfile getCurrentProfile() {
-        ensureProfileSelected();
-        assert currentProfile != null;
+    /// @return ausgewähltes Profil oder null
+    public @Nullable PlayerProfile getCurrentProfile() {
         return currentProfile;
-    }
-
-    /// Setzt currentProfile auf defaultProfile, wenn currentProfile null ist.
-    /// Außerdem wird das defaultProfile zu den profiles hinzugefügt, wenn es noch keines gibt.
-    /// Speichert nicht!
-    private void ensureProfileSelected() {
-        if (currentProfile == null) {
-            currentProfile = new PlayerProfile(DEFAULT_PROFILE);
-
-            if (!profiles.contains(currentProfile, false)) {
-                profiles.add(currentProfile);
-            }
-        }
     }
 
     /// lädt alle Profile aus der saves/profiles.json datei
@@ -64,7 +48,7 @@ public class ProfileManager {
     public void saveProfiles() {
         JsonValue value = new JsonValue(JsonValue.ValueType.object);
 
-        value.addChild("currentProfile", new JsonValue(currentProfile != null ? currentProfile.getName() : DEFAULT_PROFILE));
+        value.addChild("currentProfile", currentProfile != null ? new JsonValue(currentProfile.getName()) : new JsonValue(JsonValue.ValueType.nullValue));
 
         JsonValue jsonProfiles = new JsonValue(JsonValue.ValueType.array);
         profiles.forEach(p -> jsonProfiles.addChild(p.toJson()));
