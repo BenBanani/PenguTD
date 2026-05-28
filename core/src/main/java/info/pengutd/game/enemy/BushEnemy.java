@@ -95,10 +95,8 @@ public class BushEnemy extends Enemy {
         }
     }
 
-    /// @return kann dieser Turm den BushEnemy anvisiseren
-    public boolean isVisibleTo(@NotNull Tower tower) {
-        if (visible) return true;
-        return tower instanceof SniperTower;
+    public boolean isVisible() {
+        return visible;
     }
 
     @Override

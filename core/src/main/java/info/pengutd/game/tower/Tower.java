@@ -235,7 +235,7 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
             if (dst2 <= getRange() * getRange() && dst2 < closestDst2) {
                 if (enemy instanceof BushEnemy) {
                     BushEnemy bush = ((BushEnemy) enemy);
-                    if (!bush.isVisibleTo(this)) continue;
+                    if (!canSee(bush)) continue;
                 }
 
                 closestDst2 = dst2;
@@ -244,6 +244,10 @@ public abstract class Tower extends GameObject implements Disposable, JsonSerial
         }
 
         return target;
+    }
+
+    public boolean canSee(BushEnemy enemy) {
+        return enemy.isVisible();
     }
 
 
