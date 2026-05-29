@@ -15,17 +15,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.profile.PlayerProfile;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class AccountScreen implements Screen {
+    public static final int CARD_WIDTH = 380;
+    public static final int CARD_HEIGHT = 75;
+    public static final int BUTTON_WIDTH = 180;
+    public static final int BUTTON_HEIGHT = 50;
     private final Screen previousScreen;
     private Skin skin;
     private TextureAtlas atlas;
@@ -77,18 +83,32 @@ public class AccountScreen implements Screen {
         scrollPane = createProfilesTable();
         root.add(scrollPane).colspan(2).width(420).height(260).padBottom(20).row();
 
-        selectButton = createSelectButton();
-        root.add(selectButton).width(180).height(50).padRight(20).padBottom(20);
+        selectButton = createActionButton("Select Profile", () -> {
+            PenguTD.getInstance().getProfileManager().selectProfile(selectedProfile);
+            updateCards((Table) scrollPane.getChild(0));
+        });
+        root.add(selectButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padRight(20).padBottom(20);
 
-        deleteButton = createDeleteButton();
-        root.add(deleteButton).width(180).height(50).padLeft(20).padBottom(20);
+        deleteButton = createActionButton("Delete Profile", () -> {
+            if (selectedProfile == null) return;
+            PenguTD.getInstance().getProfileManager().deleteProfile(selectedProfile);
+            updateCards((Table) scrollPane.getChild(0));
+        });
+        root.add(deleteButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padLeft(20).padBottom(20);
 
-        backButton = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "back_button")));
-        backButton.setSize(50, 50);
-        backButton.setPosition(25, stage.getHeight() - 75);
+        backButton = createBackButton();
+        stage.addActor(backButton);
 
-        backButton.setTransform(true);
-        backButton.addListener(new ClickListener() {
+        addAnimations();
+    }
+
+    private ImageButton createBackButton() {
+        ImageButton button = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "back_button")));
+        button.setSize(50, 50);  // quadratisch
+        button.setPosition(25, stage.getHeight() - CARD_HEIGHT);
+
+        button.setTransform(true);
+        button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 close();
@@ -96,25 +116,23 @@ public class AccountScreen implements Screen {
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                backButton.addAction(scaleTo(1.05f, 1.05f, 0.1f));
+                button.addAction(scaleTo(1.05f, 1.05f, 0.1f));
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                backButton.addAction(scaleTo(1f, 1f, 0.1f));
+                button.addAction(scaleTo(1f, 1f, 0.1f));
             }
         });
-        stage.addActor(backButton);
-
-        addAnimations();
+        return button;
     }
 
-    private Stack createSelectButton() {
+    private @NotNull Stack createActionButton(String text, Runnable action) {
         Stack stack = new Stack();
         ImageButton button = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "button_bg")));
         button.getImage().setScaling(Scaling.stretch);
         stack.add(button);
-        Label label = new Label("Select Profile", skin);
+        Label label = new Label(text, skin);
         label.setAlignment(Align.center);
         stack.add(label);
         stack.setTouchable(Touchable.enabled);
@@ -122,40 +140,7 @@ public class AccountScreen implements Screen {
         stack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                assert selectedProfile != null;
-                PenguTD.getInstance().getProfileManager().selectProfile(selectedProfile);
-                updateCards((Table) scrollPane.getChild(0));
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                stack.addAction(scaleTo(1.05f, 1.05f, 0.1f));
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                stack.addAction(scaleTo(1f, 1f, 0.1f));
-            }
-        });
-        return stack;
-    }
-
-    private Stack createDeleteButton() {
-        Stack stack = new Stack();
-        ImageButton button = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "button_bg")));
-        button.getImage().setScaling(Scaling.stretch);
-        stack.add(button);
-        Label label = new Label("Delete Profile", skin);
-        label.setAlignment(Align.center);
-        stack.add(label);
-        stack.setTouchable(Touchable.enabled);
-        stack.setTransform(true);
-        stack.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                assert selectedProfile != null;
-                PenguTD.getInstance().getProfileManager().deleteProfile(selectedProfile);
-                updateCards((Table) scrollPane.getChild(0));
+                action.run();
             }
 
             @Override
@@ -191,7 +176,7 @@ public class AccountScreen implements Screen {
         pane.setScrollbarsOnTop(true);
         pane.setForceScroll(false, false);
         pane.setTouchable(Touchable.enabled);
-        pane.setScrollbarsVisible(false);
+        pane.setupFadeScrollBars(0, 0); // invisible scroll bar
         pane.getStyle().background = null;
         pane.setColor(new Color(1f, 1f, 1f, 0.8f));
         stage.setScrollFocus(pane);
@@ -209,52 +194,56 @@ public class AccountScreen implements Screen {
         TextureRegion bg = Assets.findRegionOrMissing(atlas, "button_bg");
 
         PenguTD.getInstance().getProfileManager().getProfiles().forEach(profile -> {
-            Table card = new Table();
-            card.setBackground(new TextureRegionDrawable(bg));
-            card.pad(10);
-            card.left();
+            Table profileCard = createProfileCard(list, profile, bg);
+            list.add(profileCard).width(CARD_WIDTH).height(CARD_HEIGHT).padBottom(10).row();
+        });
+    }
 
-            Label name = new Label(profile.getName(), skin);
-            name.setFontScale(1.1f);
-            name.setTouchable(Touchable.disabled);
+    private @NotNull Table createProfileCard(Table list, PlayerProfile profile, TextureRegion bg) {
+        Table card = new Table();
+        card.setBackground(new TextureRegionDrawable(bg));
+        card.pad(10);
+        card.left();
 
-            Label selectText = new Label(profile.equals(PenguTD.getInstance().getProfileManager().getCurrentProfile()) ? "Selected" : "Tap to select", skin);
-            selectText.setColor(Color.GRAY);
-            selectText.setTouchable(Touchable.disabled);
+        Label name = new Label(profile.getName(), skin);
+        name.setFontScale(1.1f);
+        name.setTouchable(Touchable.disabled);
 
-            if (profile.equals(selectedProfile)) {
-                card.setColor(0.8f, 1f, 0.8f, 1f);
-            } else {
-                card.setColor(Color.WHITE);
+        Label selectText = new Label(profile.equals(PenguTD.getInstance().getProfileManager().getCurrentProfile()) ? "Selected" : "Tap to select", skin);
+        selectText.setColor(Color.GRAY);
+        selectText.setTouchable(Touchable.disabled);
+
+        if (profile.equals(selectedProfile)) {
+            card.setColor(0.75f, 0.9f, 1f, 1f);
+        } else {
+            card.setColor(Color.WHITE);
+        }
+
+        card.add(name).left().padLeft(20).row();
+        card.add(selectText).padLeft(20).left();
+
+        card.setTouchable(Touchable.enabled);
+        card.setTransform(true);
+
+        card.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                selectedProfile = profile;
+
+                updateCards(list);
             }
 
-            card.add(name).left().padLeft(20).row();
-            card.add(selectText).padLeft(20).left();
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                card.addAction(scaleTo(1.05f, 1.05f, 0.1f));
+            }
 
-            card.setTouchable(Touchable.enabled);
-            card.setTransform(true);
-
-            card.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    selectedProfile = profile;
-
-                    updateCards(list);
-                }
-
-                @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    card.addAction(scaleTo(1.05f, 1.05f, 0.1f));
-                }
-
-                @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                    card.addAction(scaleTo(1f, 1f, 0.1f));
-                }
-            });
-
-            list.add(card).width(380).height(75).padBottom(10).row();
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                card.addAction(scaleTo(1f, 1f, 0.1f));
+            }
         });
+        return card;
     }
 
 
@@ -276,7 +265,6 @@ public class AccountScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
-        scrollPane.setScrollbarsVisible(false);
         stage.act(delta);
         stage.draw();
     }

@@ -98,7 +98,7 @@ public class ProfileManager {
     }
 
     /// Wählt das Profil als currentProfile aus und speichert direkt
-    public void selectProfile(@NotNull PlayerProfile profile) {
+    public void selectProfile(@Nullable PlayerProfile profile) {
         currentProfile = profile;
         saveProfiles();
     }
