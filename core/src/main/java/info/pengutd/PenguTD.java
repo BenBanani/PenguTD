@@ -51,18 +51,23 @@ public class PenguTD extends Game {
         } else {
             Gdx.graphics.setWindowedMode(800, 480);
         }
+
+        // wichtige texturen laden
+        assetManager.load(Assets.MISSING_TEXTURE, Texture.class);
+        assetManager.load(Assets.UI_BACKGROUND, Texture.class);
+        assetManager.load(Assets.START_SCREEN_ATLAS, TextureAtlas.class);
+
         loadAssets();
+
+        assetManager.finishLoading();
         setScreen(new StartScreen());
     }
 
-    private void loadAssets() {
+    /// startet laden der texturen. danach sollte assetManager.finishLoading(); aufgerufen werden
+    public void loadAssets() {
         profileManager.loadProfiles();
 
-        assetManager.load(Assets.MISSING_TEXTURE, Texture.class);
-        assetManager.load(Assets.UI_BACKGROUND, Texture.class);
-
         assetManager.load(Assets.SETTINGS_SCREEN_ATLAS, TextureAtlas.class);
-        assetManager.load(Assets.START_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.ACCOUNT_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.TOWER_SELECTION_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.PAUSE_SCREEN_ATLAS, TextureAtlas.class);
@@ -74,7 +79,6 @@ public class PenguTD extends Game {
 
         assetManager.load(Assets.DEFAULT_SKIN, Skin.class);
 
-        assetManager.finishLoading();
     }
 
     public @NotNull AssetManager getAssetManager() {

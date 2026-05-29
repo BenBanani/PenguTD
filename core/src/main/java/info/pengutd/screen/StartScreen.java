@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,7 +23,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -31,23 +32,23 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
  * First screen of the application. Displayed after the application is created.
  */
 public class StartScreen implements Screen {
-
-    private TextureAtlas atlas;
+    private static final float ANIM_TIME = 0.5f;
+    private final ImageButton[] buttons = new ImageButton[6];
     private Stage stage;
-    private ImageButton[] buttons;
+    private TextureAtlas atlas;
+    private Texture backgroundTexture;
+    private Image title;
+    private boolean firstOpenAnimation = true;
     // 0: new game
     // 1: load game
     // 2: settings
     // 3: account
     // 4: stats
     // 5: exit
-    private Texture backgroundTexture;
-    private Image title;
-    private boolean firstOpenAnimation = true;
 
     private static void animateButtonExit(ImageButton btn, float direction) {
         int moveDistance = 475;
-        btn.addAction(moveBy(direction * moveDistance, 0, 0.5f, Interpolation.smoother));
+        btn.addAction(moveBy(direction * moveDistance, 0, ANIM_TIME, Interpolation.smoother));
     }
 
     public void setFirstOpenAnimation(boolean firstOpenAnimation) {
@@ -63,9 +64,7 @@ public class StartScreen implements Screen {
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.START_SCREEN_ATLAS);
 
         buildUi();
-
         addAnimations();
-
         addListeners();
     }
 
@@ -92,7 +91,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[0].addAction(sequence(delay(1f), run(() -> PenguTD.getInstance().setScreenAndDispose(new World()))));
+                buttons[0].addAction(sequence(delay(ANIM_TIME), run(() -> startNewGame())));
             }
         });
 
@@ -100,11 +99,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[1].addAction(sequence(delay(1f), run(() -> {
-                    World world = new World(true);
-                    world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
-                    PenguTD.getInstance().setScreenAndDispose(world);
-                })));
+                buttons[1].addAction(sequence(delay(ANIM_TIME), run(() -> loadGame())));
             }
         });
 
@@ -112,7 +107,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[2].addAction(sequence(delay(0.5f), run(() -> PenguTD.getInstance().setScreen(new SettingsScreen(PenguTD.getInstance().getScreen())))));
+                buttons[2].addAction(sequence(delay(ANIM_TIME), run(() -> openSettings())));
             }
         });
 
@@ -120,7 +115,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                buttons[3].addAction(sequence(delay(0.5f), run(() -> PenguTD.getInstance().setScreen(new AccountScreen(PenguTD.getInstance().getScreen())))));
+                buttons[3].addAction(sequence(delay(ANIM_TIME), run(() -> openAccountSelection())));
             }
         });
 
@@ -128,14 +123,15 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
+                buttons[4].addAction(sequence(delay(ANIM_TIME), run(() -> openStats())));
             }
         });
         buttons[5].addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
-                stage.addAction(fadeOut(0.5f, Interpolation.smoother));
-                buttons[5].addAction(sequence(delay(0.5f, run(() -> Gdx.app.exit()))));
+                stage.addAction(fadeOut(ANIM_TIME, Interpolation.smoother));
+                buttons[5].addAction(sequence(delay(ANIM_TIME, run(() -> exitGame()))));
             }
         });
     }
@@ -143,9 +139,12 @@ public class StartScreen implements Screen {
     private void addAnimations() {
         //  Animation: Title
         if (firstOpenAnimation) {
-            title.addAction(sequence(moveBy(0, -100), delay(1f), moveBy(0, 100, 1f, Interpolation.smooth), run(() -> firstOpenAnimation = false)));
+            title.addAction(sequence(moveBy(0, -100),
+                parallel(run(PenguTD.getInstance().getAssetManager()::finishLoading), delay(ANIM_TIME)), // warte mindestens 0.5s maximal so lange bis alle texturen geladen sind
+                // problem: wenn texturen laden länger dauert als 0.5s bewegen sich die buttons zu früh
+                moveBy(0, 100, 1f, Interpolation.smooth), run(() -> firstOpenAnimation = false)));
         } else {
-            title.addAction(sequence(moveBy(0, 200), moveBy(0, -200, 0.5f, Interpolation.smooth)));
+            title.addAction(sequence(moveBy(0, 200), moveBy(0, -200, ANIM_TIME, Interpolation.smooth)));
         }
 
         animateButton(buttons[0], -1);
@@ -159,7 +158,7 @@ public class StartScreen implements Screen {
     private void animateClose() {
         stage.getRoot().setTouchable(Touchable.disabled);
 
-        title.addAction(moveBy(0, 200f, 0.5f, Interpolation.smoother));
+        title.addAction(moveBy(0, 200f, ANIM_TIME, Interpolation.smoother));
 
         animateButtonExit(buttons[0], -1);
         animateButtonExit(buttons[1], 1);
@@ -172,7 +171,7 @@ public class StartScreen implements Screen {
     private void animateButton(ImageButton btn, float direction) {
         int moveDistance = 475;
 
-        btn.addAction(sequence(moveBy(direction * moveDistance, 0), delay(firstOpenAnimation ? 2f : 0f), moveBy(-direction * moveDistance, 0, 0.5f, Interpolation.smoother)));
+        btn.addAction(sequence(moveBy(direction * moveDistance, 0), delay(firstOpenAnimation ? 1.5f : 0f), moveBy(-direction * moveDistance, 0, ANIM_TIME, Interpolation.smoother)));
     }
 
     private void buildUi() {
@@ -181,8 +180,6 @@ public class StartScreen implements Screen {
         background.setFillParent(true);
 
         title = new Image(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "title")));
-
-        buttons = new ImageButton[6];
 
         buttons[0] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "new_game_button")));
         buttons[1] = new ImageButton(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "load_game_button")));
@@ -196,7 +193,6 @@ public class StartScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         table.center();
-
         table.defaults().size(150, 100).pad(5);
 
         table.add(title).size(450, 200).colspan(3).center().padBottom(-10).padTop(-50).row();
@@ -211,6 +207,32 @@ public class StartScreen implements Screen {
 
         stage.addActor(background);
         stage.addActor(table);
+    }
+
+    private void startNewGame() {
+        PenguTD.getInstance().setScreenAndDispose(new World());
+    }
+
+    private void loadGame() {
+        World world = new World(true);
+        world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
+        PenguTD.getInstance().setScreenAndDispose(world);
+    }
+
+    private void openSettings() {
+        PenguTD.getInstance().setScreen(new SettingsScreen(PenguTD.getInstance().getScreen()));
+    }
+
+    private void openAccountSelection() {
+        PenguTD.getInstance().setScreen(new AccountScreen(PenguTD.getInstance().getScreen()));
+    }
+
+    private void openStats() {
+
+    }
+
+    private void exitGame() {
+        Gdx.app.exit();
     }
 
     @Override
