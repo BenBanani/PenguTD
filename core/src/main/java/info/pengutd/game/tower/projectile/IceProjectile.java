@@ -55,6 +55,7 @@ public class IceProjectile extends Projectile {
     public void onHit(@NotNull Enemy enemy) {
         super.onHit(enemy);
         enemy.pop(getDamage());
+        PenguTD.getInstance().getStatsManager().addDamage(getDamage());
         destroy();
     }
 

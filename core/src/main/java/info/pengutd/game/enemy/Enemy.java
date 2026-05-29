@@ -12,8 +12,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import info.pengutd.PenguTD;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
 ///  Base Klasse für alle Gegner
@@ -147,7 +149,10 @@ public abstract class Enemy extends GameObject {
     /// nehme schade in höhe von damage
     public abstract void pop(int damage);
 
-    public abstract void die();
+    @MustBeInvokedByOverriders
+    public void die() {
+        PenguTD.getInstance().getStatsManager().addKill();
+    }
 
     public boolean isAlive() {
         return getHealth() > 0 || popTimeLeft > 0;

@@ -12,6 +12,7 @@ import info.pengutd.game.tower.SniperTower;
 import info.pengutd.game.tower.SnowballTower;
 import info.pengutd.profile.ProfileManager;
 import info.pengutd.screen.StartScreen;
+import info.pengutd.stats.StatsManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -36,6 +37,7 @@ public class PenguTD extends Game {
 
     private AssetManager assetManager;
     private ProfileManager profileManager;
+    private StatsManager statsManager;
 
     public static PenguTD getInstance() {
         return instance;
@@ -44,6 +46,7 @@ public class PenguTD extends Game {
     @Override
     public void create() {
         instance = this;
+        statsManager = new StatsManager();
         assetManager = new AssetManager();
         profileManager = new ProfileManager();
         if (Settings.get().getFullScreen()) {
@@ -66,6 +69,9 @@ public class PenguTD extends Game {
     /// startet laden der texturen. danach sollte assetManager.finishLoading(); aufgerufen werden
     public void loadAssets() {
         profileManager.loadProfiles();
+        if (profileManager.getCurrentProfile() != null) {
+            statsManager.loadProfileStats(profileManager.getCurrentProfile());
+        }
 
         assetManager.load(Assets.SETTINGS_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.ACCOUNT_SCREEN_ATLAS, TextureAtlas.class);
@@ -89,10 +95,22 @@ public class PenguTD extends Game {
         return profileManager;
     }
 
+    public @NotNull StatsManager getStatsManager() {
+        return statsManager;
+    }
+
+    @Override
+    public void render() {
+        statsManager.addPlayTime(Gdx.graphics.getDeltaTime());
+        super.render();
+    }
+
     @Override
     public void dispose() {
         assetManager.dispose();
         profileManager.saveProfiles();
+        statsManager.saveProfileStats();
+        statsManager.saveGlobalStats();
         super.dispose();
     }
 

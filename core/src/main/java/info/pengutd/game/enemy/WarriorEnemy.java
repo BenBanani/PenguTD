@@ -95,8 +95,8 @@ public class WarriorEnemy extends Enemy {
 
     @Override
     public void die() {
+        super.die();
         level = 0;
-        // stats erhöhen
         getWorld().addMoney(5);
     }
 

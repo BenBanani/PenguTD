@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
@@ -66,10 +67,13 @@ public class DefeatOverlay {
         uiStage.addActor(pengus);
 
         stats = new Table();
-        Map<String, String> statsMap = new HashMap<>(); // Stats.getStatsAsMap()
-        statsMap.put("money", "" + world.getMoney());
-        statsMap.put("kills", "" + 100);
-        statsMap.forEach((k, v) -> stats.add(new Label(k + ": " + v, skin)).row());
+        assert PenguTD.getInstance().getStatsManager().getGameStats() != null;
+        Map<String, String> statsMap = PenguTD.getInstance().getStatsManager().getGameStats().getStatsAsPrintMap();
+        statsMap.forEach((k, v) -> {
+            Label label = new Label(k + ": " + v, skin);
+            label.setAlignment(Align.left);
+            stats.add(label).row();
+        });
         content.add(stats).row();
 
         mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));

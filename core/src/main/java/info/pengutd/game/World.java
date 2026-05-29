@@ -39,6 +39,7 @@ import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.game.tower.projectile.SnowballProjectile;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.StartScreen;
+import info.pengutd.stats.GameStats;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,6 +75,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int score;
     private boolean paused = false;
     private boolean won = false;
+    private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -84,6 +86,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// da show() möglicherweise nach toJson() aufgerufen wird und somit sonst alles selbst neu initialisiert
     public World(boolean fromJson) {
         this.fromJson = fromJson;
+
+        stats = PenguTD.getInstance().getStatsManager().createGameStats();
     }
 
     public Viewport getViewport() {
@@ -290,6 +294,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
+            PenguTD.getInstance().getStatsManager().addPlacedTower();
             setSelectedTower(0);
         }
         return false;
@@ -422,7 +427,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         JsonValue jsonProjectiles = new JsonValue(JsonValue.ValueType.array);
         projectiles.forEach(p -> jsonProjectiles.addChild(p.toJson()));
         value.addChild("projectiles", jsonProjectiles);
-
+        // game stats
+        value.addChild("stats", stats.toJson());
         return value;
     }
 
@@ -434,6 +440,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             throw new IllegalStateException("fromJson ist false, aber fromJson() wurde aufgerufen");
         }
 
+        PenguTD.getInstance().getStatsManager().addGamePlayed();
         // map laden
         mapName = json.getString("map");
         // alte map disposen
@@ -535,6 +542,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             projectile.fromJson(jsonProjectile);
             projectiles.add(projectile);
         }
+
+        stats.fromJson(json.get("stats"));
     }
 
     private void createTowerSelection() {
@@ -641,6 +650,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     public void addMoney(int amount) {
         money += amount;
+        PenguTD.getInstance().getStatsManager().addMoneyEarned(amount);
         towerSelection.updateTopElement();
     }
 

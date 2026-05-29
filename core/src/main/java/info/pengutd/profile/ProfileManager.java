@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import info.pengutd.PenguTD;
+import info.pengutd.stats.StatsManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,6 +15,7 @@ public class ProfileManager {
     public static final String SAVE_FILE = "saves/profiles.json";
     private final @NotNull Array<PlayerProfile> profiles = new Array<>();
     private @Nullable PlayerProfile currentProfile;
+    private final @NotNull StatsManager statsManager = PenguTD.getInstance().getStatsManager();
 
     /// @return ausgewähltes Profil oder null
     public @Nullable PlayerProfile getCurrentProfile() {
@@ -42,6 +45,7 @@ public class ProfileManager {
         }
 
         currentProfile = getProfileByName(value.getString("currentProfile"));
+        statsManager.loadProfileStats(currentProfile);
     }
 
     /// schreibt alle Profile in die saves/profiles.json datei
@@ -94,12 +98,16 @@ public class ProfileManager {
         if (profile.equals(currentProfile)) {
             currentProfile = null;
         }
+        FileHandle handle = Gdx.files.local("saves/" + profile.getName()); // account daten löschen
+        handle.deleteDirectory();
         saveProfiles();
     }
 
     /// Wählt das Profil als currentProfile aus und speichert direkt
     public void selectProfile(@Nullable PlayerProfile profile) {
+        statsManager.saveProfileStats();
         currentProfile = profile;
+        statsManager.loadProfileStats(currentProfile);
         saveProfiles();
     }
 

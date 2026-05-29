@@ -87,7 +87,11 @@ public class AccountScreen implements Screen {
         root.add(newProfileButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padBottom(20);
 
         selectButton = createActionButton("Select", () -> {
-            profileManager.selectProfile(selectedProfile);
+            if (selectedProfile != null && !selectedProfile.equals(profileManager.getCurrentProfile())) {
+                profileManager.selectProfile(selectedProfile);
+            } else {
+                profileManager.selectProfile(null);
+            }
             updateCards((Table) scrollPane.getChild(0));
         });
         root.add(selectButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padBottom(20);

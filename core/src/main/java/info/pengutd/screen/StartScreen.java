@@ -210,10 +210,16 @@ public class StartScreen implements Screen {
     }
 
     private void startNewGame() {
+        if (PenguTD.getInstance().getProfileManager().getCurrentProfile() == null) {
+            return;
+        }
         PenguTD.getInstance().setScreenAndDispose(new World());
     }
 
     private void loadGame() {
+        if (PenguTD.getInstance().getProfileManager().getCurrentProfile() == null) {
+            return;
+        }
         World world = new World(true);
         world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
         PenguTD.getInstance().setScreenAndDispose(world);

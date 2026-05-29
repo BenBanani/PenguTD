@@ -77,6 +77,7 @@ public class BushEnemy extends Enemy {
 
     @Override
     public void die() {
+        super.die();
         health = 0;
         getWorld().addMoney(5);
     }

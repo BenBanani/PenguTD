@@ -56,6 +56,7 @@ public class SnowballProjectile extends Projectile {
     public void onHit(@NotNull Enemy enemy) {
         super.onHit(enemy);
         enemy.pop(getDamage());
+        PenguTD.getInstance().getStatsManager().addDamage(getDamage());
         popAoE(enemy);
         destroy();
     }
@@ -65,6 +66,7 @@ public class SnowballProjectile extends Projectile {
         getWorld().getEnemies().forEach((e) -> {
             if (e != enemy && e.getPos().dst2(enemy.getPos()) < explosionRadius * getWorld().getTileWidth() * explosionRadius * getWorld().getTileWidth()) {
                 e.pop(getDamage());
+                PenguTD.getInstance().getStatsManager().addDamage(getDamage());
             }
         });
     }

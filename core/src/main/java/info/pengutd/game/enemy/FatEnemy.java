@@ -82,6 +82,7 @@ public class FatEnemy extends Enemy {
 
     @Override
     public void die() {
+        super.die();
         health = 0;
         // stats erhöhen
         getWorld().addMoney(10);
