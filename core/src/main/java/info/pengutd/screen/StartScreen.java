@@ -6,10 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -135,6 +134,7 @@ public class StartScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 animateClose();
+                stage.addAction(fadeOut(0.5f, Interpolation.smoother));
                 buttons[5].addAction(sequence(delay(0.5f, run(() -> Gdx.app.exit()))));
             }
         });
