@@ -83,9 +83,7 @@ public class AccountScreen implements Screen {
         scrollPane = createProfilesTable();
         root.add(scrollPane).colspan(3).width(420).height(260).padBottom(20).row();
 
-        newProfileButton = createActionButton("Create", () -> {
-            createNewProfileDialog();
-        });
+        newProfileButton = createActionButton("Create", this::createNewProfileDialog);
         root.add(newProfileButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padBottom(20);
 
         selectButton = createActionButton("Select", () -> {
@@ -137,9 +135,7 @@ public class AccountScreen implements Screen {
         Label errorLabel = new Label("", skin);
         errorLabel.setColor(Color.SALMON);
 
-        Stack cancelButton = createActionButton("Cancel", () -> {
-            closeDialog(dialog, overlay);
-        });
+        Stack cancelButton = createActionButton("Cancel", () -> closeDialog(dialog, overlay));
 
         Stack createButton = createActionButton("Create", () -> {
             String name = textField.getText().trim();
