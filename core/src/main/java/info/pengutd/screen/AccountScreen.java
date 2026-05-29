@@ -178,7 +178,6 @@ public class AccountScreen implements Screen {
         pane.setTouchable(Touchable.enabled);
         pane.setupFadeScrollBars(0, 0); // invisible scroll bar
         pane.getStyle().background = null;
-        pane.setColor(new Color(1f, 1f, 1f, 0.8f));
         stage.setScrollFocus(pane);
 
         return pane;
@@ -214,9 +213,9 @@ public class AccountScreen implements Screen {
         selectText.setTouchable(Touchable.disabled);
 
         if (profile.equals(selectedProfile)) {
-            card.setColor(0.75f, 0.9f, 1f, 1f);
+            card.setColor(0.75f, 0.9f, 0.75f, 1f);
         } else {
-            card.setColor(Color.WHITE);
+            card.setColor(1f, 1f, 1f, 0.75f);
         }
 
         card.add(name).left().padLeft(20).row();
@@ -228,7 +227,11 @@ public class AccountScreen implements Screen {
         card.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                selectedProfile = profile;
+                if (profile.equals(selectedProfile)) {
+                    selectedProfile = null;
+                } else {
+                    selectedProfile = profile;
+                }
 
                 updateCards(list);
             }
