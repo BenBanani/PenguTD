@@ -83,7 +83,7 @@ public class ProfileManager {
         if (profiles.contains(profile, false)) {
             return false;
         }
-        profiles.add(profile);
+        profiles.insert(0, profile);
         saveProfiles();
         return true;
     }

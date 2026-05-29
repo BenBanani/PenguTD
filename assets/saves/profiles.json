@@ -1,6 +1,17 @@
 {
-"currentProfile": null,
+"currentProfile": "asdf",
 "profiles": [
+	{
+		"name": "asdf",
+		"towers": [
+			false,
+			false,
+			false,
+			false,
+			false,
+			false
+		]
+	},
 	{
 		"name": "filip",
 		"towers": [

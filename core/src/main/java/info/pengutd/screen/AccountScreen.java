@@ -1,27 +1,25 @@
 package info.pengutd.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.profile.PlayerProfile;
+import info.pengutd.profile.ProfileManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +28,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class AccountScreen implements Screen {
     public static final int CARD_WIDTH = 380;
     public static final int CARD_HEIGHT = 75;
-    public static final int BUTTON_WIDTH = 180;
+    public static final int BUTTON_WIDTH = 100;
     public static final int BUTTON_HEIGHT = 50;
     private final Screen previousScreen;
     private Skin skin;
@@ -39,10 +37,12 @@ public class AccountScreen implements Screen {
     private @Nullable PlayerProfile selectedProfile;
     private ScrollPane scrollPane;
     private Image title;
+    private Stack newProfileButton;
     private Stack selectButton;
     private Stack deleteButton;
     private Texture bgTexture;
     private ImageButton backButton;
+    private final @NotNull ProfileManager profileManager = PenguTD.getInstance().getProfileManager();
 
     public AccountScreen(Screen previousScreen) {
         this.previousScreen = previousScreen;
@@ -52,7 +52,7 @@ public class AccountScreen implements Screen {
     public void show() {
         stage = new Stage(new FitViewport(800, 480));
         Gdx.input.setInputProcessor(stage);
-        selectedProfile = PenguTD.getInstance().getProfileManager().getCurrentProfile();
+        selectedProfile = profileManager.getCurrentProfile();
 
         loadAssets();
         buildUi();
@@ -78,28 +78,175 @@ public class AccountScreen implements Screen {
         stage.addActor(root);
 
         title = new Image(Assets.findRegionOrMissing(atlas, "title"));
-        root.add(title).colspan(2).width(300).height(108).row();
+        root.add(title).colspan(3).width(300).height(108).row();
 
         scrollPane = createProfilesTable();
-        root.add(scrollPane).colspan(2).width(420).height(260).padBottom(20).row();
+        root.add(scrollPane).colspan(3).width(420).height(260).padBottom(20).row();
 
-        selectButton = createActionButton("Select Profile", () -> {
-            PenguTD.getInstance().getProfileManager().selectProfile(selectedProfile);
+        newProfileButton = createActionButton("Create", () -> {
+            createNewProfileDialog();
+        });
+        root.add(newProfileButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padBottom(20);
+
+        selectButton = createActionButton("Select", () -> {
+            profileManager.selectProfile(selectedProfile);
             updateCards((Table) scrollPane.getChild(0));
         });
-        root.add(selectButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padRight(20).padBottom(20);
+        root.add(selectButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padBottom(20);
 
-        deleteButton = createActionButton("Delete Profile", () -> {
+        deleteButton = createActionButton("Delete", () -> {
             if (selectedProfile == null) return;
-            PenguTD.getInstance().getProfileManager().deleteProfile(selectedProfile);
+            profileManager.deleteProfile(selectedProfile);
             updateCards((Table) scrollPane.getChild(0));
         });
-        root.add(deleteButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padLeft(20).padBottom(20);
+        root.add(deleteButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padBottom(20);
 
         backButton = createBackButton();
         stage.addActor(backButton);
 
         addAnimations();
+    }
+
+    private void createNewProfileDialog() {
+
+        // dunkler hintergrund
+        Image overlay = new Image(skin.newDrawable("white", 0f, 0f, 0f, 0.6f));
+        overlay.setFillParent(true);
+        overlay.getColor().a = 0f;
+        stage.addActor(overlay);
+
+        Table dialog = new Table();
+        dialog.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "button_bg")));
+        dialog.pad(25);
+        dialog.setSize(350, 220);
+        dialog.setPosition(stage.getWidth() / 2f - dialog.getWidth() / 2f, stage.getHeight() / 2f - dialog.getHeight() / 2f);
+        dialog.setTransform(true);
+        dialog.setOrigin(Align.center);
+        dialog.setScale(0.7f);
+        dialog.getColor().a = 0f;
+        stage.addActor(dialog);
+
+        Label title = new Label("Create Profile", skin);
+        title.setFontScale(1.2f);
+
+        TextField.TextFieldStyle tfStyle = new TextField.TextFieldStyle(skin.get(TextField.TextFieldStyle.class));
+        tfStyle.background = new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "button_bg"));
+        TextField textField = new TextField("", tfStyle);
+        textField.setMessageText("Profile name");
+
+        Label errorLabel = new Label("", skin);
+        errorLabel.setColor(Color.SALMON);
+
+        Stack cancelButton = createActionButton("Cancel", () -> {
+            closeDialog(dialog, overlay);
+        });
+
+        Stack createButton = createActionButton("Create", () -> {
+            String name = textField.getText().trim();
+            if (name.isEmpty()) {
+                errorLabel.setText("Enter a name");
+                return;
+            }
+            boolean created = profileManager.createProfile(name);
+            if (!created) {
+                errorLabel.setText("Profile already exists");
+                return;
+            } else {
+                profileManager.selectProfile(profileManager.getProfileByName(name));
+                selectedProfile = profileManager.getCurrentProfile();
+                updateClickability();
+            }
+            updateCards((Table) scrollPane.getChild(0));
+            closeDialog(dialog, overlay);
+        });
+
+        textField.setTextFieldListener((field, c) -> { // für enter
+            if (c == '\n' || c == '\r') {
+                InputEvent event = new InputEvent();  // click simulieren mit erst down dann up
+                event.setType(InputEvent.Type.touchDown);
+                createButton.fire(event);
+                event = new InputEvent();
+                event.setType(InputEvent.Type.touchUp);
+                createButton.fire(event);
+            }
+        });
+
+        dialog.addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    InputEvent e = new InputEvent();  // click simulieren mit erst down dann up
+                    e.setType(InputEvent.Type.touchDown);
+                    cancelButton.fire(e);
+                    e = new InputEvent();
+                    e.setType(InputEvent.Type.touchUp);
+                    cancelButton.fire(e);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        dialog.add(title).padBottom(20).row();
+        dialog.add(textField).width(260).height(45).padBottom(10).row();
+        dialog.add(errorLabel).height(20).padBottom(15).row();
+        Table buttonTable = new Table();
+        buttonTable.add(cancelButton).width(120).height(45).padRight(10);
+        buttonTable.add(createButton).width(120).height(45);
+        dialog.add(buttonTable);
+
+        overlay.addAction(fadeIn(0.2f));
+        dialog.addAction(sequence(
+            parallel(fadeIn(0.2f), scaleTo(1.05f, 1.05f, 0.2f, Interpolation.swingOut)),
+            scaleTo(1f, 1f, 0.08f)));
+
+        stage.setKeyboardFocus(textField);
+    }
+
+    /// updated die buttons die ein ausgewähltes profil brauchen
+    private void updateClickability() {
+        if (selectedProfile != null) {
+            makeButtonsClickable();
+        } else {
+            makeButtonsUnclickable();
+        }
+    }
+
+    /// macht die buttons die ein ausgewähltes profil brauchen clickbar
+    private void makeButtonsClickable() {
+        selectButton.setTouchable(Touchable.enabled);
+        deleteButton.setTouchable(Touchable.enabled);
+        selectButton.setColor(Color.WHITE);
+        deleteButton.setColor(Color.WHITE);
+    }
+
+    /// macht die buttons die ein ausgewähltes profil brauchen unclickbar
+    private void makeButtonsUnclickable() {
+        selectButton.setTouchable(Touchable.disabled);
+        deleteButton.setTouchable(Touchable.disabled);
+        selectButton.setColor(1f, 1f, 1f, 0.5f);
+        deleteButton.setColor(1f, 1f, 1f, 0.5f);
+    }
+
+    private void closeDialog(Table dialog, Image overlay) {
+        dialog.addAction(sequence(
+            parallel(
+                fadeOut(0.15f),
+                scaleTo(
+                    0.8f,
+                    0.8f,
+                    0.15f,
+                    Interpolation.smoother
+                )
+            ),
+            run(() -> {
+                dialog.remove();
+                overlay.remove();
+
+                stage.getRoot().setTouchable(Touchable.enabled);
+            })
+        ));
+        overlay.addAction(fadeOut(0.15f));
     }
 
     private ImageButton createBackButton() {
@@ -162,6 +309,7 @@ public class AccountScreen implements Screen {
         title.addAction(sequence(moveBy(0, 200), moveBy(0, -200, 0.5f, Interpolation.smoother)));
         deleteButton.addAction(sequence(moveBy(0, -100), moveBy(0, 100, 0.5f, Interpolation.smoother)));
         selectButton.addAction(sequence(moveBy(0, -100), moveBy(0, 100, 0.5f, Interpolation.smoother)));
+        newProfileButton.addAction(sequence(moveBy(0, -100), moveBy(0, 100, 0.5f, Interpolation.smoother)));
     }
 
     private ScrollPane createProfilesTable() {
@@ -192,7 +340,7 @@ public class AccountScreen implements Screen {
     private void buildList(Table list) {
         TextureRegion bg = Assets.findRegionOrMissing(atlas, "button_bg");
 
-        PenguTD.getInstance().getProfileManager().getProfiles().forEach(profile -> {
+        profileManager.getProfiles().forEach(profile -> {
             Table profileCard = createProfileCard(list, profile, bg);
             list.add(profileCard).width(CARD_WIDTH).height(CARD_HEIGHT).padBottom(10).row();
         });
@@ -208,7 +356,7 @@ public class AccountScreen implements Screen {
         name.setFontScale(1.1f);
         name.setTouchable(Touchable.disabled);
 
-        Label selectText = new Label(profile.equals(PenguTD.getInstance().getProfileManager().getCurrentProfile()) ? "Selected" : "Tap to select", skin);
+        Label selectText = new Label(profile.equals(profileManager.getCurrentProfile()) ? "Selected" : "Tap to select", skin);
         selectText.setColor(Color.GRAY);
         selectText.setTouchable(Touchable.disabled);
 
@@ -232,6 +380,7 @@ public class AccountScreen implements Screen {
                 } else {
                     selectedProfile = profile;
                 }
+                updateClickability();
 
                 updateCards(list);
             }
@@ -255,11 +404,12 @@ public class AccountScreen implements Screen {
         backButton.addAction(moveBy(-100, 0, 0.5f, Interpolation.smoother));
         scrollPane.addAction(moveBy(800, 0, 0.5f, Interpolation.smoother));
         title.addAction(moveBy(0, 200, 0.5f, Interpolation.smoother));
+        newProfileButton.addAction(moveBy(0, -100, 0.5f, Interpolation.smoother));
         selectButton.addAction(moveBy(0, -100, 0.5f, Interpolation.smoother));
         deleteButton.addAction(moveBy(0, -100, 0.5f, Interpolation.smoother));
 
         backButton.addAction(sequence(delay(0.5f), run(() -> {
-            PenguTD.getInstance().getProfileManager().saveProfiles();
+            profileManager.saveProfiles();
             PenguTD.getInstance().setScreenAndDispose(previousScreen);
         })));
     }
