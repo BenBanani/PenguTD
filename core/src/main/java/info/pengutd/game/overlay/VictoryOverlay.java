@@ -64,6 +64,7 @@ public class VictoryOverlay {
         pengus = new Image(Assets.findRegionOrMissing(atlas, "pengus"));
         pengus.setSize(400, 100);
         pengus.setPosition((800 - 400) / 2f - DIALOG_PADDING, 75);
+        pengus.setTouchable(Touchable.disabled);
         uiStage.addActor(pengus);
 
         stats = new Table();
@@ -91,9 +92,7 @@ public class VictoryOverlay {
     public void render(float delta) {
         uiStage.act(delta);
         uiStage.getViewport().apply();
-        uiStage.getBatch().setColor(Color.GREEN);
         uiStage.draw();
-        uiStage.getBatch().setColor(Color.WHITE);
     }
 
     private void close() {
