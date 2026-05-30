@@ -12,6 +12,7 @@ public enum Assets {
     public static final String MISSING_TEXTURE = "missing_texture.png";
 
     public static final String SETTINGS_SCREEN_ATLAS = "atlas/settings_screen_ui.atlas";
+    public static final String STATS_SCREEN_ATLAS = "atlas/stats_screen_ui.atlas";
     public static final String START_SCREEN_ATLAS = "atlas/start_screen_ui.atlas";
     public static final String ACCOUNT_SCREEN_ATLAS = "atlas/account_screen_ui.atlas";
     public static final String TOWER_SELECTION_ATLAS = "atlas/tower_selection_ui.atlas";

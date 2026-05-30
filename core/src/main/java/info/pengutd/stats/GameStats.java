@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import static info.pengutd.stats.StatsManager.formatDuration;
+
 public class GameStats implements JsonSerializable {
     int kills;
     int damageDealt;
@@ -46,35 +48,5 @@ public class GameStats implements JsonSerializable {
         wave = json.getInt("wave");
         money = json.getInt("money");
         playTime = json.getFloat("playTime");
-    }
-
-    public static @NotNull String formatDuration(long seconds) {
-        long time = seconds;
-        long days = time / 86400;
-        time %= 86400;
-
-        long hours = time / 3600;
-        time %= 3600;
-
-        long minutes = time / 60;
-        time %= 60;
-
-        StringBuilder sb = new StringBuilder();
-
-        if (days > 0) {
-            sb.append(days).append("d ");
-        }
-
-        if (hours > 0 || days > 0) {
-            sb.append(hours).append("h ");
-        }
-
-        if (minutes > 0 || hours > 0 || days > 0) {
-            sb.append(minutes).append("m ");
-        }
-
-        sb.append(time).append("s");
-
-        return sb.toString().trim();
     }
 }

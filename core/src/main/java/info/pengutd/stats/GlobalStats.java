@@ -8,6 +8,11 @@ import com.badlogic.gdx.utils.JsonWriter;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static info.pengutd.stats.StatsManager.formatDuration;
+
 public class GlobalStats implements JsonSerializable {
     int enemiesKilled;
     int gamesPlayed;
@@ -61,5 +66,15 @@ public class GlobalStats implements JsonSerializable {
         playTime = json.getFloat("playTime");
         highestWave = json.getInt("highestWave");
         moneyEarned = json.getInt("moneyEarned");
+    }
+
+    public Map<String, String> getStatsAsPrintMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("Kills", "" + enemiesKilled);
+        map.put("Games Played", "" + gamesPlayed);
+        map.put("Time played", formatDuration((long) playTime));
+        map.put("Highest wave", "" + highestWave);
+        map.put("Money earned", moneyEarned + "$");
+        return map;
     }
 }

@@ -234,7 +234,7 @@ public class StartScreen implements Screen {
     }
 
     private void openStats() {
-
+        PenguTD.getInstance().setScreen(new StatsScreen(PenguTD.getInstance().getScreen()));
     }
 
     private void exitGame() {

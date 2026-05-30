@@ -5,6 +5,11 @@ import info.pengutd.profile.PlayerProfile;
 import info.pengutd.save.JsonSerializable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static info.pengutd.stats.StatsManager.formatDuration;
+
 public class ProfileStats implements JsonSerializable {
     private final @NotNull PlayerProfile profile;
     int enemiesKilled;
@@ -90,5 +95,16 @@ public class ProfileStats implements JsonSerializable {
         highestWave = json.getInt("highestWave");
         moneyEarned = json.getInt("moneyEarned");
         wins = json.getInt("wins");
+    }
+
+    public Map<String, String> getStatsAsPrintMap() {
+        Map<String, String> map = new HashMap<>();
+        map.put("Kills", "" + enemiesKilled);
+        map.put("Games Played", "" + gamesPlayed);
+        map.put("Time played", formatDuration((long) playTime));
+        map.put("Highest wave", "" + highestWave);
+        map.put("Money earned", moneyEarned + "$");
+        map.put("Wins", "" + wins);
+        return map;
     }
 }

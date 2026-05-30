@@ -1,0 +1,27 @@
+
+stats_screen_ui.png
+size: 1024, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+back_button
+  rotate: false
+  xy: 592, 19
+  size: 202, 198
+  orig: 202, 198
+  offset: 0, 0
+  index: -1
+table_background
+  rotate: false
+  xy: 356, 2
+  size: 234, 215
+  orig: 234, 215
+  offset: 0, 0
+  index: -1
+title
+  rotate: false
+  xy: 2, 76
+  size: 352, 141
+  orig: 352, 141
+  offset: 0, 0
+  index: -1
