@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.tower.projectile.Projectile;
 import info.pengutd.game.tower.projectile.FishProjectile;
+import info.pengutd.game.tower.projectile.Projectile;
 import org.jetbrains.annotations.NotNull;
 
 /// Der erste einfachste Turm

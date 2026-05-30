@@ -20,7 +20,6 @@ import info.pengutd.PenguTD;
 import info.pengutd.game.World;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
