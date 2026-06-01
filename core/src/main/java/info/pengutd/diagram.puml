@@ -1,0 +1,781 @@
+@startdot
+digraph g {
+    rankdir="TB"
+    splines=polyline
+
+
+subgraph cluster_682486665 {
+   	label=pengutd
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+
+   PenguTD1121516343[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PenguTD</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   assetManager: AssetManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   profileManager: ProfileManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   statsManager: StatsManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ create()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ loadAssets()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ render()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+subgraph cluster_1104299826 {
+   	label=profile
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+
+   PlayerProfile1986424306[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PlayerProfile</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   name: String [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   towersUnlocked: boolean[] [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isTowerUnlocked(towerId: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+<TR><TD ALIGN="LEFT" >+ unlockTower(towerId: int)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProfileManager1986424306[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProfileManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   currentProfile: PlayerProfile [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   profiles: Array&lt;PlayerProfile&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   statsManager: StatsManager [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addProfile(profile: PlayerProfile): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createProfile(name: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deleteProfile(profile: PlayerProfile)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getProfileByName(name: String): PlayerProfile</TD></TR>
+<TR><TD ALIGN="LEFT" >+ loadProfiles()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ saveProfiles()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectProfile(profile: PlayerProfile)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+
+subgraph cluster_2055360616 {
+   	label=stats
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+
+   GameStats795944744[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GameStats</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   damageDealt: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   kills: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   money: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   playTime: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   towersPlaced: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   wave: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+GlobalStats795944744[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GlobalStats</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   enemiesKilled: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   gamesPlayed: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   highestWave: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   moneyEarned: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   playTime: float [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" ># loadStats()</TD></TR>
+<TR><TD ALIGN="LEFT" ># saveStats()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ProfileStats795944744[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ProfileStats</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   enemiesKilled: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   gamesPlayed: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   highestWave: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   moneyEarned: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   playTime: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   profile: PlayerProfile [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   wins: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+StatsManager795944744[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)StatsManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   gameStats: GameStats [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   globalStats: GlobalStats [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   profileStats: ProfileStats [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addDamage(damage: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addGamePlayed()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addKill()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMoneyEarned(amount: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addPlacedTower()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addPlayTime(seconds: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addWaveFinished()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addWin()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createGameStats(): GameStats</TD></TR>
+<TR><TD ALIGN="LEFT" >+ formatDuration(seconds: long): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ loadProfileStats(profile: PlayerProfile)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ saveGlobalStats()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ saveProfileStats()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+
+subgraph cluster_626810103 {
+   	label=game
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+
+   GameObject1964962889[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)GameObject</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   hitbox: Rectangle [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pos: Vector2 [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   rotationDeg: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   world: World [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ draw(batch: SpriteBatch)</TD></TR>
+<TR><TD ALIGN="LEFT" ># flipX(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" ># flipY(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+World1964962889[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)World</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   batch: SpriteBatch [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   defeatOverlay: DefeatOverlay [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   enemies: Array&lt;Enemy&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fromJson: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   hp: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   map: TiledMap [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mapHeight: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mapName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mapRenderer: OrthogonalTiledMapRenderer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mapWidth: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   money: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   multiplexer: InputMultiplexer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nextEntityId: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   nextTowerId: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pauseOverlay: PauseOverlay [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   paused: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   previewTower: Tower [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   projectiles: Array&lt;Projectile&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   score: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   stats: GameStats [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tileHeight: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tileWidth: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   towerSelection: TowerSelection [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   towers: Array&lt;Tower&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   victoryOverlay: VictoryOverlay [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   viewport: Viewport [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   won: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addMoney(amount: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addProjectile(projectile: Projectile)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ canPlaceTower(pos: Vector2, tower: Tower): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createEntityId(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ createTowerId(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- createTowerSelection()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ damageHp(amount: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getEnemyFromId(id: int): Enemy</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getTowerFromId(id: int): Tower</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ keyDown(keycode: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ keyTyped(character: char): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ keyUp(keycode: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ mouseMoved(screenX: int, screenY: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pause()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ render(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >- renderMapObjects()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resize(width: int, height: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resume()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ saveGame()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ scrolled(amountX: float, amountY: float): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ spendMoney(amount: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+<TR><TD ALIGN="LEFT" >+ touchCancelled(screenX: int, screenY: int, pointer: int, button: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ touchDown(screenX: int, screenY: int, pointer: int, button: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ touchDragged(screenX: int, screenY: int, pointer: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ touchUp(screenX: int, screenY: int, pointer: int, button: int): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateCamera()</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateGraphics(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateLogic(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+subgraph cluster_1172119957 {
+   	label=overlay
+	labeljust=l
+	fillcolor="#c4c4c4"
+	style=filled
+
+   DefeatOverlay1641607083[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefeatOverlay</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   content: Table [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mainMenuButton: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pengus: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   stats: Table [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   title: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   uiStage: Stage [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   world: World [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- close()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ render(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resize(width: int, height: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PauseOverlay1641607083[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PauseOverlay</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   content: Table [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   dialog: Table [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mainMenuButton: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   resumeButton: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   settingsAtlas: TextureAtlas [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   settingsButton: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   title: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   uiStage: Stage [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   visible: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   world: World [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ act(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >- close()</TD></TR>
+<TR><TD ALIGN="LEFT" >- createBackButton(): ImageButton</TD></TR>
+<TR><TD ALIGN="LEFT" >- createFullscreenButton(): Table</TD></TR>
+<TR><TD ALIGN="LEFT" >- createSlider(labelName: String, initialValue: float, callback: SliderCallback): Table</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ render(ignoredDelta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resize(width: int, height: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TowerSelection1641607083[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TowerSelection</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   atlas: TextureAtlas [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   hpLabel: Label [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   moneyLabel: Label [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   towerAtlas: TextureAtlas [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   uiStage: Stage [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   world: World [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addTowerRow(sidebar: Table, left: int, right: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >- pauseButton(): Actor</TD></TR>
+<TR><TD ALIGN="LEFT" >+ render(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resize(width: int, height: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- topElement(): Stack</TD></TR>
+<TR><TD ALIGN="LEFT" >- towerElement(i: int): Stack</TD></TR>
+<TR><TD ALIGN="LEFT" >+ updateTopElement()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+VictoryOverlay1641607083[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)VictoryOverlay</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   content: Table [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mainMenuButton: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   pengus: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   stats: Table [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   title: Image [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   uiStage: Stage [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   world: World [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- close()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ hide()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ render(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ resize(width: int, height: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ show()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+
+subgraph cluster_582267932 {
+   	label=tower
+	labeljust=l
+	fillcolor="#c4c4c4"
+	style=filled
+
+   FishTower2116768476[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FishTower</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># createProjectile(): Projectile</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SniperTower2116768476[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SniperTower</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ canSee(enemy: BushEnemy): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" ># createProjectile(): Projectile</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SnowballTower2116768476[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SnowballTower</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># createProjectile(): Projectile</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Tower2116768476[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Tower</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   animator: TowerAnimator [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   debug: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   preview: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   shotCooldown: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   targetEnemy: Enemy [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   timeSinceLastAttack: float [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ canSee(enemy: BushEnemy): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" ># createProjectile(): Projectile</TD></TR>
+<TR><TD ALIGN="LEFT" >+ debug(): Tower</TD></TR>
+<TR><TD ALIGN="LEFT" >+ draw(batch: SpriteBatch)</TD></TR>
+<TR><TD ALIGN="LEFT" >- findNewTarget(): Enemy</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >- inRange(targetEnemy: Enemy): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onProjectileHit(projectile: Projectile, enemy: Enemy)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ place(): Tower</TD></TR>
+<TR><TD ALIGN="LEFT" >+ preview(): Tower</TD></TR>
+<TR><TD ALIGN="LEFT" >- shoot()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TowerAnimator2116768476[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TowerAnimator</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   attackShoot: TextureRegion [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   attackShotOver: TextureRegion [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   attackStart: TextureRegion [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   idle: TextureRegion [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getTexture(timeSinceLastAttack: float, timeToNextAttack: float, totalCooldown: float, isAttacking: boolean): TextureRegion</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+subgraph cluster_1490287053 {
+   	label=projectile
+	labeljust=l
+	fillcolor="#bababa"
+	style=filled
+
+   FishProjectile1058364659[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FishProjectile</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   texture: TextureRegion [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onHit(enemy: Enemy)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+IceProjectile1058364659[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)IceProjectile</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   texture: TextureRegion [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onHit(enemy: Enemy)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Projectile1058364659[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Projectile</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   alive: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   damage: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   direction: Vector2 [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   tower: Tower [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- checkCollision(): Enemy</TD></TR>
+<TR><TD ALIGN="LEFT" ># destroy()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onHit(enemy: Enemy)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SnowballProjectile1058364659[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)SnowballProjectile</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   explosionRadius: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   texture: TextureRegion [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onHit(enemy: Enemy)</TD></TR>
+<TR><TD ALIGN="LEFT" >- popAoE(enemy: Enemy)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+}
+
+subgraph cluster_596167581 {
+   	label=enemy
+	labeljust=l
+	fillcolor="#c4c4c4"
+	style=filled
+
+   BushEnemy2130668125[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BushEnemy</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   animators: Array&lt;EnemyAnimatorSet&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   health: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   visible: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ die()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" ># flipX(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pop(damage: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Enemy2130668125[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Enemy</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   currentPathIndex: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   debug: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   direction: Direction [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   path: Array&lt;Vector2&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   popTimeLeft: float [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ debug(): Enemy</TD></TR>
+<TR><TD ALIGN="LEFT" >+ die()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ draw(batch: SpriteBatch)</TD></TR>
+<TR><TD ALIGN="LEFT" >- findPath()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pop(damage: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toJson(): JsonValue</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+<TR><TD ALIGN="LEFT" >- updateDirection(dir: Vector2)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+EnemyAnimator2130668125[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)EnemyAnimator</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   age: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   frameDuration: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   index: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   textures: Array&lt;TextureRegion&gt; [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+EnemyAnimatorSet2130668125[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)EnemyAnimatorSet</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   down: EnemyAnimator [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   side: EnemyAnimator [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   up: EnemyAnimator [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ getTexture(direction: Direction): TextureRegion</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FatEnemy2130668125[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FatEnemy</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   animator: EnemyAnimatorSet [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   aura: TextureRegion [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   health: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ affectsTower(tower: Tower): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ die()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ draw(batch: SpriteBatch)</TD></TR>
+<TR><TD ALIGN="LEFT" ># flipX(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pop(damage: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+WarriorEnemy2130668125[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)WarriorEnemy</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   animators: Array&lt;EnemyAnimatorSet&gt; [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   level: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   popTexture: TextureRegion [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- createAnimators(atlas: TextureAtlas)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ die()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ dispose()</TD></TR>
+<TR><TD ALIGN="LEFT" ># flipX(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ fromJson(json: JsonValue)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pop(damage: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ update(delta: float)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+}
+}
+
+BushEnemy2130668125 -> EnemyAnimatorSet2130668125[label="animators
+[1]"];
+DefeatOverlay1641607083 -> World1964962889[label="world
+[1]"];
+Enemy2130668125 -> BushEnemy2130668125[arrowhead=none, arrowtail=empty, dir=both];
+Enemy2130668125 -> FatEnemy2130668125[arrowhead=none, arrowtail=empty, dir=both];
+Enemy2130668125 -> WarriorEnemy2130668125[arrowhead=none, arrowtail=empty, dir=both];
+EnemyAnimatorSet2130668125 -> EnemyAnimator2130668125[label="down
+[1]"];
+EnemyAnimatorSet2130668125 -> EnemyAnimator2130668125[label="side
+[1]"];
+EnemyAnimatorSet2130668125 -> EnemyAnimator2130668125[label="up
+[1]"];
+FatEnemy2130668125 -> EnemyAnimatorSet2130668125[label="animator
+[1]"];
+GameObject1964962889 -> Enemy2130668125[arrowhead=none, arrowtail=empty, dir=both];
+GameObject1964962889 -> Projectile1058364659[arrowhead=none, arrowtail=empty, dir=both];
+GameObject1964962889 -> Tower2116768476[arrowhead=none, arrowtail=empty, dir=both];
+GameObject1964962889 -> World1964962889[label="world
+[1]"];
+GameStats795944744 -> GameObject1964962889[arrowhead=none];
+GameStats795944744 -> GlobalStats795944744[arrowhead=none];
+GameStats795944744 -> PlayerProfile1986424306[arrowhead=none];
+GameStats795944744 -> ProfileStats795944744[arrowhead=none];
+GameStats795944744 -> World1964962889[arrowhead=none];
+PauseOverlay1641607083 -> World1964962889[label="world
+[1]"];
+PenguTD1121516343 -> ProfileManager1986424306[label="profileManager
+[0..1]"];
+PenguTD1121516343 -> StatsManager795944744[label="statsManager
+[0..1]"];
+ProfileManager1986424306 -> PlayerProfile1986424306[label="currentProfile
+[0..1]"];
+ProfileManager1986424306 -> PlayerProfile1986424306[label="profiles
+[1]"];
+ProfileManager1986424306 -> StatsManager795944744[label="statsManager
+[1]"];
+ProfileStats795944744 -> PlayerProfile1986424306[label="profile
+[1]"];
+Projectile1058364659 -> FishProjectile1058364659[arrowhead=none, arrowtail=empty, dir=both];
+Projectile1058364659 -> IceProjectile1058364659[arrowhead=none, arrowtail=empty, dir=both];
+Projectile1058364659 -> SnowballProjectile1058364659[arrowhead=none, arrowtail=empty, dir=both];
+Projectile1058364659 -> Tower2116768476[label="tower
+[1]"];
+StatsManager795944744 -> GameStats795944744[label="gameStats
+[0..1]"];
+StatsManager795944744 -> GlobalStats795944744[label="globalStats
+[1]"];
+StatsManager795944744 -> ProfileStats795944744[label="profileStats
+[0..1]"];
+Tower2116768476 -> Enemy2130668125[label="targetEnemy
+[0..1]"];
+Tower2116768476 -> FishTower2116768476[arrowhead=none, arrowtail=empty, dir=both];
+Tower2116768476 -> SniperTower2116768476[arrowhead=none, arrowtail=empty, dir=both];
+Tower2116768476 -> SnowballTower2116768476[arrowhead=none, arrowtail=empty, dir=both];
+Tower2116768476 -> TowerAnimator2116768476[label="animator
+[1]"];
+TowerSelection1641607083 -> World1964962889[label="world
+[0..1]"];
+VictoryOverlay1641607083 -> World1964962889[label="world
+[1]"];
+WarriorEnemy2130668125 -> EnemyAnimatorSet2130668125[label="animators
+[1]"];
+World1964962889 -> DefeatOverlay1641607083[label="defeatOverlay
+[0..1]"];
+World1964962889 -> Enemy2130668125[label="enemies
+[1]"];
+World1964962889 -> GameStats795944744[label="stats
+[1]"];
+World1964962889 -> PauseOverlay1641607083[label="pauseOverlay
+[0..1]"];
+World1964962889 -> Projectile1058364659[label="projectiles
+[1]"];
+World1964962889 -> Tower2116768476[label="previewTower
+[0..1]"];
+World1964962889 -> Tower2116768476[label="towers
+[1]"];
+World1964962889 -> TowerSelection1641607083[label="towerSelection
+[0..1]"];
+World1964962889 -> VictoryOverlay1641607083[label="victoryOverlay
+[0..1]"];
+
+}
+@enddot
