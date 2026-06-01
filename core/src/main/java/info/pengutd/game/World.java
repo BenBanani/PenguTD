@@ -21,10 +21,7 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import info.pengutd.PenguTD;
-import info.pengutd.game.enemy.BushEnemy;
-import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.enemy.FatEnemy;
-import info.pengutd.game.enemy.WarriorEnemy;
+import info.pengutd.game.enemy.*;
 import info.pengutd.game.overlay.DefeatOverlay;
 import info.pengutd.game.overlay.PauseOverlay;
 import info.pengutd.game.overlay.TowerSelection;
@@ -288,9 +285,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        enemies.add(new BushEnemy(this, createEntityId()));
+        //enemies.add(new BushEnemy(this, createEntityId()));
         //enemies.add(new FatEnemy(this, createEntityId()));
         //enemies.add(new WarriorEnemy(4, this, createEntityId()));
+        enemies.add(new CoolEnemy(this,  createEntityId()));
 
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
@@ -484,6 +482,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                     break;
                 case BushEnemy.JSON_TYPE:
                     enemy = new BushEnemy(this, jsonEnemy.getInt("id"));
+                    break;
+                case CoolEnemy.JSON_TYPE:
+                    enemy = new CoolEnemy(this, jsonEnemy.getInt("id"));
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
