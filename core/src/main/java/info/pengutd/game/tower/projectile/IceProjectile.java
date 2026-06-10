@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class IceProjectile extends Projectile {
     public static final String JSON_TYPE = "ice_projectile";
-    private static final float SPEED = 15f;
+    private static final float SPEED = 20f;
     private final @NotNull TextureRegion texture;
 
     public IceProjectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector2 direction, @NotNull Tower tower, int damage) {
