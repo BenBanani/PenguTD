@@ -317,7 +317,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             addMoney(10);
         } else if (keycode == Input.Keys.X) {
             damageHp(START_HP);
-            defeatOverlay.show();
         }
         return false;
     }
@@ -674,6 +673,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         if (hp <= 0) {
             hp = 0;
+            if (!defeatOverlay.isShown()) {
+                defeatOverlay.show();
+            }
         }
         towerSelection.updateTopElement();
     }

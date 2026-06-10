@@ -33,6 +33,7 @@ public class DefeatOverlay {
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
     private final @NotNull Image pengus;
+    private boolean isVisible;
 
     public DefeatOverlay(@NotNull World world) {
         this.world = world;
@@ -116,6 +117,8 @@ public class DefeatOverlay {
         pengus.addAction(sequence(moveBy(-800, 0), moveBy(800, 0, 0.5f, Interpolation.smoother)));
 
         uiStage.addAction(sequence(alpha(0), fadeIn(0.5f)));
+
+        isVisible = true;
     }
 
     /// Hide sollte aufgerufen werden, wenn das PauseOverlay geschlossen wird.
@@ -145,6 +148,11 @@ public class DefeatOverlay {
 
 
         uiStage.addAction(fadeOut(0.5f));
+
+        isVisible = false;
     }
 
+    public boolean isShown() {
+        return isVisible;
+    }
 }

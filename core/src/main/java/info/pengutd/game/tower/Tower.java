@@ -178,7 +178,7 @@ public abstract class Tower extends GameObject {
                 }
             }
         });
-        return (float) Math.max(multiplier[0], 0.5);
+        return (float) Math.max(multiplier[0], 0.1);
     }
 
     /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde, ein Gegner trifft.
