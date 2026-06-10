@@ -285,10 +285,16 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        //enemies.add(new BushEnemy(this, createEntityId()));
-        //enemies.add(new FatEnemy(this, createEntityId()));
-        //enemies.add(new WarriorEnemy(4, this, createEntityId()));
-        enemies.add(new CoolEnemy(this,  createEntityId()));
+        double d = Math.random();
+        if (d < 0.25) {
+            enemies.add(new BushEnemy(this, createEntityId()));
+        } else if (d < 0.5) {
+            enemies.add(new FatEnemy(this, createEntityId()));
+        } else if (d < 0.75) {
+            enemies.add(new WarriorEnemy(4, this, createEntityId()));
+        } else {
+            enemies.add(new CoolEnemy(this, createEntityId()));
+        }
 
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
             towers.add(previewTower.place());
