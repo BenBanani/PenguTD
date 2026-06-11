@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonWriter;
 import info.pengutd.profile.PlayerProfile;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,28 +22,74 @@ public class StatsManager {
         globalStats = new GlobalStats();
     }
 
+    /// Formatiert das Datum in (*d) (hh) (mm) ss.
+    /// Für negative sekunden gibt es "" zurück
+    @Contract(pure = true)
+    public static @NotNull String formatDuration(long seconds) {
+        if (seconds < 0) return "";
+        long time = seconds;
+        long days = time / 86400;
+        time %= 86400;
+
+        long hours = time / 3600;
+        time %= 3600;
+
+        long minutes = time / 60;
+        time %= 60;
+
+        StringBuilder sb = new StringBuilder();
+
+        if (days > 0) {
+            sb.append(days).append("d ");
+        }
+
+        if (hours > 0 || days > 0) {
+            sb.append(hours).append("h ");
+        }
+
+        if (minutes > 0 || hours > 0 || days > 0) {
+            sb.append(minutes).append("m ");
+        }
+
+        sb.append(time).append("s");
+
+        return sb.toString().trim();
+    }
+
     public void addKill() {
+        {
+            assert profileStats != null; // Im Spiel ist immer ein Profil ausgewählt
+            assert gameStats != null; // Im Spiel ist immer ein Spiel ausgewählt
+            assert !gameStats.isClosed();
+        }
         globalStats.enemiesKilled++;
-        assert profileStats != null; // Im Spiel ist immer ein Profil ausgewählt
         profileStats.enemiesKilled++;
-        assert gameStats != null; // Im Spiel ist immer ein Spiel ausgewählt
         gameStats.kills++;
     }
 
     public void addDamage(int damage) {
-        assert gameStats != null;
+        {
+            assert gameStats != null;
+            assert !gameStats.isClosed();
+        }
         gameStats.damageDealt += damage;
     }
 
     public void addPlacedTower() {
-        assert gameStats != null;
+        {
+            assert gameStats != null;
+            assert !gameStats.isClosed();
+        }
         gameStats.towersPlaced++;
     }
 
     public void addWaveFinished() { // todo
-        assert gameStats != null;
+        {
+            assert profileStats != null;
+            assert gameStats != null;
+            assert !gameStats.isClosed();
+        }
         gameStats.wave++;
-        assert profileStats != null;
         if (gameStats.wave > profileStats.highestWave) {
             profileStats.highestWave = gameStats.wave;
         }
@@ -52,15 +99,18 @@ public class StatsManager {
     }
 
     public void addMoneyEarned(int amount) {
-        assert  gameStats != null;
+        {
+            assert profileStats != null;
+            assert gameStats != null;
+            assert !gameStats.isClosed();
+        }
         gameStats.money += amount;
-        assert profileStats != null;
         profileStats.moneyEarned += amount;
         globalStats.moneyEarned += amount;
     }
 
     public void addPlayTime(float seconds) {
-        if (gameStats != null) {
+        if (gameStats != null && !gameStats.isClosed()) {
             gameStats.playTime += seconds;
         }
         if (profileStats != null) {
@@ -70,13 +120,17 @@ public class StatsManager {
     }
 
     public void addGamePlayed() {
+        {
+            assert profileStats != null;
+        }
         globalStats.gamesPlayed++;
-        assert profileStats != null;
         profileStats.gamesPlayed++;
     }
 
     public void addWin() { // todo
-        assert profileStats != null;
+        {
+            assert profileStats != null;
+        }
         profileStats.wins++;
     }
 
@@ -130,35 +184,5 @@ public class StatsManager {
 
     public void saveGlobalStats() {
         globalStats.saveStats();
-    }
-
-    public static @NotNull String formatDuration(long seconds) {
-        long time = seconds;
-        long days = time / 86400;
-        time %= 86400;
-
-        long hours = time / 3600;
-        time %= 3600;
-
-        long minutes = time / 60;
-        time %= 60;
-
-        StringBuilder sb = new StringBuilder();
-
-        if (days > 0) {
-            sb.append(days).append("d ");
-        }
-
-        if (hours > 0 || days > 0) {
-            sb.append(hours).append("h ");
-        }
-
-        if (minutes > 0 || hours > 0 || days > 0) {
-            sb.append(minutes).append("m ");
-        }
-
-        sb.append(time).append("s");
-
-        return sb.toString().trim();
     }
 }

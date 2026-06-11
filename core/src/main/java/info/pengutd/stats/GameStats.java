@@ -16,6 +16,7 @@ public class GameStats implements JsonSerializable {
     int wave;
     int money;
     float playTime;
+    private boolean closed;
 
     public Map<String, String> getStatsAsPrintMap() {
         Map<String, String> map = new HashMap<>();
@@ -48,5 +49,16 @@ public class GameStats implements JsonSerializable {
         wave = json.getInt("wave");
         money = json.getInt("money");
         playTime = json.getFloat("playTime");
+    }
+
+    /// GameStats werden geschlossen und können nicht mehr updated werden.
+    /// Sollte genutzt werden, wenn das Spiel vorbei ist
+    public void close() {
+        assert !closed;
+        closed = true;
+    }
+
+    public boolean isClosed() {
+        return closed;
     }
 }

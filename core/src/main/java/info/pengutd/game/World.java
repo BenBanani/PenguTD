@@ -688,6 +688,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     ///  Welt schließen und zurück zum Startbildschirm kommen
     public void close() {
+        stats.close();
         StartScreen newScreen = new StartScreen();
         newScreen.setFirstOpenAnimation(false);
         PenguTD.getInstance().setScreenAndDispose(newScreen);
