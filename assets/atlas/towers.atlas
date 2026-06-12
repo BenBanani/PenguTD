@@ -1,89 +1,131 @@
 
 towers.png
-size: 512, 32
+size: 512, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+beacon_tower0
+  rotate: false
+  xy: 2, 20
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+beacon_tower1
+  rotate: false
+  xy: 45, 20
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+beacon_tower_idle
+  rotate: false
+  xy: 45, 20
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+beacon_tower2
+  rotate: false
+  xy: 88, 20
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+beacon_tower3
+  rotate: false
+  xy: 131, 20
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
+beacon_tower4
+  rotate: false
+  xy: 174, 20
+  size: 41, 39
+  orig: 41, 39
+  offset: 0, 0
+  index: -1
 fish_tower_attack1
   rotate: false
-  xy: 151, 3
+  xy: 366, 32
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 fish_tower_attack2
   rotate: false
-  xy: 186, 3
+  xy: 401, 32
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 fish_tower_attack3
   rotate: false
-  xy: 392, 3
+  xy: 319, 3
   size: 30, 27
   orig: 30, 27
   offset: 0, 0
   index: -1
 fish_tower_idle
   rotate: false
-  xy: 221, 3
+  xy: 436, 32
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 sniper_tower_attack1
   rotate: false
-  xy: 256, 2
+  xy: 471, 31
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 sniper_tower_attack2
   rotate: false
-  xy: 290, 2
+  xy: 217, 2
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 sniper_tower_attack3
   rotate: false
-  xy: 324, 2
+  xy: 251, 2
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 sniper_tower_idle
   rotate: false
-  xy: 358, 2
+  xy: 285, 2
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 snowball_tower_attack1
   rotate: false
-  xy: 40, 3
+  xy: 255, 32
   size: 35, 27
   orig: 35, 27
   offset: 0, 0
   index: -1
 snowball_tower_attack2
   rotate: false
-  xy: 2, 3
+  xy: 217, 32
   size: 36, 27
   orig: 36, 27
   offset: 0, 0
   index: -1
 snowball_tower_attack3
   rotate: false
-  xy: 77, 3
+  xy: 292, 32
   size: 35, 27
   orig: 35, 27
   offset: 0, 0
   index: -1
 snowball_tower_idle
   rotate: false
-  xy: 114, 3
+  xy: 329, 32
   size: 35, 27
   orig: 35, 27
   offset: 0, 0

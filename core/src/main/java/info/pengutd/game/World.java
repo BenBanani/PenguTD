@@ -26,10 +26,7 @@ import info.pengutd.game.overlay.DefeatOverlay;
 import info.pengutd.game.overlay.PauseOverlay;
 import info.pengutd.game.overlay.TowerSelection;
 import info.pengutd.game.overlay.VictoryOverlay;
-import info.pengutd.game.tower.FishTower;
-import info.pengutd.game.tower.SniperTower;
-import info.pengutd.game.tower.SnowballTower;
-import info.pengutd.game.tower.Tower;
+import info.pengutd.game.tower.*;
 import info.pengutd.game.tower.projectile.FishProjectile;
 import info.pengutd.game.tower.projectile.IceProjectile;
 import info.pengutd.game.tower.projectile.Projectile;
@@ -46,6 +43,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull Array<Enemy> enemies = new Array<>();
     private final @NotNull Array<Tower> towers = new Array<>();
     private final @NotNull Array<Projectile> projectiles = new Array<>();
+    private final @NotNull Array<SpeedModifier> speedModifiers = new Array<>();
     private final boolean fromJson;
     private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
     private SpriteBatch batch;
@@ -136,6 +134,18 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     public @NotNull Array<Enemy> getEnemies() {
         return enemies;
+    }
+
+    public @NotNull Array<Tower> getTowers() {
+        return towers;
+    }
+
+    public @NotNull Array<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public @NotNull Array<SpeedModifier> getSpeedModifiers() {
+        return speedModifiers;
     }
 
     /// @return die map oder null, wenn noch keine map geladen wurde
@@ -288,19 +298,19 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        double d = Math.random() - 1;
-        enemies.add(new CoolEnemy(this, createEntityId()));
+        double d = Math.random();
         if (d < 0.25) {
+            addEnemy(new FatEnemy(this, createEntityId()));
         } else if (d < 0.5) {
-            enemies.add(new FatEnemy(this, createEntityId()));
+            addEnemy(new CoolEnemy(this, createEntityId()));
         } else if (d < 0.75) {
-            enemies.add(new BushEnemy(this, createEntityId()).debug());
+            addEnemy(new BushEnemy(this, createEntityId()));
         } else {
-            enemies.add(new WarriorEnemy(4, this, createEntityId()));
+            addEnemy(new WarriorEnemy(4, this, createEntityId()));
         }
 
         if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
-            towers.add(previewTower.place());
+            addTower(previewTower.place());
             PenguTD.getInstance().getStatsManager().addPlacedTower();
             setSelectedTower(0);
         }
@@ -384,7 +394,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 break;
             case 3:
                 previewTower = new SniperTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
-                // später weitere types
+                break;
+            case 4:
+                previewTower = new BeaconTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
+                break;
         }
     }
 
@@ -498,7 +511,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                     throw new IllegalArgumentException("Unknown enemy type: " + enemyType);
             }
             enemy.fromJson(jsonEnemy);
-            enemies.add(enemy);
+            addEnemy(enemy);
         }
 
         // towers
@@ -518,11 +531,14 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 case SniperTower.JSON_TYPE:
                     tower = new SniperTower(this, new Vector2(), jsonTower.getInt("id"));
                     break;
+                case BeaconTower.JSON_TYPE:
+                    tower = new BeaconTower(this, new Vector2(), jsonTower.getInt("id"));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }
             tower.fromJson(jsonTower);
-            towers.add(tower);
+            addTower(tower);
         }
 
         // projectiles
@@ -549,7 +565,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                     throw new IllegalArgumentException("Unknown projectile type: " + projectileType);
             }
             projectile.fromJson(jsonProjectile);
-            projectiles.add(projectile);
+            addProjectile(projectile);
         }
 
         stats.fromJson(json.get("stats"));
@@ -647,11 +663,24 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// fügt ein Projektil in die Welt hinzu.
     public void addProjectile(@NotNull Projectile projectile) {
         projectiles.add(projectile);
+        if (projectile instanceof SpeedModifier) {  // auch projectile für später FeuerProjectile
+            speedModifiers.add((SpeedModifier) projectile);
+        }
     }
 
     /// Fügt ein Gegner in die Welt hinzu
     public void addEnemy(@NotNull Enemy enemy) {
         enemies.add(enemy);
+        if (enemy instanceof SpeedModifier) {
+            speedModifiers.add(((SpeedModifier) enemy));
+        }
+    }
+
+    public void addTower(@NotNull Tower tower) {
+        towers.add(tower);
+        if (tower instanceof SpeedModifier) {
+            speedModifiers.add(((SpeedModifier) tower));
+        }
     }
 
     public int getMoney() {

@@ -48,15 +48,12 @@ public abstract class Projectile extends GameObject {
     private float getSpeedMultiplier() {
         float[] multiplier = {1f};
 
-        getWorld().getEnemies().forEach(e -> {
-            if (e instanceof FatEnemy) {
-                if (e.isAlive() && ((FatEnemy) e).affectsAt(getPos())) {
-                    multiplier[0] *= FatEnemy.SLOW_MULTIPLIER;
-                }
+        getWorld().getSpeedModifiers().forEach((speedModifier) -> {
+            if (speedModifier.affectsAt(getPos())) {
+                multiplier[0] *= speedModifier.getMultiplier();
             }
         });
-        return (float) Math.max(multiplier[0], 0.1);
-
+        return (float) Math.max(Math.min(multiplier[0], 5), 0.1);
     }
 
     /// @return der enemy mit dem das projectile kollidiert oder null, wenn keiner diesen frame getroffen wurde

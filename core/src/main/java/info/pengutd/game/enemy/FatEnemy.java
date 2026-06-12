@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.game.SpeedModifier;
 import info.pengutd.game.World;
-import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 
 // Dicker Pinguin mit mehr leben
 // todo um ihn rum ist eine Eis Aura die Türme verlangsamt
-public class FatEnemy extends Enemy {
+public class FatEnemy extends Enemy implements SpeedModifier {
     // in tiles
     public static final float HEIGHT = 0.9f;
     public static final float WIDTH = 0.9f;
@@ -49,11 +49,18 @@ public class FatEnemy extends Enemy {
         health = value;
     }
 
+    @Override
     /// @return ob der Aura Effekt vom Pinguin an dieser Position Effekt hat
     public boolean affectsAt(@NotNull Vector2 pos) {
+        if (!isAlive()) return false;
         float radius2 = FROST_RADIUS * getWorld().getTileWidth();
         radius2 *= radius2;
         return pos.dst2(getPos()) <= radius2;
+    }
+
+    @Override
+    public float getMultiplier() {
+        return SLOW_MULTIPLIER;
     }
 
     @Override

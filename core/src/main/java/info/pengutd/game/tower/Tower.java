@@ -171,14 +171,13 @@ public abstract class Tower extends GameObject {
     public float getAttackSpeedMultiplier() {
         float[] multiplier = {1f};
 
-        getWorld().getEnemies().forEach(e -> {
-            if (e instanceof FatEnemy) {
-                if (e.isAlive() && ((FatEnemy) e).affectsAt(getPos())) {
-                    multiplier[0] *= FatEnemy.SLOW_MULTIPLIER;
-                }
+        getWorld().getSpeedModifiers().forEach((speedModifier) -> {
+            if (speedModifier.affectsAt(getPos())) {
+                multiplier[0] *= speedModifier.getMultiplier();
             }
         });
-        return (float) Math.max(multiplier[0], 0.1);
+
+        return (float) Math.max(Math.min(multiplier[0], 5), 0.1);  // clamp 0.1 < x < 5
     }
 
     /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde, ein Gegner trifft.
