@@ -211,6 +211,7 @@ public class StartScreen implements Screen {
 
     private void startNewGame() {
         if (PenguTD.getInstance().getProfileManager().getCurrentProfile() == null) {
+            openAccountSelection();
             return;
         }
         PenguTD.getInstance().setScreenAndDispose(new World());
@@ -218,6 +219,7 @@ public class StartScreen implements Screen {
 
     private void loadGame() {
         if (PenguTD.getInstance().getProfileManager().getCurrentProfile() == null) {
+            openAccountSelection();
             return;
         }
         World world = new World(true);

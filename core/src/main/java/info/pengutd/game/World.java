@@ -47,9 +47,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull Array<Tower> towers = new Array<>();
     private final @NotNull Array<Projectile> projectiles = new Array<>();
     private final boolean fromJson;
+    private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
     private SpriteBatch batch;
     private Viewport viewport;
-    private String mapName = "map1";
+    private String mapName = "map2";
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     /// in tiles
@@ -72,7 +73,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int score;
     private boolean paused = false;
     private boolean won = false;
-    private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
 
     /// Normaler Konstruktor für eine neue Welt
     public World() {
@@ -225,6 +225,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// Zeichnet Hindernisse der map
     private void renderMapObjects() {
         MapLayer objectLayer = map.getLayers().get("detail_tiles");
+        if (objectLayer == null) {
+            return;
+        }
 
         Array<TextureMapObject> objects = new Array<>();
 
@@ -236,7 +239,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
         /// Depth sorting damit Objekte weiter vorne auch über anderen gezeichnet werden
         objects.sort((a, b) -> Float.compare(b.getY(), a.getY()));
-        objects.forEach((obj) -> batch.draw(obj.getTextureRegion(), obj.getX(), obj.getY()));
+        objects.forEach((obj) -> batch.draw(
+            obj.getTextureRegion(), obj.getX(), obj.getY(),
+            obj.getOriginX(), obj.getOriginY(),
+            obj.getTextureRegion().getRegionWidth(), obj.getTextureRegion().getRegionHeight(),
+            obj.getScaleX(), obj.getScaleY(),
+            obj.getRotation())
+        );
     }
 
     @Override
@@ -285,13 +294,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        double d = Math.random();
+        double d = Math.random() - 1;
+        enemies.add(new WarriorEnemy(4, this, createEntityId()));
         if (d < 0.25) {
-            enemies.add(new BushEnemy(this, createEntityId()));
         } else if (d < 0.5) {
             enemies.add(new FatEnemy(this, createEntityId()));
         } else if (d < 0.75) {
-            enemies.add(new WarriorEnemy(4, this, createEntityId()));
+            enemies.add(new BushEnemy(this, createEntityId()).debug());
         } else {
             enemies.add(new CoolEnemy(this, createEntityId()));
         }
@@ -381,7 +390,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 break;
             case 3:
                 previewTower = new SniperTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
-            // später weitere types
+                // später weitere types
         }
     }
 
