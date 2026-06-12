@@ -239,13 +239,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         }
         /// Depth sorting damit Objekte weiter vorne auch über anderen gezeichnet werden
         objects.sort((a, b) -> Float.compare(b.getY(), a.getY()));
-        objects.forEach((obj) -> batch.draw(
-            obj.getTextureRegion(), obj.getX(), obj.getY(),
-            obj.getOriginX(), obj.getOriginY(),
-            obj.getTextureRegion().getRegionWidth(), obj.getTextureRegion().getRegionHeight(),
-            obj.getScaleX(), obj.getScaleY(),
-            obj.getRotation())
-        );
+        objects.forEach((obj) -> batch.draw(obj.getTextureRegion(), obj.getX(), obj.getY(), obj.getOriginX(), obj.getOriginY(), obj.getTextureRegion().getRegionWidth(), obj.getTextureRegion().getRegionHeight(), obj.getScaleX(), obj.getScaleY(), obj.getRotation()));
     }
 
     @Override
@@ -653,6 +647,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// fügt ein Projektil in die Welt hinzu.
     public void addProjectile(@NotNull Projectile projectile) {
         projectiles.add(projectile);
+    }
+
+    /// Fügt ein Gegner in die Welt hinzu
+    public void addEnemy(@NotNull Enemy enemy) {
+        enemies.add(enemy);
     }
 
     public int getMoney() {

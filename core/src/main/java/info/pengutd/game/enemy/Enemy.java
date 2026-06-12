@@ -93,6 +93,11 @@ public abstract class Enemy extends GameObject {
 
             renderer.end();
 
+            renderer.begin(ShapeRenderer.ShapeType.Filled);
+            renderer.setColor(Color.LIME);
+            renderer.circle(path.get(currentPathIndex).x, path.get(currentPathIndex).y, 5);
+            renderer.end();
+
             batch.begin();
         }
     }
@@ -115,7 +120,7 @@ public abstract class Enemy extends GameObject {
         }
         Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f); // lerp damit der weg nicht so eckig ist
 
-        if (getPos().dst2(target) < getSpeed() * delta * getSpeed() * delta) {
+        if (getPos().dst2(target) < (getSpeed() * delta * getSpeed() * delta) * 3) { // wenn in nächsten 3 frames erreicht dann wechseln
             currentPathIndex++;
         }
 

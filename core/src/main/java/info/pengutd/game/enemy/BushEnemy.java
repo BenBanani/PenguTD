@@ -79,7 +79,10 @@ public class BushEnemy extends Enemy {
     public void die() {
         super.die();
         health = 0;
-        getWorld().addMoney(5);
+        WarriorEnemy newEnemy = new WarriorEnemy(1, getWorld(), getWorld().createEntityId());
+        newEnemy.setPos(getPos());
+        newEnemy.currentPathIndex = currentPathIndex;
+        getWorld().addEnemy(newEnemy);
     }
 
     @Override
