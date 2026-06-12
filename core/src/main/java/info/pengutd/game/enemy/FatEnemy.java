@@ -49,10 +49,11 @@ public class FatEnemy extends Enemy {
         health = value;
     }
 
-    public boolean affectsTower(@NotNull Tower tower) {
+    /// @return ob der Aura Effekt vom Pinguin an dieser Position Effekt hat
+    public boolean affectsAt(@NotNull Vector2 pos) {
         float radius2 = FROST_RADIUS * getWorld().getTileWidth();
         radius2 *= radius2;
-        return tower.getPos().dst2(getPos()) <= radius2;
+        return pos.dst2(getPos()) <= radius2;
     }
 
     @Override

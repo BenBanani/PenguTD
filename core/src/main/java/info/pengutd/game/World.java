@@ -288,11 +288,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
-        double d = Math.random();
+        double d = Math.random() - 1;
+        enemies.add(new FatEnemy(this, createEntityId()));
         if (d < 0.25) {
-            enemies.add(new CoolEnemy(this, createEntityId()));
         } else if (d < 0.5) {
-            enemies.add(new FatEnemy(this, createEntityId()));
+            enemies.add(new CoolEnemy(this, createEntityId()));
         } else if (d < 0.75) {
             enemies.add(new BushEnemy(this, createEntityId()).debug());
         } else {

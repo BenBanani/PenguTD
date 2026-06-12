@@ -7,14 +7,15 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
+import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /// Base Klasse für alle Projektile
 public abstract class Projectile extends GameObject {
-    private int damage;
     private final @NotNull Vector2 direction;
+    private int damage;
     private @NotNull Tower tower;
     private boolean alive = true;
 
@@ -31,19 +32,31 @@ public abstract class Projectile extends GameObject {
 
     @Override
     public void update(float delta) {
-        if (getPos().x < 0 || getPos().y < 0 ||
-            getPos().x > getWorld().getTileWidth() * getWorld().getMapWidth() ||
-            getPos().y > getWorld().getTileHeight() * getWorld().getMapHeight()
-        ) {
+        if (getPos().x < 0 || getPos().y < 0 || getPos().x > getWorld().getTileWidth() * getWorld().getMapWidth() || getPos().y > getWorld().getTileHeight() * getWorld().getMapHeight()) {
             destroy();
             return;
         }
-        setPos(getPos().mulAdd(direction, getSpeed() * delta));
+        setPos(getPos().mulAdd(direction, getSpeed() * delta * getSpeedMultiplier()));
 
         Enemy collisionEnemy = checkCollision();
         if (collisionEnemy != null) {
             onHit(collisionEnemy);
         }
+    }
+
+    /// slow Effekte von FatEnemy etc.
+    private float getSpeedMultiplier() {
+        float[] multiplier = {1f};
+
+        getWorld().getEnemies().forEach(e -> {
+            if (e instanceof FatEnemy) {
+                if (e.isAlive() && ((FatEnemy) e).affectsAt(getPos())) {
+                    multiplier[0] *= FatEnemy.SLOW_MULTIPLIER;
+                }
+            }
+        });
+        return (float) Math.max(multiplier[0], 0.1);
+
     }
 
     /// @return der enemy mit dem das projectile kollidiert oder null, wenn keiner diesen frame getroffen wurde
@@ -71,6 +84,7 @@ public abstract class Projectile extends GameObject {
     public abstract float getSpeed();
 
     /// wird aufgerufen, wenn der projectile ein enemy trifft
+    ///
     /// @param enemy das getroffen wurde
     public void onHit(@NotNull Enemy enemy) {
         tower.onProjectileHit(this, enemy);

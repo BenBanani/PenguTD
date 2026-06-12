@@ -173,7 +173,7 @@ public abstract class Tower extends GameObject {
 
         getWorld().getEnemies().forEach(e -> {
             if (e instanceof FatEnemy) {
-                if (e.isAlive() && ((FatEnemy) e).affectsTower(this)) {
+                if (e.isAlive() && ((FatEnemy) e).affectsAt(getPos())) {
                     multiplier[0] *= FatEnemy.SLOW_MULTIPLIER;
                 }
             }
