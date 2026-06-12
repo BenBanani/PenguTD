@@ -33,6 +33,7 @@ public class VictoryOverlay {
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
     private final @NotNull Image pengus;
+    private final @NotNull Skin skin;
 
     public VictoryOverlay(@NotNull World world) {
         this.world = world;
@@ -41,7 +42,7 @@ public class VictoryOverlay {
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.VICTORY_SCREEN_ATLAS);
-        Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
+        skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 
         Table background = new Table();
         background.setFillParent(true);
@@ -102,6 +103,15 @@ public class VictoryOverlay {
     /// muss aufgerufen werden bevor das DefeatOverlay sichtbar wird
     public void show() {
         world.getInputProcessor().addProcessor(0, uiStage);
+
+        assert PenguTD.getInstance().getStatsManager().getGameStats() != null;
+        stats.clear();
+        Map<String, String> statsMap = PenguTD.getInstance().getStatsManager().getGameStats().getStatsAsPrintMap();
+        statsMap.forEach((k, v) -> {
+            Label label = new Label(k + ": " + v, skin);
+            label.setAlignment(Align.left);
+            stats.add(label).row();
+        });
 
         // animate open
         content.addAction(sequence(

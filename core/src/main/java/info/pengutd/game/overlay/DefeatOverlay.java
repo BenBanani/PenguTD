@@ -33,6 +33,7 @@ public class DefeatOverlay {
     private final @NotNull Image mainMenuButton;
     private final @NotNull Table stats;
     private final @NotNull Image pengus;
+    private final @NotNull Skin skin;
     private boolean isVisible;
 
     public DefeatOverlay(@NotNull World world) {
@@ -42,7 +43,7 @@ public class DefeatOverlay {
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.DEFEAT_SCREEN_ATLAS);
-        Skin skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
+        skin = PenguTD.getInstance().getAssetManager().get(Assets.DEFAULT_SKIN);
 
         Table background = new Table();
         background.setFillParent(true);
@@ -68,13 +69,6 @@ public class DefeatOverlay {
         uiStage.addActor(pengus);
 
         stats = new Table();
-        assert PenguTD.getInstance().getStatsManager().getGameStats() != null;
-        Map<String, String> statsMap = PenguTD.getInstance().getStatsManager().getGameStats().getStatsAsPrintMap();
-        statsMap.forEach((k, v) -> {
-            Label label = new Label(k + ": " + v, skin);
-            label.setAlignment(Align.left);
-            stats.add(label).row();
-        });
         content.add(stats).row();
 
         mainMenuButton = new Image(Assets.findRegionOrMissing(atlas, "main_menu_button"));
@@ -105,6 +99,15 @@ public class DefeatOverlay {
 
     /// muss aufgerufen werden bevor das DefeatOverlay sichtbar wird
     public void show() {
+        assert PenguTD.getInstance().getStatsManager().getGameStats() != null;
+        stats.clear();
+        Map<String, String> statsMap = PenguTD.getInstance().getStatsManager().getGameStats().getStatsAsPrintMap();
+        statsMap.forEach((k, v) -> {
+            Label label = new Label(k + ": " + v, skin);
+            label.setAlignment(Align.left);
+            stats.add(label).row();
+        });
+
         world.getInputProcessor().addProcessor(0, uiStage);
 
         // animate open
