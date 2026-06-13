@@ -214,7 +214,6 @@ public class StartScreen implements Screen {
             openAccountSelection();
             return;
         }
-        //PenguTD.getInstance().setScreenAndDispose(new World());
         PenguTD.getInstance().setScreenAndDispose(new LevelSelectionScreen(this));
     }
 

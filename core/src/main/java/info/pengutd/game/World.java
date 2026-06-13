@@ -66,7 +66,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
     private SpriteBatch batch;
     private Viewport viewport;
-    public String mapName = "map3";
+    public String mapName;
     public int difficulty = 3; // 1 für leicht 2 für mittel und 3 für schwer
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
@@ -90,7 +90,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int score;
     private boolean paused = false;
     public boolean won = false;
-    private Wavemaker wavemaker = new Wavemaker(this);
+    private Wavemaker wavemaker;
 
     /// Normaler Konstruktor für eine neue Welt
     /// side effect: Game Stats werden neu gesetzt
@@ -146,6 +146,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
             viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
             viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+            wavemaker = new Wavemaker(this);
         }
 
         createTowerSelection();
@@ -478,7 +480,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// @throws IllegalArgumentException wenn ungültige enemy types in der json sind
     /// @throws IllegalStateException    wenn fromJson false ist
     @Override
-    public void fromJson(@NotNull JsonValue json) {
+    public void fromJson(@NotNull JsonValue json) {  // todo wavemaker
         if (!fromJson) {
             throw new IllegalStateException("fromJson ist false, aber fromJson() wurde aufgerufen");
         }

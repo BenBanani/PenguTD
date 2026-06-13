@@ -450,7 +450,7 @@ public class Wavemaker {
         spawnTimer += delta;
 
         if (spawnTimer >= spawnDelay && waveIndex < wave.size()) {
-            spawnTimer -= spawnDelay;
+            spawnTimer = 0;
             spawnEnemy(wave, waveIndex);
             waveIndex++;
         }
