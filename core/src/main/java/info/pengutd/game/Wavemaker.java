@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Wavemaker {
     private final @NotNull World world;
     private final @NotNull HashMap<Integer, ArrayList<Integer>> waves = new HashMap<>();
-    int currentWave = 1;
+    private int currentWave = 1;
     boolean waveFinished = false;
     private float spawnTimer = 0f;
     private float spawnDelay = 1.0f; // time between spawns
