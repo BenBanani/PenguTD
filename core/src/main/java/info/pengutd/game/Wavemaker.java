@@ -436,7 +436,7 @@ public class Wavemaker {
             waveIndex = 0;
             spawnTimer = 0f;
         }
-        if (currentWave >= waves.size()) {  // muss das hier nicht >= sein, weil sonst index out of bounds error?
+        if (currentWave >= waves.size()) {
             world.win();
         }
     }
