@@ -1,0 +1,1691 @@
+{
+"type": "world",
+"map": "map3",
+"next_entity_id": 167,
+"next_tower_id": 0,
+"money": 100,
+"hp": 100,
+"score": 0,
+"enemies": [
+	{
+		"type": "fat_enemy",
+		"x": 801.0149536132812,
+		"y": 736.7962036132812,
+		"rotation": 0.0,
+		"id": 0,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 805.1692504882812,
+		"y": 691.2050170898438,
+		"rotation": 0.0,
+		"id": 1,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.7130737304688,
+		"y": 453.9392395019531,
+		"rotation": 0.0,
+		"id": 2,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.8013305664062,
+		"y": 588.8089599609375,
+		"rotation": 0.0,
+		"id": 3,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 800.5838012695312,
+		"y": 737.9512939453125,
+		"rotation": 0.0,
+		"id": 4,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 804.9492797851562,
+		"y": 695.176025390625,
+		"rotation": 0.0,
+		"id": 5,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.9244384765625,
+		"y": 464.7957763671875,
+		"rotation": 0.0,
+		"id": 6,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.6704711914062,
+		"y": 593.6019897460938,
+		"rotation": 0.0,
+		"id": 7,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 800.3230590820312,
+		"y": 740.6259765625,
+		"rotation": 0.0,
+		"id": 8,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 805.267578125,
+		"y": 697.66357421875,
+		"rotation": 0.0,
+		"id": 9,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "bush_enemy",
+		"x": 803.6558837890625,
+		"y": 698.9291381835938,
+		"rotation": 0.0,
+		"id": 10,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.7723999023438,
+		"y": 741.0208129882812,
+		"rotation": 0.0,
+		"id": 11,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.435302734375,
+		"y": 478.2337951660156,
+		"rotation": 0.0,
+		"id": 12,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 803.957275390625,
+		"y": 702.0551147460938,
+		"rotation": 0.0,
+		"id": 13,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.6093139648438,
+		"y": 605.4646606445312,
+		"rotation": 0.0,
+		"id": 14,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 800.6280517578125,
+		"y": 743.5217895507812,
+		"rotation": 0.0,
+		"id": 15,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.9776000976562,
+		"y": 484.94659423828125,
+		"rotation": 0.0,
+		"id": 16,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 804.061767578125,
+		"y": 705.1744384765625,
+		"rotation": 0.0,
+		"id": 17,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 856.3756103515625,
+		"y": 374.9047546386719,
+		"rotation": 0.0,
+		"id": 18,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.5819091796875,
+		"y": 746.6380615234375,
+		"rotation": 0.0,
+		"id": 19,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 804.30419921875,
+		"y": 707.1064453125,
+		"rotation": 0.0,
+		"id": 20,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.5823974609375,
+		"y": 746.7772216796875,
+		"rotation": 0.0,
+		"id": 21,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 803.3444213867188,
+		"y": 707.723388671875,
+		"rotation": 0.0,
+		"id": 22,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 859.59912109375,
+		"y": 388.42034912109375,
+		"rotation": 0.0,
+		"id": 23,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.1406860351562,
+		"y": 505.49468994140625,
+		"rotation": 0.0,
+		"id": 24,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.309814453125,
+		"y": 748.7760009765625,
+		"rotation": 0.0,
+		"id": 25,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 803.5659790039062,
+		"y": 710.7777099609375,
+		"rotation": 0.0,
+		"id": 26,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.6124877929688,
+		"y": 401.8076171875,
+		"rotation": 0.0,
+		"id": 27,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 859.645263671875,
+		"y": 627.0697021484375,
+		"rotation": 0.0,
+		"id": 28,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.433837890625,
+		"y": 750.6650390625,
+		"rotation": 0.0,
+		"id": 29,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 802.9993896484375,
+		"y": 714.3838500976562,
+		"rotation": 0.0,
+		"id": 30,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.4044799804688,
+		"y": 411.6800842285156,
+		"rotation": 0.0,
+		"id": 31,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.1517333984375,
+		"y": 525.1428833007812,
+		"rotation": 0.0,
+		"id": 32,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 802.9580688476562,
+		"y": 716.854736328125,
+		"rotation": 0.0,
+		"id": 33,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.8350830078125,
+		"y": 752.841064453125,
+		"rotation": 0.0,
+		"id": 34,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.07080078125,
+		"y": 427.8980407714844,
+		"rotation": 0.0,
+		"id": 35,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 802.546142578125,
+		"y": 719.9442749023438,
+		"rotation": 0.0,
+		"id": 36,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.1966552734375,
+		"y": 431.807861328125,
+		"rotation": 0.0,
+		"id": 37,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.3424682617188,
+		"y": 754.7604370117188,
+		"rotation": 0.0,
+		"id": 38,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.8518676757812,
+		"y": 541.7900390625,
+		"rotation": 0.0,
+		"id": 39,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 802.3785400390625,
+		"y": 722.3494873046875,
+		"rotation": 0.0,
+		"id": 40,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.5328369140625,
+		"y": 443.5372009277344,
+		"rotation": 0.0,
+		"id": 41,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.0452880859375,
+		"y": 757.64892578125,
+		"rotation": 0.0,
+		"id": 42,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 803.3572387695312,
+		"y": 724.2369384765625,
+		"rotation": 0.0,
+		"id": 43,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.8732299804688,
+		"y": 454.48333740234375,
+		"rotation": 0.0,
+		"id": 44,
+		"currentPathIndex": 7,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.5826416015625,
+		"y": 555.2530517578125,
+		"rotation": 0.0,
+		"id": 45,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.6011962890625,
+		"y": 759.0794067382812,
+		"rotation": 0.0,
+		"id": 46,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 801.8299560546875,
+		"y": 728.2840576171875,
+		"rotation": 0.0,
+		"id": 47,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.602294921875,
+		"y": 468.2194519042969,
+		"rotation": 0.0,
+		"id": 48,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.8338012695312,
+		"y": 470.25115966796875,
+		"rotation": 0.0,
+		"id": 49,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 800.958984375,
+		"y": 762.2894897460938,
+		"rotation": 0.0,
+		"id": 50,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 802.1917114257812,
+		"y": 732.0879516601562,
+		"rotation": 0.0,
+		"id": 51,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.0068969726562,
+		"y": 486.660400390625,
+		"rotation": 0.0,
+		"id": 52,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.7313842773438,
+		"y": 580.4829711914062,
+		"rotation": 0.0,
+		"id": 53,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 802.23486328125,
+		"y": 734.5488891601562,
+		"rotation": 0.0,
+		"id": 54,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 799.6921997070312,
+		"y": 766.236083984375,
+		"rotation": 0.0,
+		"id": 55,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.0504760742188,
+		"y": 510.6219482421875,
+		"rotation": 0.0,
+		"id": 56,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.73486328125,
+		"y": 511.4217834472656,
+		"rotation": 0.0,
+		"id": 57,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 800.1360473632812,
+		"y": 739.1587524414062,
+		"rotation": 0.0,
+		"id": 58,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.6035766601562,
+		"y": 769.7870483398438,
+		"rotation": 0.0,
+		"id": 59,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 801.1683349609375,
+		"y": 740.7839965820312,
+		"rotation": 0.0,
+		"id": 60,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.7665405273438,
+		"y": 520.7639770507812,
+		"rotation": 0.0,
+		"id": 61,
+		"currentPathIndex": 6,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.86376953125,
+		"y": 769.8753051757812,
+		"rotation": 0.0,
+		"id": 62,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 801.0985717773438,
+		"y": 743.1376342773438,
+		"rotation": 0.0,
+		"id": 63,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.652099609375,
+		"y": 531.53466796875,
+		"rotation": 0.0,
+		"id": 64,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.0694580078125,
+		"y": 535.6912841796875,
+		"rotation": 0.0,
+		"id": 65,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.8218994140625,
+		"y": 773.5119018554688,
+		"rotation": 0.0,
+		"id": 66,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 799.5505981445312,
+		"y": 747.3001098632812,
+		"rotation": 0.0,
+		"id": 67,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.5660400390625,
+		"y": 543.687744140625,
+		"rotation": 0.0,
+		"id": 68,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.607177734375,
+		"y": 621.6798706054688,
+		"rotation": 0.0,
+		"id": 69,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 800.5841674804688,
+		"y": 750.118896484375,
+		"rotation": 0.0,
+		"id": 70,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.4619750976562,
+		"y": 552.643310546875,
+		"rotation": 0.0,
+		"id": 71,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.8281860351562,
+		"y": 775.980224609375,
+		"rotation": 0.0,
+		"id": 72,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 799.419189453125,
+		"y": 752.4237670898438,
+		"rotation": 0.0,
+		"id": 73,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.3927001953125,
+		"y": 563.1636352539062,
+		"rotation": 0.0,
+		"id": 74,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.7722778320312,
+		"y": 777.31005859375,
+		"rotation": 0.0,
+		"id": 75,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.3663330078125,
+		"y": 569.5950927734375,
+		"rotation": 0.0,
+		"id": 76,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 799.4398193359375,
+		"y": 755.732421875,
+		"rotation": 0.0,
+		"id": 77,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.925048828125,
+		"y": 575.898681640625,
+		"rotation": 0.0,
+		"id": 78,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.6018676757812,
+		"y": 579.9344482421875,
+		"rotation": 0.0,
+		"id": 79,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.61572265625,
+		"y": 779.9652099609375,
+		"rotation": 0.0,
+		"id": 80,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 799.8438720703125,
+		"y": 758.6318359375,
+		"rotation": 0.0,
+		"id": 81,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.9144897460938,
+		"y": 587.4160766601562,
+		"rotation": 0.0,
+		"id": 82,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 861.2420654296875,
+		"y": 590.95263671875,
+		"rotation": 0.0,
+		"id": 83,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.775390625,
+		"y": 760.2266845703125,
+		"rotation": 0.0,
+		"id": 84,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.0016479492188,
+		"y": 782.6029052734375,
+		"rotation": 0.0,
+		"id": 85,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.298583984375,
+		"y": 599.3458251953125,
+		"rotation": 0.0,
+		"id": 86,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.005859375,
+		"y": 603.3931274414062,
+		"rotation": 0.0,
+		"id": 87,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 800.04443359375,
+		"y": 764.2532958984375,
+		"rotation": 0.0,
+		"id": 88,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.66650390625,
+		"y": 609.3656005859375,
+		"rotation": 0.0,
+		"id": 89,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.4884643554688,
+		"y": 784.5418701171875,
+		"rotation": 0.0,
+		"id": 90,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.7234497070312,
+		"y": 617.9312133789062,
+		"rotation": 0.0,
+		"id": 91,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.8713989257812,
+		"y": 786.5264282226562,
+		"rotation": 0.0,
+		"id": 92,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 799.161865234375,
+		"y": 768.3695678710938,
+		"rotation": 0.0,
+		"id": 93,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 860.0153198242188,
+		"y": 624.7471923828125,
+		"rotation": 0.0,
+		"id": 94,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 859.1587524414062,
+		"y": 627.7013549804688,
+		"rotation": 0.0,
+		"id": 95,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.7898559570312,
+		"y": 769.7811889648438,
+		"rotation": 0.0,
+		"id": 96,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 859.6270141601562,
+		"y": 636.1612548828125,
+		"rotation": 0.0,
+		"id": 97,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.19287109375,
+		"y": 790.1425170898438,
+		"rotation": 0.0,
+		"id": 98,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 859.6607055664062,
+		"y": 642.1090698242188,
+		"rotation": 0.0,
+		"id": 99,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 858.4425048828125,
+		"y": 644.3397216796875,
+		"rotation": 0.0,
+		"id": 100,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 799.7086181640625,
+		"y": 773.4820556640625,
+		"rotation": 0.0,
+		"id": 101,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.73876953125,
+		"y": 791.4360961914062,
+		"rotation": 0.0,
+		"id": 102,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 858.4921264648438,
+		"y": 653.4942016601562,
+		"rotation": 0.0,
+		"id": 103,
+		"currentPathIndex": 4,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 856.5503540039062,
+		"y": 657.0859375,
+		"rotation": 0.0,
+		"id": 104,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.3777465820312,
+		"y": 777.0833740234375,
+		"rotation": 0.0,
+		"id": 105,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 854.1222534179688,
+		"y": 661.20263671875,
+		"rotation": 0.0,
+		"id": 106,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 850.111083984375,
+		"y": 663.6566162109375,
+		"rotation": 0.0,
+		"id": 107,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.8543090820312,
+		"y": 795.3138427734375,
+		"rotation": 0.0,
+		"id": 108,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 847.5806884765625,
+		"y": 666.1469116210938,
+		"rotation": 0.0,
+		"id": 109,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 843.8016967773438,
+		"y": 669.4388427734375,
+		"rotation": 0.0,
+		"id": 110,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.9788208007812,
+		"y": 782.6563110351562,
+		"rotation": 0.0,
+		"id": 111,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 837.9586791992188,
+		"y": 672.9193725585938,
+		"rotation": 0.0,
+		"id": 112,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 835.5414428710938,
+		"y": 673.9102783203125,
+		"rotation": 0.0,
+		"id": 113,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.6231689453125,
+		"y": 798.055419921875,
+		"rotation": 0.0,
+		"id": 114,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.0382080078125,
+		"y": 784.1798706054688,
+		"rotation": 0.0,
+		"id": 115,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 825.3538208007812,
+		"y": 677.5690307617188,
+		"rotation": 0.0,
+		"id": 116,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 823.1383666992188,
+		"y": 678.0568237304688,
+		"rotation": 0.0,
+		"id": 117,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 821.4180297851562,
+		"y": 679.057373046875,
+		"rotation": 0.0,
+		"id": 118,
+		"currentPathIndex": 3,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.5590209960938,
+		"y": 787.157958984375,
+		"rotation": 0.0,
+		"id": 119,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 796.9760131835938,
+		"y": 800.3773193359375,
+		"rotation": 0.0,
+		"id": 120,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 814.9555053710938,
+		"y": 685.0719604492188,
+		"rotation": 0.0,
+		"id": 121,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 811.3062744140625,
+		"y": 687.9930419921875,
+		"rotation": 0.0,
+		"id": 122,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 810.7462158203125,
+		"y": 690.2466430664062,
+		"rotation": 0.0,
+		"id": 123,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 798.4157104492188,
+		"y": 791.8417358398438,
+		"rotation": 0.0,
+		"id": 124,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 808.1506958007812,
+		"y": 695.9323120117188,
+		"rotation": 0.0,
+		"id": 125,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.9061279296875,
+		"y": 793.5786743164062,
+		"rotation": 0.0,
+		"id": 126,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 805.0712890625,
+		"y": 703.4544677734375,
+		"rotation": 0.0,
+		"id": 127,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 805.916015625,
+		"y": 705.2875366210938,
+		"rotation": 0.0,
+		"id": 128,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 796.7653198242188,
+		"y": 806.0008544921875,
+		"rotation": 0.0,
+		"id": 129,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 803.900634765625,
+		"y": 712.0947265625,
+		"rotation": 0.0,
+		"id": 130,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 803.9574584960938,
+		"y": 714.9287109375,
+		"rotation": 0.0,
+		"id": 131,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.7683715820312,
+		"y": 798.1431274414062,
+		"rotation": 0.0,
+		"id": 132,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 802.3740844726562,
+		"y": 721.88916015625,
+		"rotation": 0.0,
+		"id": 133,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 802.4345703125,
+		"y": 724.4126586914062,
+		"rotation": 0.0,
+		"id": 134,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 798.2368774414062,
+		"y": 809.6932983398438,
+		"rotation": 0.0,
+		"id": 135,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 801.3334350585938,
+		"y": 731.2337646484375,
+		"rotation": 0.0,
+		"id": 136,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 801.7354125976562,
+		"y": 732.975830078125,
+		"rotation": 0.0,
+		"id": 137,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 801.6200561523438,
+		"y": 737.1888427734375,
+		"rotation": 0.0,
+		"id": 138,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.6934204101562,
+		"y": 802.85205078125,
+		"rotation": 0.0,
+		"id": 139,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.5149536132812,
+		"y": 810.472900390625,
+		"rotation": 0.0,
+		"id": 140,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 799.9487915039062,
+		"y": 747.1907958984375,
+		"rotation": 0.0,
+		"id": 141,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 801.294677734375,
+		"y": 748.7867431640625,
+		"rotation": 0.0,
+		"id": 142,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 800.0325927734375,
+		"y": 752.18701171875,
+		"rotation": 0.0,
+		"id": 143,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.9285278320312,
+		"y": 807.1959838867188,
+		"rotation": 0.0,
+		"id": 144,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 799.9547729492188,
+		"y": 759.0109252929688,
+		"rotation": 0.0,
+		"id": 145,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 797.7933349609375,
+		"y": 814.5665893554688,
+		"rotation": 0.0,
+		"id": 146,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 799.2394409179688,
+		"y": 764.1608276367188,
+		"rotation": 0.0,
+		"id": 147,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 799.0570678710938,
+		"y": 767.5819702148438,
+		"rotation": 0.0,
+		"id": 148,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 799.1015014648438,
+		"y": 771.8153076171875,
+		"rotation": 0.0,
+		"id": 149,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.9905395507812,
+		"y": 811.6932373046875,
+		"rotation": 0.0,
+		"id": 150,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 799.2166137695312,
+		"y": 778.231689453125,
+		"rotation": 0.0,
+		"id": 151,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 798.4950561523438,
+		"y": 781.14306640625,
+		"rotation": 0.0,
+		"id": 152,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 798.5090942382812,
+		"y": 783.4507446289062,
+		"rotation": 0.0,
+		"id": 153,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "fat_enemy",
+		"x": 796.5170288085938,
+		"y": 819.0181884765625,
+		"rotation": 0.0,
+		"id": 154,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.2029418945312,
+		"y": 816.7947387695312,
+		"rotation": 0.0,
+		"id": 155,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 798.0372314453125,
+		"y": 794.4796142578125,
+		"rotation": 0.0,
+		"id": 156,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 797.8993530273438,
+		"y": 797.2673950195312,
+		"rotation": 0.0,
+		"id": 157,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 798.6738891601562,
+		"y": 800.31787109375,
+		"rotation": 0.0,
+		"id": 158,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 798.044677734375,
+		"y": 803.1148681640625,
+		"rotation": 0.0,
+		"id": 159,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 797.2481079101562,
+		"y": 820.5521240234375,
+		"rotation": 0.0,
+		"id": 160,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 796.6477661132812,
+		"y": 822.1866455078125,
+		"rotation": 0.0,
+		"id": 161,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 5
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 797.6409301757812,
+		"y": 812.3114624023438,
+		"rotation": 0.0,
+		"id": 162,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 796.9246826171875,
+		"y": 815.7771606445312,
+		"rotation": 0.0,
+		"id": 163,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 796.8790893554688,
+		"y": 819.4903564453125,
+		"rotation": 0.0,
+		"id": 164,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 796.5673217773438,
+		"y": 822.7150268554688,
+		"rotation": 0.0,
+		"id": 165,
+		"currentPathIndex": 1,
+		"popTimeLeft": 0.0,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 796.9899291992188,
+		"y": 824.1321411132812,
+		"rotation": 0.0,
+		"id": 166,
+		"currentPathIndex": 0,
+		"popTimeLeft": 0.0,
+		"health": 2
+	}
+],
+"towers": [],
+"projectiles": [],
+"stats": {
+	"kills": 0,
+	"damageDealt": 0,
+	"towersPlaced": 0,
+	"wave": 0,
+	"money": 0,
+	"playTime": 12.617170333862305
+}
+}

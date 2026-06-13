@@ -1,0 +1,16 @@
+{
+"currentProfile": "lll",
+"profiles": [
+	{
+		"name": "lll",
+		"towers": [
+			false,
+			false,
+			false,
+			false,
+			false,
+			false
+		]
+	}
+]
+}

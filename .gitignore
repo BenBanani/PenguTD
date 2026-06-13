@@ -16,7 +16,7 @@ gradle-app.setting
 /headless/build/
 /server/build/
 /shared/build/
-
+assets/saves/
 ## Java:
 *.class
 *.war
