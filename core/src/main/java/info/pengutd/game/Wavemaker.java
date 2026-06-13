@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Wavemaker {
     private final @NotNull World world;
     private final @NotNull HashMap<Integer, ArrayList<Integer>> waves = new HashMap<>();
-    int waveState = 1;
+    int currentWave = 1;
     boolean waveFinished = false;
     private float spawnTimer = 0f;
     private float spawnDelay = 1.0f; // time between spawns
@@ -430,21 +430,19 @@ public class Wavemaker {
     public void render(float delta) {
         //unpack wave
         processWave(delta);
-        if (waveFinished && waveState < waves.size()) {
-            waveState++;
+        if (waveFinished && currentWave < waves.size()) {
+            currentWave++;
             waveFinished = false;
             waveIndex = 0;
             spawnTimer = 0f;
         }
-        if (waveState > waves.size()) {
-            //win
-            world.won = true;
-            world.victoryOverlay.show();
+        if (currentWave > waves.size()) {  // muss das hier nicht >= sein, weil sonst index out of bounds error?
+            world.win();
         }
     }
 
     private void processWave(float delta) {
-        ArrayList<Integer> wave = waves.get(waveState);
+        ArrayList<Integer> wave = waves.get(currentWave);
         if (wave == null || wave.isEmpty()) return;
 
         if (waveFinished) return; // schon fertig, nichts tun
@@ -463,13 +461,13 @@ public class Wavemaker {
         }
     }
 
-    private ArrayList<Integer> wave(int... enemies) {
+    private static @NotNull ArrayList<Integer> wave(int @NotNull ... enemies) {
         ArrayList<Integer> list = new ArrayList<>();
         for (int e : enemies) list.add(e);
         return list;
     }
 
-    private void spawnEnemy(ArrayList<Integer> wave, int i) {
+    private void spawnEnemy(@NotNull ArrayList<Integer> wave, int i) {
         switch (wave.get(i)) {
             case 1:
                 world.addEnemy(new FatEnemy(world, world.createEntityId()));

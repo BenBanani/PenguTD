@@ -199,7 +199,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     /// Zeichnet alle Elemente auf den Bildschirm
     private void updateGraphics(float delta) {
         ScreenUtils.clear(Color.BLACK);
-        
+
         viewport.apply();
 
         mapRenderer.setView((OrthographicCamera) viewport.getCamera());
@@ -753,5 +753,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         StartScreen newScreen = new StartScreen();
         newScreen.setFirstOpenAnimation(false);
         PenguTD.getInstance().setScreenAndDispose(newScreen);
+    }
+
+    public void win() {
+        won = true;
+        victoryOverlay.show();
     }
 }
