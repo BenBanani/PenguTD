@@ -1,19 +1,8 @@
 {
-"currentProfile": "vignon",
+"currentProfile": "martin",
 "profiles": [
 	{
 		"name": "vignon",
-		"towers": [
-			true,
-			true,
-			false,
-			true,
-			false,
-			true
-		]
-	},
-	{
-		"name": "alex",
 		"towers": [
 			true,
 			true,

@@ -1,0 +1,73 @@
+{
+"type": "world",
+"map": "map2",
+"next_entity_id": 5,
+"next_tower_id": 2,
+"money": 30,
+"hp": 100,
+"score": 0,
+"enemies": [
+	{
+		"type": "bush_enemy",
+		"x": 714.5185546875,
+		"y": 740.7479858398438,
+		"rotation": 0.0,
+		"id": 0,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "fat_enemy",
+		"x": 770.9598388671875,
+		"y": 613.03759765625,
+		"rotation": 0.0,
+		"id": 1,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.021677205339074135,
+		"health": 4
+	},
+	{
+		"type": "bush_enemy",
+		"x": 736.9159545898438,
+		"y": 731.2672729492188,
+		"rotation": 0.0,
+		"id": 3,
+		"currentPathIndex": 8,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "cool_enemy",
+		"x": 638.2761840820312,
+		"y": 740.051513671875,
+		"rotation": 0.0,
+		"id": 4,
+		"currentPathIndex": 10,
+		"popTimeLeft": 0.0,
+		"health": 1,
+		"dash_time_left": -0.013731416314840317
+	}
+],
+"towers": [
+	{
+		"type": "snowball_tower",
+		"x": 713.5465087890625,
+		"y": 550.04443359375,
+		"rotation": -42.34677505493164,
+		"shot_cooldown": 1.7794287204742432,
+		"time_since_last_attack": 0.2205713987350464,
+		"target": 1,
+		"id": 1
+	}
+],
+"projectiles": [],
+"stats": {
+	"kills": 1,
+	"damageDealt": 2,
+	"towersPlaced": 1,
+	"wave": 0,
+	"money": 5,
+	"playTime": 15.446739196777344
+}
+}

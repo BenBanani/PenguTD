@@ -36,7 +36,7 @@ public class BeaconTower extends Tower implements SpeedModifier {
     }
 
     @Override
-    public boolean affectsAt(Vector2 pos) {
+    public boolean affectsAt(@NotNull Vector2 pos) {
         float radius2 = getRange() * getRange();
         return pos.dst2(getPos()) <= radius2;
     }

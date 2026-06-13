@@ -15,6 +15,7 @@ public final class TexturePackerHelper {
         TexturePacker.process(assets + "settings_screen", output, "settings_screen_ui");
         TexturePacker.process(assets + "account_screen", output, "account_screen_ui");
         TexturePacker.process(assets + "stats_screen", output, "stats_screen_ui");
+        TexturePacker.process(assets + "selection_screen", output, "selection_screen_ui");
         TexturePacker.process(assets + "/game/tower_selection_screen", output, "tower_selection_ui");
         TexturePacker.process(assets + "/game/pause_screen", output, "pause_screen_ui");
         TexturePacker.process(assets + "/game/defeat_screen", output, "defeat_screen_ui");

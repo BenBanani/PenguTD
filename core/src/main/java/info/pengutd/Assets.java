@@ -16,6 +16,7 @@ public enum Assets {
     public static final String START_SCREEN_ATLAS = "atlas/start_screen_ui.atlas";
     public static final String ACCOUNT_SCREEN_ATLAS = "atlas/account_screen_ui.atlas";
     public static final String TOWER_SELECTION_ATLAS = "atlas/tower_selection_ui.atlas";
+    public static final String SELECTION_SCREEN_ATLAS = "atlas/selection_screen_ui.atlas";
     public static final String PAUSE_SCREEN_ATLAS = "atlas/pause_screen_ui.atlas";
     public static final String DEFEAT_SCREEN_ATLAS = "atlas/defeat_screen_ui.atlas";
     public static final String VICTORY_SCREEN_ATLAS = "atlas/victory_screen_ui.atlas";

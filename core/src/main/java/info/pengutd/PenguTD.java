@@ -15,6 +15,7 @@ import info.pengutd.profile.ProfileManager;
 import info.pengutd.screen.StartScreen;
 import info.pengutd.stats.StatsManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +78,7 @@ public class PenguTD extends Game {
         assetManager.load(Assets.SETTINGS_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.STATS_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.ACCOUNT_SCREEN_ATLAS, TextureAtlas.class);
+        assetManager.load(Assets.SELECTION_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.TOWER_SELECTION_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.PAUSE_SCREEN_ATLAS, TextureAtlas.class);
         assetManager.load(Assets.DEFEAT_SCREEN_ATLAS, TextureAtlas.class);
@@ -117,7 +119,7 @@ public class PenguTD extends Game {
     }
 
     // Muss aufgerufen werden, um Screens zu ändern, wenn der alte Screen nicht mehr gebraucht wird (sonst Memory Leak)
-    public void setScreenAndDispose(@NotNull Screen newScreen) {
+    public void setScreenAndDispose(@Nullable Screen newScreen) {
         Screen oldScreen = getScreen();
         Gdx.app.postRunnable(() -> {
             setScreen(newScreen);

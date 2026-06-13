@@ -48,7 +48,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
     private SpriteBatch batch;
     private Viewport viewport;
-    private String mapName = "map3";
+    private String mapName;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     /// in tiles
@@ -73,16 +73,19 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private boolean won = false;
 
     /// Normaler Konstruktor für eine neue Welt
-    public World() {
+    /// side effect: Game Stats werden neu gesetzt
+    public World(String mapName) {
         this(false);
+        this.mapName = mapName;
     }
 
     ///  Konstruktor muss aufgerufen werden, wenn die Welt aus einer Json Datei geladen wird,
     /// da show() möglicherweise nach toJson() aufgerufen wird und somit sonst alles selbst neu initialisiert
+    /// side effect: Game Stats werden neu gesetzt
     public World(boolean fromJson) {
         this.fromJson = fromJson;
 
-        stats = PenguTD.getInstance().getStatsManager().createGameStats();
+        stats = PenguTD.getInstance().getStatsManager().createGameStats(); // immer stats machen, werden in fromJson neu initialisiert ohne Referenzänderung
     }
 
     public Viewport getViewport() {
@@ -616,9 +619,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     }
 
     public void saveGame() {
-        // todo richtige datei speichern
         JsonValue json = toJson();
-        FileHandle handle = Gdx.files.local("saves/test.json");
+        assert PenguTD.getInstance().getProfileManager().getCurrentProfile() != null;
+        FileHandle handle = Gdx.files.local("saves/" + PenguTD.getInstance().getProfileManager().getCurrentProfile().getName() + "/" + mapName + ".json");
         handle.writeString(json.prettyPrint(JsonWriter.OutputType.json, 1), false);
     }
 
