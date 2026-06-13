@@ -223,9 +223,7 @@ public class StartScreen implements Screen {
             openAccountSelection();
             return;
         }
-        World world = new World(true);
-        world.fromJson(new JsonReader().parse(Gdx.files.internal("saves/test.json")));
-        PenguTD.getInstance().setScreenAndDispose(world);
+        PenguTD.getInstance().setScreenAndDispose(new SaveSelectionScreen(this));
     }
 
     private void openSettings() {

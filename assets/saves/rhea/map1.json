@@ -1,0 +1,62 @@
+{
+"type": "world",
+"map": "map1",
+"next_entity_id": 4,
+"next_tower_id": 1,
+"money": 56,
+"hp": 100,
+"score": 0,
+"enemies": [
+	{
+		"type": "warrior_enemy",
+		"x": 587.6015014648438,
+		"y": 734.0406494140625,
+		"rotation": 0.0,
+		"id": 0,
+		"currentPathIndex": 10,
+		"popTimeLeft": -0.017710775136947632,
+		"health": 3
+	},
+	{
+		"type": "bush_enemy",
+		"x": 863.6597290039062,
+		"y": 662.3884887695312,
+		"rotation": 0.0,
+		"id": 1,
+		"currentPathIndex": 2,
+		"popTimeLeft": 0.0,
+		"health": 2
+	},
+	{
+		"type": "warrior_enemy",
+		"x": 745.3016357421875,
+		"y": 616.469970703125,
+		"rotation": 0.0,
+		"id": 3,
+		"currentPathIndex": 5,
+		"popTimeLeft": 0.0,
+		"health": 4
+	}
+],
+"towers": [
+	{
+		"type": "fish_tower",
+		"x": 615.6842651367188,
+		"y": 681.0074462890625,
+		"rotation": 27.902557373046875,
+		"shot_cooldown": 0.6665602326393127,
+		"time_since_last_attack": 0.33343982696533203,
+		"target": 0,
+		"id": 0
+	}
+],
+"projectiles": [],
+"stats": {
+	"kills": 1,
+	"damageDealt": 2,
+	"towersPlaced": 1,
+	"wave": 0,
+	"money": 6,
+	"playTime": 3.562127113342285
+}
+}

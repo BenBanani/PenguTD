@@ -37,13 +37,13 @@ import org.jetbrains.annotations.Nullable;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
+/// Screen zum aüswählen der map / schwierigkeit
 public class LevelSelectionScreen implements Screen {
     private final @Nullable Screen previousScreen;
     private Skin skin;
     private Stage stage;
 
     private TextureAtlas atlas;
-    private Array<Drawable> mapIcons;
     private Texture bgTexture;
     private Image title;
     private final Array<Table> levelButtons = new Array<>();

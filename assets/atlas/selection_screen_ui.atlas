@@ -11,6 +11,13 @@ back_button
   orig: 202, 198
   offset: 0, 0
   index: -1
+no_save
+  rotate: false
+  xy: 841, 482
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
 title
   rotate: false
   xy: 2, 202
