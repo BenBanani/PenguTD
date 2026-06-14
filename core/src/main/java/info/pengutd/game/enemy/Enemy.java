@@ -117,7 +117,7 @@ public abstract class Enemy extends GameObject {
             dispose();
             return;
         }
-        Vector2 target = path.get(currentPathIndex).lerp(path.get(currentPathIndex + 1), 0.02f); // lerp damit der weg nicht so eckig ist
+        Vector2 target = path.get(currentPathIndex);//.lerp(path.get(currentPathIndex + 1), 0.02f); // lerp damit der weg nicht so eckig ist
 
         if (getPos().dst2(target) < (getSpeed() * delta * getSpeed() * delta) * 3) { // wenn in nächsten 3 frames erreicht dann wechseln
             currentPathIndex++;
@@ -200,6 +200,10 @@ public abstract class Enemy extends GameObject {
     /// @see Direction
     public @NotNull Direction getDirection() {
         return direction;
+    }
+
+    void setDirection(@NotNull Direction direction) {
+        this.direction = direction;
     }
 
     public enum Direction {

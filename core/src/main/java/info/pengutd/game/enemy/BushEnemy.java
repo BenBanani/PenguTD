@@ -77,13 +77,14 @@ public class BushEnemy extends Enemy {
         }
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")  // BushEnemy stirbt nicht wirklich, daher keine stats erhöhen
     @Override
     public void die() {
-        super.die();
         health = 0;
         WarriorEnemy newEnemy = new WarriorEnemy(1, getWorld(), getWorld().createEntityId());
         newEnemy.setPos(getPos());
         newEnemy.currentPathIndex = currentPathIndex;
+        newEnemy.setDirection(getDirection());
         getWorld().addEnemy(newEnemy);
     }
 

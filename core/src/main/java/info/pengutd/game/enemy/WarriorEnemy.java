@@ -45,8 +45,8 @@ public class WarriorEnemy extends Enemy {
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        if (level <= 0) return popTexture; // damit nicht indexOutOfBoundsException
-        return getPopTimeLeft() > 0 ? popTexture : animators.get((int) Math.ceil(level - 1)).getTexture(getDirection());
+        if (Math.ceil(level - 1) <= -1) return popTexture; // siehe update für erklärung
+        return animators.get((int) Math.ceil(level - 1)).getTexture(getDirection());
     }
 
     @Override
