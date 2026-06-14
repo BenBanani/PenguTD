@@ -57,7 +57,7 @@ public class BeaconTower extends Tower implements SpeedModifier {
     }
 
     @Override
-    public int getDamage() {
+    public float getDamage() {
         return 0;
     }
 

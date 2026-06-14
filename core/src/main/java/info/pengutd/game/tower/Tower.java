@@ -16,7 +16,6 @@ import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.BushEnemy;
 import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.tower.projectile.Projectile;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +47,7 @@ public abstract class Tower extends GameObject {
     /// @return Range in pixeln
     public abstract float getRange();
 
-    public abstract int getDamage();
+    public abstract float getDamage();
 
     /// @return Schüsse pro Sekunde
     public abstract float getAttackSpeed();

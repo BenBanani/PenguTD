@@ -24,7 +24,7 @@ public class WarriorEnemy extends Enemy {
     private static final float POP_DURATION = 0.1f;
     private final @NotNull TextureRegion popTexture;
     private final @NotNull Array<EnemyAnimatorSet> animators = new Array<>(4);
-    private int level;
+    private float level; // hp = level (aufgerundet)
 
     public WarriorEnemy(int level, @NotNull World world, int id) {
         super(world, new Vector2(), id); // placeholder position
@@ -46,7 +46,7 @@ public class WarriorEnemy extends Enemy {
     @Override
     public @NotNull TextureRegion getTexture() {
         if (level <= 0) return popTexture; // damit nicht indexOutOfBoundsException
-        return getPopTimeLeft() > 0 ? popTexture : animators.get(level - 1).getTexture(getDirection());
+        return getPopTimeLeft() > 0 ? popTexture : animators.get((int) Math.ceil(level - 1)).getTexture(getDirection());
     }
 
     @Override
@@ -60,13 +60,13 @@ public class WarriorEnemy extends Enemy {
     }
 
     @Override
-    public int getHealth() {
+    public float getHealth() {
         return level;
     }
 
     @Override
     public float getSpeed() {
-        return SPEED * level * getWorld().getTileWidth();
+        return SPEED * ((int) Math.ceil(level)) * getWorld().getTileWidth();
     }
 
     @Override
@@ -83,8 +83,8 @@ public class WarriorEnemy extends Enemy {
     }
 
     @Override
-    public void pop(int damage) {
-        if (getPopTimeLeft() > 0) return; // kein Schaden nehmen wenn gerade gepoppt
+    public void pop(float damage) {
+        if (getPopTimeLeft() > 0 || damage <= 0) return; // kein Schaden nehmen wenn gerade gepoppt
         level -= damage;
         setPopTimeLeft(POP_DURATION);
         if (level <= 0) die();
@@ -103,12 +103,14 @@ public class WarriorEnemy extends Enemy {
     @Override
     public void update(float delta) {
         super.update(delta);
-        if (level <= 0) return;
-        animators.get(level - 1).update(delta);
+        // seltsames ding aber sonst danach indexOutOfBounds, da level minimal >0 aber level - 1 = -1
+        // komische java floating point arithmetic
+        if (Math.ceil(level - 1) <= -1) return;
+        animators.get((int)Math.ceil(level - 1)).update(delta);
     }
 
     @Override
-    protected void setHealth(int value) {
+    protected void setHealth(float value) {
         level = value;
     }
 

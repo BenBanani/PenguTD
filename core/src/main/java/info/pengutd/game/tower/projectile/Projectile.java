@@ -7,7 +7,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.game.GameObject;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.enemy.FatEnemy;
 import info.pengutd.game.tower.Tower;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,18 +14,18 @@ import org.jetbrains.annotations.Nullable;
 /// Base Klasse für alle Projektile
 public abstract class Projectile extends GameObject {
     private final @NotNull Vector2 direction;
-    private int damage;
+    private float damage;
     private @NotNull Tower tower;
     private boolean alive = true;
 
-    protected Projectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector<Vector2> direction, @NotNull Tower tower, int damage) {
+    protected Projectile(@NotNull World world, @NotNull Vector2 pos, @NotNull Vector<Vector2> direction, @NotNull Tower tower, float damage) {
         super(world, pos);
         this.damage = damage;
         this.direction = direction.cpy().nor();
         this.tower = tower;
     }
 
-    public int getDamage() {
+    public float getDamage() {
         return damage;
     }
 

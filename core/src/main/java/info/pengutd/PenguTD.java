@@ -7,10 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import info.pengutd.game.tower.BeaconTower;
-import info.pengutd.game.tower.FishTower;
-import info.pengutd.game.tower.SniperTower;
-import info.pengutd.game.tower.SnowballTower;
+import info.pengutd.game.tower.*;
 import info.pengutd.profile.ProfileManager;
 import info.pengutd.screen.StartScreen;
 import info.pengutd.stats.StatsManager;
@@ -33,8 +30,8 @@ public class PenguTD extends Game {
         towerNames.put(2, SnowballTower.JSON_TYPE);
         towerNames.put(3, SniperTower.JSON_TYPE);
         towerNames.put(4, BeaconTower.JSON_TYPE);
-        towerNames.put(5, "machine_gun_tower");
-        towerNames.put(6, "mafia_tower");
+        towerNames.put(5, MachineGunTower.JSON_TYPE);
+        towerNames.put(6, "fire_tower");
     }
 
     private AssetManager assetManager;

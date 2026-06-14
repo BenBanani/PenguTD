@@ -25,7 +25,7 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     public static final float POP_DURATION = 0.1f;
     private final @NotNull EnemyAnimatorSet animator;
     private final @NotNull TextureRegion aura;
-    private int health = 5;
+    private float health = 5;
 
     public FatEnemy(@NotNull World world, int id) {
         super(world, new Vector2(), id);
@@ -40,12 +40,12 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     }
 
     @Override
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
     @Override
-    protected void setHealth(int value) {
+    protected void setHealth(float value) {
         health = value;
     }
 
@@ -80,8 +80,8 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     }
 
     @Override
-    public void pop(int damage) {
-        if (getPopTimeLeft() > 0) return; // kein Schaden nehmen wenn gerade gepoppt
+    public void pop(float damage) {
+        if (getPopTimeLeft() > 0 || damage <= 0) return; // kein Schaden nehmen wenn gerade gepoppt
         health -= damage;
         setPopTimeLeft(POP_DURATION);
         if (health <= 0) die();

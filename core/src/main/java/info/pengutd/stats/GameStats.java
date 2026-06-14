@@ -11,7 +11,7 @@ import static info.pengutd.stats.StatsManager.formatDuration;
 
 public class GameStats implements JsonSerializable {
     int kills;
-    int damageDealt;
+    float damageDealt;
     int towersPlaced;
     int wave;
     int money;

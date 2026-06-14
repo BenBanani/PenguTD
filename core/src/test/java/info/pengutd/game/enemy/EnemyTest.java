@@ -16,10 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -52,7 +50,7 @@ class EnemyTest {
      */
     private static class TestEnemy extends Enemy {
 
-        private int health;
+        private float health;
 
         TestEnemy(World world, int health) {
             super(world, new Vector2(0f, 0f), 42);
@@ -71,15 +69,15 @@ class EnemyTest {
 
         @Override public float getWidth()  { return 20f; }
         @Override public float getHeight() { return 20f; }
-        @Override public int   getHealth() { return health; }
+        @Override public float getHealth() { return health; }
         @Override public float getSpeed()  { return 100f; }
 
         @Override
-        protected void setHealth(int value) {
+        protected void setHealth(float value) {
 
         }
 
-        @Override public void  pop(int damage) { health -= damage; }
+        @Override public void  pop(float damage) { health -= damage; }
         @Override public void  die() { health = 0; }
         @Override public void  dispose() {}
     }

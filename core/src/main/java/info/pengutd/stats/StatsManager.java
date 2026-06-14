@@ -67,7 +67,7 @@ public class StatsManager {
         gameStats.kills++;
     }
 
-    public void addDamage(int damage) {
+    public void addDamage(float damage) {
         {
             assert gameStats != null;
             assert !gameStats.isClosed();

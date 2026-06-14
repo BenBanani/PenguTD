@@ -24,7 +24,7 @@ public class CoolEnemy extends Enemy {
     public static final int DASH_SPEED_MULTIPLIER = 4;
     private final @NotNull EnemyAnimatorSet animator;
     private float dashTimeLeft = 0f;
-    private int health = 1;
+    private float health = 1;
 
     public CoolEnemy(@NotNull World world, int id) {
         super(world, new Vector2(), id);
@@ -37,7 +37,7 @@ public class CoolEnemy extends Enemy {
     }
 
     @Override
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
@@ -50,7 +50,7 @@ public class CoolEnemy extends Enemy {
     }
 
     @Override
-    protected void setHealth(int value) {
+    protected void setHealth(float value) {
         health = value;
     }
 
@@ -76,8 +76,8 @@ public class CoolEnemy extends Enemy {
     }
 
     @Override
-    public void pop(int damage) {
-        if (getPopTimeLeft() > 0) return;
+    public void pop(float damage) {
+        if (getPopTimeLeft() > 0 || damage <= 0) return;
         health -= damage;
         setPopTimeLeft(POP_DURATION);
         if (health <= 0) die();

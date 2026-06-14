@@ -1,131 +1,159 @@
 
 towers.png
-size: 512, 64
+size: 256, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 beacon_tower0
   rotate: false
-  xy: 2, 20
+  xy: 119, 78
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
   index: -1
 beacon_tower1
   rotate: false
-  xy: 45, 20
+  xy: 162, 78
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
   index: -1
 beacon_tower_idle
   rotate: false
-  xy: 45, 20
+  xy: 162, 78
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
   index: -1
 beacon_tower2
   rotate: false
-  xy: 88, 20
+  xy: 162, 37
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
   index: -1
 beacon_tower3
   rotate: false
-  xy: 131, 20
+  xy: 119, 37
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
   index: -1
 beacon_tower4
   rotate: false
-  xy: 174, 20
+  xy: 2, 35
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
   index: -1
 fish_tower_attack1
   rotate: false
-  xy: 366, 32
+  xy: 83, 47
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 fish_tower_attack2
   rotate: false
-  xy: 401, 32
+  xy: 205, 61
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
 fish_tower_attack3
   rotate: false
-  xy: 319, 3
+  xy: 218, 3
   size: 30, 27
   orig: 30, 27
   offset: 0, 0
   index: -1
 fish_tower_idle
   rotate: false
-  xy: 436, 32
+  xy: 205, 32
   size: 33, 27
   orig: 33, 27
   offset: 0, 0
   index: -1
+mg_tower_attack1
+  rotate: false
+  xy: 2, 76
+  size: 37, 41
+  orig: 37, 41
+  offset: 0, 0
+  index: -1
+mg_tower_idle
+  rotate: false
+  xy: 2, 76
+  size: 37, 41
+  orig: 37, 41
+  offset: 0, 0
+  index: -1
+mg_tower_attack2
+  rotate: false
+  xy: 41, 76
+  size: 37, 41
+  orig: 37, 41
+  offset: 0, 0
+  index: -1
+mg_tower_attack3
+  rotate: false
+  xy: 80, 76
+  size: 37, 41
+  orig: 37, 41
+  offset: 0, 0
+  index: -1
 sniper_tower_attack1
   rotate: false
-  xy: 471, 31
+  xy: 45, 17
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 sniper_tower_attack2
   rotate: false
-  xy: 217, 2
+  xy: 116, 7
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 sniper_tower_attack3
   rotate: false
-  xy: 251, 2
+  xy: 150, 7
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 sniper_tower_idle
   rotate: false
-  xy: 285, 2
+  xy: 184, 2
   size: 32, 28
   orig: 32, 28
   offset: 0, 0
   index: -1
 snowball_tower_attack1
   rotate: false
-  xy: 255, 32
+  xy: 2, 6
   size: 35, 27
   orig: 35, 27
   offset: 0, 0
   index: -1
 snowball_tower_attack2
   rotate: false
-  xy: 217, 32
+  xy: 45, 47
   size: 36, 27
   orig: 36, 27
   offset: 0, 0
   index: -1
 snowball_tower_attack3
   rotate: false
-  xy: 292, 32
+  xy: 79, 18
   size: 35, 27
   orig: 35, 27
   offset: 0, 0
   index: -1
 snowball_tower_idle
   rotate: false
-  xy: 329, 32
+  xy: 205, 90
   size: 35, 27
   orig: 35, 27
   offset: 0, 0
@@ -138,21 +166,28 @@ filter: Nearest, Nearest
 repeat: none
 projectile/fish_projectile
   rotate: false
-  xy: 36, 41
+  xy: 36, 44
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 projectile/ice_projectile
   rotate: false
-  xy: 2, 2
+  xy: 2, 5
   size: 3, 16
   orig: 3, 16
   offset: 0, 0
   index: -1
+projectile/mg_projectile
+  rotate: false
+  xy: 2, 2
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
 projectile/snowball_projectile
   rotate: false
-  xy: 2, 20
+  xy: 2, 23
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

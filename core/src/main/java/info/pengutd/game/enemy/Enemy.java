@@ -53,7 +53,7 @@ public abstract class Enemy extends GameObject {
         }
     }
 
-    public abstract int getHealth();
+    public abstract float getHealth();
 
     /// @return speed in pixel per second
     public abstract float getSpeed();
@@ -131,7 +131,7 @@ public abstract class Enemy extends GameObject {
         setPos(getPos().add(dir.scl(getSpeed() * delta)));
     }
 
-    protected abstract void setHealth(int value);
+    protected abstract void setHealth(float value);
 
     /// Setzt die richtung auf die, in die
     /// @param dir zeigt
@@ -152,7 +152,7 @@ public abstract class Enemy extends GameObject {
     }
 
     /// nehme schade in höhe von damage
-    public abstract void pop(int damage);
+    public abstract void pop(float damage);
 
     @MustBeInvokedByOverriders
     public void die() {
@@ -187,7 +187,7 @@ public abstract class Enemy extends GameObject {
         id = json.getInt("id");
         currentPathIndex = json.getInt("currentPathIndex");
         popTimeLeft = json.getFloat("popTimeLeft");
-        setHealth(json.getInt("health"));
+        setHealth(json.getFloat("health"));
     }
 
     /// Schaltet den Debug Modus an

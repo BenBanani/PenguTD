@@ -2,6 +2,7 @@ package info.pengutd.game.enemy;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import info.pengutd.Assets;
@@ -22,7 +23,7 @@ public class BushEnemy extends Enemy {
     private static final float VISIBLE_SPEED_MULTIPLIER = 1.5f;
     private final @NotNull Array<EnemyAnimatorSet> animators = new Array<>(3);
     private boolean visible = false;
-    private int health = 2;
+    private float health = 2;
 
 
     public BushEnemy(@NotNull World world, int id) {
@@ -46,12 +47,12 @@ public class BushEnemy extends Enemy {
     }
 
     @Override
-    public int getHealth() {
+    public float getHealth() {
         return health;
     }
 
     @Override
-    protected void setHealth(int value) {
+    protected void setHealth(float value) {
         if (value > 2) return;
         health = value;
         visible = (value <= 1);
@@ -63,16 +64,16 @@ public class BushEnemy extends Enemy {
     }
 
     @Override
-    public void pop(int damage) {
-        if (getPopTimeLeft() > 0) return;
-        health--;
-         if (health == 1) {
+    public void pop(float damage) {
+        if (getPopTimeLeft() > 0 || damage <= 0) return;
+        health -= Math.max(damage, 1);
+         if (health <= 1 && !visible) {
              setPopTimeLeft(POP_DURATION); // nur dann transform
+             visible = true;
          }
         if (health <= 0) {
             die();
         }
-        visible = health <= 1;
     }
 
     @Override

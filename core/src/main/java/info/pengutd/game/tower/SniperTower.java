@@ -33,7 +33,7 @@ public class SniperTower extends Tower {
     }
 
     @Override
-    public int getDamage() {
+    public float getDamage() {
         return DAMAGE;
     }
 
