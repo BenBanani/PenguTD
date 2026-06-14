@@ -14,40 +14,48 @@ import org.jetbrains.annotations.NotNull;
 /// Standard Gegner mit mehreren Stufen.
 /// wenn ein Gegner getroffen wird, wird er zu einem Gegner mit geringerer Stufe
 public class WarriorEnemy extends Enemy {
-    ///  Höhe in tiles
+    ///  in tiles
     public static final float HEIGHT = 0.75f;
-    ///  breite in tiles
     public static final float WIDTH = 0.65f;
     public static final String JSON_TYPE = "warrior_enemy";
     public static final float SPEED_TO_ANIMATION_TIME = 20f;
-    ///  speed in tiles
     private static final float SPEED = 0.75f;
     private static final float POP_DURATION = 0.1f;
+
     private final @NotNull TextureRegion popTexture;
     private final @NotNull Array<EnemyAnimatorSet> animators = new Array<>(4);
-    private float level; // hp = level (aufgerundet)
+
+    private float health;  // echte hp
+    private int stage; // visuelle stufe (1 - 4)
 
     public WarriorEnemy(int level, @NotNull World world, int id) {
         super(world, new Vector2(), id); // placeholder position
-        this.level = level;
+
+        health = level;
+
         TextureAtlas atlas = PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_ATLAS);
 
         createAnimators(atlas);
 
         popTexture = Assets.findRegionOrMissing(atlas, "pop");
+        stage = calcStage(level);
+    }
+
+    /// berechnet die stage aus hp (clamp von 1 bis animators.size - 1)
+    private int calcStage(float hp) {
+        return (int) Math.max(1, Math.min(animators.size, Math.ceil(hp)));
     }
 
     private void createAnimators(@NotNull TextureAtlas atlas) {
-        for (int i = 0; i < 4; i++) { // bis jetzt nur 4 levels
-            int enemyLevel = i + 1;
-            animators.add(new EnemyAnimatorSet(new EnemyAnimator("warrior_" + enemyLevel + "_up", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME), new EnemyAnimator("warrior_" + enemyLevel + "_down", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME), new EnemyAnimator("warrior_" + enemyLevel + "_side", 4, atlas, (1f / getSpeed()) * SPEED_TO_ANIMATION_TIME)));
+        for (int i = 1; i <= 4; i++) { // bis jetzt nur 4 levels
+            animators.add(new EnemyAnimatorSet(new EnemyAnimator("warrior_" + i + "_up", 4, atlas, (1f / (SPEED * getWorld().getTileWidth() * i)) * SPEED_TO_ANIMATION_TIME), new EnemyAnimator("warrior_" + i + "_down", 4, atlas, (1f / (SPEED * getWorld().getTileWidth() * i)) * SPEED_TO_ANIMATION_TIME), new EnemyAnimator("warrior_" + i + "_side", 4, atlas, (1f / (SPEED * getWorld().getTileWidth() * i)) * SPEED_TO_ANIMATION_TIME)));
         }
     }
 
     @Override
     public @NotNull TextureRegion getTexture() {
-        if (Math.ceil(level - 1) <= -1) return popTexture; // siehe update für erklärung
-        return animators.get((int) Math.ceil(level - 1)).getTexture(getDirection());
+        if (health <= 0) return popTexture;
+        return animators.get(stage - 1).getTexture(getDirection());
     }
 
     @Override
@@ -62,12 +70,18 @@ public class WarriorEnemy extends Enemy {
 
     @Override
     public float getHealth() {
-        return level;
+        return health;
+    }
+
+    @Override
+    protected void setHealth(float value) {
+        health = value;
+        stage = calcStage(health);
     }
 
     @Override
     public float getSpeed() {
-        return SPEED * ((int) Math.ceil(level)) * getWorld().getTileWidth();
+        return SPEED * stage * getWorld().getTileWidth();
     }
 
     @Override
@@ -77,20 +91,28 @@ public class WarriorEnemy extends Enemy {
 
     @Override
     public float getWidth() {
-        if (getPopTimeLeft() <= 0) {
-            return WIDTH * getWorld().getTileWidth();
-        }
-        return getHeight(); // pop texture ist quadratisch
+        return WIDTH * getWorld().getTileWidth();
     }
 
     @Override
     public void pop(float damage) {
         if (getPopTimeLeft() > 0 || damage <= 0) return; // kein Schaden nehmen wenn gerade gepoppt
-        level -= damage;
+
+        int oldStage = stage;
+        health -= damage;
+        int newStage = calcStage(health);
+
         getWorld().addParticle(new DamageTextParticle(getPos().add(0, getHeight() / 2f), getWorld(), damage));
+
         setPopTimeLeft(POP_DURATION);
-        if (level <= 0) die();
-        animators.forEach((e) -> e.setFrameDuration((1f / getSpeed()) * SPEED_TO_ANIMATION_TIME));
+        if (health <= 0) {
+            die();
+            return;
+        }
+
+        if (oldStage != newStage) {
+            stage = newStage;
+        }
         // stats erhöhen
         getWorld().addMoney(1);
     }
@@ -98,22 +120,18 @@ public class WarriorEnemy extends Enemy {
     @Override
     public void die() {
         super.die();
-        level = 0;
+        health = 0;
+        stage = calcStage(health);
         getWorld().addMoney(5);
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
-        // seltsames ding aber sonst danach indexOutOfBounds, da level minimal >0 aber level - 1 = -1
-        // komische java floating point arithmetic
-        if (Math.ceil(level - 1) <= -1) return;
-        animators.get((int)Math.ceil(level - 1)).update(delta);
-    }
 
-    @Override
-    protected void setHealth(float value) {
-        level = value;
+        if (health <= 0) return;
+
+        animators.get(stage - 1).update(delta);
     }
 
     /// Lädt einen Gegner aus json ein.
@@ -121,7 +139,7 @@ public class WarriorEnemy extends Enemy {
     @Override
     public void fromJson(@NotNull JsonValue json) {
         super.fromJson(json);
-        animators.forEach((e) -> e.setFrameDuration(getSpeed() / SPEED_TO_ANIMATION_TIME));
+        stage = calcStage(health);
     }
 
     @Override

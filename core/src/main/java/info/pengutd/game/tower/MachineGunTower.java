@@ -12,9 +12,9 @@ public class MachineGunTower extends Tower {
     /// in tiles
     private static final float WIDTH = 0.8f;
     private static final float HEIGHT = 0.85f;
-    private static final float RANGE = 1.5f;
+    private static final float RANGE = 3f;
     private static final float DAMAGE = 0.2f;
-    private static final float ATTACK_SPEED = 10;
+    private static final float ATTACK_SPEED = 15;
 
     public MachineGunTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
@@ -59,7 +59,7 @@ public class MachineGunTower extends Tower {
     protected @NotNull Projectile createProjectile() {
         Enemy target = getTargetEnemy();
         assert target != null;
-        return new MachineGunProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor(), this, DAMAGE);
+        return new MachineGunProjectile(getWorld(), getHandPos(), target.getPos().sub(getHandPos()).nor().rotateDeg((float) (Math.random() * 20 - 10)), this, DAMAGE);
     }
 
     @Override
