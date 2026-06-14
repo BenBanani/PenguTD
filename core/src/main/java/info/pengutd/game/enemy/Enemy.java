@@ -107,7 +107,6 @@ public abstract class Enemy extends GameObject {
     public void update(float delta) {
         if (popTimeLeft > 0) {
             popTimeLeft -= delta;
-            return;
         }
 
         if (path.size == 0) return;
