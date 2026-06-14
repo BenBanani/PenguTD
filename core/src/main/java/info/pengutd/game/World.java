@@ -1,15 +1,6 @@
 package info.pengutd.game;
 
-import info.pengutd.game.particle.Particle;
-import info.pengutd.game.tower.*;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,24 +17,17 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import info.pengutd.PenguTD;
-import info.pengutd.game.enemy.BushEnemy;
-import info.pengutd.game.enemy.CoolEnemy;
-import info.pengutd.game.enemy.Enemy;
-import info.pengutd.game.enemy.FatEnemy;
-import info.pengutd.game.enemy.WarriorEnemy;
+import info.pengutd.game.enemy.*;
 import info.pengutd.game.overlay.DefeatOverlay;
 import info.pengutd.game.overlay.PauseOverlay;
 import info.pengutd.game.overlay.TowerSelection;
 import info.pengutd.game.overlay.VictoryOverlay;
+import info.pengutd.game.particle.Particle;
+import info.pengutd.game.tower.*;
 import info.pengutd.game.tower.projectile.FishProjectile;
 import info.pengutd.game.tower.projectile.IceProjectile;
 import info.pengutd.game.tower.projectile.Projectile;
@@ -51,6 +35,8 @@ import info.pengutd.game.tower.projectile.SnowballProjectile;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.StartScreen;
 import info.pengutd.stats.GameStats;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class World implements Screen, InputProcessor, JsonSerializable {
     private static final int START_MONEY = 100;
@@ -62,10 +48,12 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull Array<Particle> particles = new Array<>();
     private final boolean fromJson;
     private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
-    private SpriteBatch batch;
-    private Viewport viewport;
     public String mapName;
     public int difficulty = 3; // 1 für leicht 2 für mittel und 3 für schwer
+    public VictoryOverlay victoryOverlay;
+    public boolean won = false;
+    private SpriteBatch batch;
+    private Viewport viewport;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     /// in tiles
@@ -77,7 +65,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private TowerSelection towerSelection;
     private PauseOverlay pauseOverlay;
     private DefeatOverlay defeatOverlay;
-    public VictoryOverlay victoryOverlay;
     private InputMultiplexer multiplexer;
     private int nextEntityId = 0;
     private int nextTowerId = 0;
@@ -87,7 +74,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int hp = START_HP;
     private int score;
     private boolean paused = false;
-    public boolean won = false;
     private Wavemaker wavemaker;
 
     /// Normaler Konstruktor für eine neue Welt
