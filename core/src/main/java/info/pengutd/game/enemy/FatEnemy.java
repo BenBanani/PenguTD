@@ -8,6 +8,7 @@ import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.SpeedModifier;
 import info.pengutd.game.World;
+import info.pengutd.game.particle.DamageTextParticle;
 import org.jetbrains.annotations.NotNull;
 
 // Dicker Pinguin mit mehr leben
@@ -83,6 +84,7 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     public void pop(float damage) {
         if (getPopTimeLeft() > 0 || damage <= 0) return; // kein Schaden nehmen wenn gerade gepoppt
         health -= damage;
+        getWorld().addParticle(new DamageTextParticle(getPos().add(0, getHeight() / 2f), getWorld(), damage));
         setPopTimeLeft(POP_DURATION);
         if (health <= 0) die();
         // stats erhöhen

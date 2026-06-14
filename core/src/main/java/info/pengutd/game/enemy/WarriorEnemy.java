@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.particle.DamageTextParticle;
 import org.jetbrains.annotations.NotNull;
 
 /// Standard Gegner mit mehreren Stufen.
@@ -86,6 +87,7 @@ public class WarriorEnemy extends Enemy {
     public void pop(float damage) {
         if (getPopTimeLeft() > 0 || damage <= 0) return; // kein Schaden nehmen wenn gerade gepoppt
         level -= damage;
+        getWorld().addParticle(new DamageTextParticle(getPos().add(0, getHeight() / 2f), getWorld(), damage));
         setPopTimeLeft(POP_DURATION);
         if (level <= 0) die();
         animators.forEach((e) -> e.setFrameDuration((1f / getSpeed()) * SPEED_TO_ANIMATION_TIME));

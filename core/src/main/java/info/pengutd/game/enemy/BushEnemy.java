@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.particle.DamageTextParticle;
 import org.jetbrains.annotations.NotNull;
 
 /// Pinguin der sich im Busch versteckt. Er kann zum Beispiel nur vom SniperPinguin gesehen werden,
@@ -68,6 +69,7 @@ public class BushEnemy extends Enemy {
     public void pop(float damage) {
         if (getPopTimeLeft() > 0 || damage <= 0) return;
         health -= Math.min(damage, 1);
+        getWorld().addParticle(new DamageTextParticle(getPos().add(0, getHeight() / 2f), getWorld(), Math.min(damage, 1)));
          if (health <= 1 && !visible) {
              setPopTimeLeft(POP_DURATION); // nur dann transform
              visible = true;

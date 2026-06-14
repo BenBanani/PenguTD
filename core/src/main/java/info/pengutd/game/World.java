@@ -1,5 +1,6 @@
 package info.pengutd.game;
 
+import info.pengutd.game.particle.Particle;
 import info.pengutd.game.tower.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,6 +59,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull Array<Tower> towers = new Array<>();
     private final @NotNull Array<Projectile> projectiles = new Array<>();
     private final @NotNull Array<SpeedModifier> speedModifiers = new Array<>();
+    private final @NotNull Array<Particle> particles = new Array<>();
     private final boolean fromJson;
     private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
     private SpriteBatch batch;
@@ -215,6 +217,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         projectiles.forEach(p -> p.draw(batch));
 
+        particles.forEach(p -> p.render(batch));
+
         if (previewTower != null) {
             previewTower.draw(batch);
         }
@@ -235,21 +239,32 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
     /// Updated alle Objekte in der Welt
     private void updateLogic(float delta) {
-        enemies.forEach(e -> e.update(delta));
-        towers.forEach(t -> t.update(delta));
-        projectiles.forEach(p -> p.update(delta));
-
         for (int i = enemies.size - 1; i >= 0; i--) {
             Enemy e = enemies.get(i);
             if (!e.isAlive()) {
                 enemies.removeIndex(i).dispose();
+            } else {
+                e.update(delta);
             }
         }
+
+        towers.forEach(t -> t.update(delta));
 
         for (int i = projectiles.size - 1; i >= 0; i--) {
             Projectile p = projectiles.get(i);
             if (!p.isAlive()) {
                 projectiles.removeIndex(i).dispose();
+            } else {
+                p.update(delta);
+            }
+        }
+
+        for (int i = particles.size - 1; i >= 0; i--) {
+            Particle p = particles.get(i);
+            if (!p.isAlive()) {
+                particles.removeIndex(i).dispose();
+            } else {
+                p.update(delta);
             }
         }
     }
@@ -708,6 +723,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (tower instanceof SpeedModifier) {
             speedModifiers.add(((SpeedModifier) tower));
         }
+    }
+
+    public void addParticle(@NotNull Particle particle) {
+        particles.add(particle);
     }
 
     public int getMoney() {

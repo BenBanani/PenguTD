@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
 import info.pengutd.game.World;
+import info.pengutd.game.particle.DamageTextParticle;
 import org.jetbrains.annotations.NotNull;
 
 /// Kevin Pascal mit seinen coolen Jordans
@@ -79,6 +80,7 @@ public class CoolEnemy extends Enemy {
     public void pop(float damage) {
         if (getPopTimeLeft() > 0 || damage <= 0) return;
         health -= damage;
+        getWorld().addParticle(new DamageTextParticle(getPos().add(0, getHeight() / 2f), getWorld(), damage));
         setPopTimeLeft(POP_DURATION);
         if (health <= 0) die();
     }
