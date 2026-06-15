@@ -26,8 +26,9 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     public static final float POP_DURATION = 0.1f;
     private final @NotNull EnemyAnimatorSet animator;
     private final @NotNull ParticleEffect auraEffect;
-    private float health = 5;
     private final @NotNull ParticleEmitter auraEmitter;
+    private final @NotNull TextureRegion aura;
+    private float health = 5;
 
     public FatEnemy(@NotNull World world, int id) {
         super(world, new Vector2(), id);
@@ -41,6 +42,8 @@ public class FatEnemy extends Enemy implements SpeedModifier {
         auraEffect.load(Gdx.files.internal("game/particle/snowflake.p"), PenguTD.getInstance().getAssetManager().get(Assets.PARTICLE_ATLAS, TextureAtlas.class));
         auraEffect.start();
         auraEmitter = auraEffect.getEmitters().first();
+
+        aura = Assets.findRegionOrMissing(atlas, "aura");
     }
 
     @Override
@@ -108,6 +111,8 @@ public class FatEnemy extends Enemy implements SpeedModifier {
 
     @Override
     public void draw(@NotNull SpriteBatch batch) {
+        float radius = FROST_RADIUS * getWorld().getTileWidth();
+        batch.draw(aura, getX() - radius, getY() - radius, radius * 2, radius * 2);
         super.draw(batch);
         auraEffect.draw(batch);
     }
