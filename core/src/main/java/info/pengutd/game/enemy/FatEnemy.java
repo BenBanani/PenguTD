@@ -1,8 +1,8 @@
 package info.pengutd.game.enemy;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
@@ -25,8 +25,9 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     public static final float FRAME_DURATION = (1f / SPEED) / 4f;
     public static final float POP_DURATION = 0.1f;
     private final @NotNull EnemyAnimatorSet animator;
-    private final @NotNull TextureRegion aura;
+    private final @NotNull ParticleEffect auraEffect;
     private float health = 5;
+    private final @NotNull ParticleEmitter auraEmitter;
 
     public FatEnemy(@NotNull World world, int id) {
         super(world, new Vector2(), id);
@@ -36,8 +37,10 @@ public class FatEnemy extends Enemy implements SpeedModifier {
             new EnemyAnimator("fat_down", 4, atlas, FRAME_DURATION),
             new EnemyAnimator("fat_side", 4, atlas, FRAME_DURATION)
         );
-
-        aura = Assets.findRegionOrMissing(PenguTD.getInstance().getAssetManager().get(Assets.ENEMY_ATLAS), "fat_aura");
+        auraEffect = new ParticleEffect();
+        auraEffect.load(Gdx.files.internal("game/particle/snowflake.p"), PenguTD.getInstance().getAssetManager().get(Assets.PARTICLE_ATLAS, TextureAtlas.class));
+        auraEffect.start();
+        auraEmitter = auraEffect.getEmitters().first();
     }
 
     @Override
@@ -62,17 +65,6 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     @Override
     public float getMultiplier() {
         return SLOW_MULTIPLIER;
-    }
-
-    @Override
-    public void draw(@NotNull SpriteBatch batch) {
-        super.draw(batch);
-        float radius = FROST_RADIUS * getWorld().getTileWidth();
-
-        batch.setColor(0.7f, 0.9f, 1f, 0.35f);
-        batch.draw(aura, getPos().x-radius, getPos().y - radius,  radius * 2, radius * 2);
-
-        batch.setColor(1,1,1,1);
     }
 
     @Override
@@ -103,6 +95,21 @@ public class FatEnemy extends Enemy implements SpeedModifier {
         super.update(delta);
         if (health <= 0) return;
         animator.update(delta);
+
+        float angle = MathUtils.random(0, MathUtils.PI2);
+        float distance = (float) (Math.sqrt(MathUtils.random()) * FROST_RADIUS * getWorld().getTileWidth());
+
+        float x = getX() + MathUtils.cos(angle) * distance;
+        float y = getY() + MathUtils.sin(angle) * distance;
+
+        auraEmitter.setPosition(x, y);
+        auraEffect.update(delta);
+    }
+
+    @Override
+    public void draw(@NotNull SpriteBatch batch) {
+        super.draw(batch);
+        auraEffect.draw(batch);
     }
 
     @Override

@@ -23,5 +23,6 @@ public final class TexturePackerHelper {
         TexturePacker.process(assets + "/game/enemy", output, "enemies");
         TexturePacker.process(assets + "/game/tower/projectile", output, "projectiles");
         TexturePacker.process(assets + "/game/tower/", output, "towers");
+        TexturePacker.process(assets + "/game/particle/", output, "particles");
     }
 }

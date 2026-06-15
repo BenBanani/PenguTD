@@ -23,6 +23,7 @@ public enum Assets {
     public static final String ENEMY_ATLAS = "atlas/enemies.atlas";
     public static final String PROJECTILE_ATLAS = "atlas/projectiles.atlas";
     public static final String TOWER_ATLAS = "atlas/towers.atlas";
+    public static final String PARTICLE_ATLAS = "atlas/particles.atlas";
 
     public static final String DEFAULT_SKIN = "uiskin.json";
 
