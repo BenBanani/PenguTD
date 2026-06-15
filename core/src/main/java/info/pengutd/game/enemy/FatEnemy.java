@@ -26,8 +26,8 @@ public class FatEnemy extends Enemy implements SpeedModifier {
     public static final float POP_DURATION = 0.1f;
     private final @NotNull EnemyAnimatorSet animator;
     private final @NotNull ParticleEffect auraEffect;
-    private float health = 5;
     private final @NotNull ParticleEmitter auraEmitter;
+    private float health = 5;
 
     public FatEnemy(@NotNull World world, int id) {
         super(world, new Vector2(), id);
