@@ -154,7 +154,7 @@ public abstract class Enemy extends GameObject {
         float[] multiplier = {1f};
 
         getWorld().getSpeedModifiers().forEach((speedModifier) -> {
-            if (speedModifier.affectsAt(getPos()) && speedModifier != this) {
+            if (speedModifier.affects(this) && speedModifier != this) {
                 multiplier[0] *= speedModifier.getMultiplier();
             }
         });

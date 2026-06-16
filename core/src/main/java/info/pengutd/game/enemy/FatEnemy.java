@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.game.GameObject;
 import info.pengutd.game.SpeedModifier;
 import info.pengutd.game.World;
 import info.pengutd.game.particle.DamageTextParticle;
@@ -55,11 +56,12 @@ public class FatEnemy extends Enemy implements SpeedModifier {
 
     @Override
     /// @return ob der Aura Effekt vom Pinguin an dieser Position Effekt hat
-    public boolean affectsAt(@NotNull Vector2 pos) {
+    public boolean affects(@NotNull GameObject obj) {
         if (!isAlive()) return false;
+        if (obj instanceof Enemy) return false;
         float radius2 = FROST_RADIUS * getWorld().getTileWidth();
         radius2 *= radius2;
-        return pos.dst2(getPos()) <= radius2;
+        return obj.getPos().dst2(getPos()) <= radius2;
     }
 
     @Override

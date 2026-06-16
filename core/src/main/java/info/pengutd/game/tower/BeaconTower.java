@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.game.GameObject;
 import info.pengutd.game.SpeedModifier;
 import info.pengutd.game.World;
+import info.pengutd.game.enemy.Enemy;
 import info.pengutd.game.enemy.EnemyAnimator;
 import info.pengutd.game.tower.projectile.Projectile;
 import org.jetbrains.annotations.NotNull;
@@ -36,9 +38,10 @@ public class BeaconTower extends Tower implements SpeedModifier {
     }
 
     @Override
-    public boolean affectsAt(@NotNull Vector2 pos) {
+    public boolean affects(@NotNull GameObject obj) {
+        if (obj instanceof Enemy) return false;
         float radius2 = getRange() * getRange();
-        return pos.dst2(getPos()) <= radius2;
+        return obj.getPos().dst2(getPos()) <= radius2;
     }
 
     @Override

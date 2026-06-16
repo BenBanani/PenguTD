@@ -11,6 +11,13 @@ fire
   orig: 32, 32
   offset: 0, 0
   index: -1
+fire2
+  rotate: false
+  xy: 2, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 snowflake
   rotate: false
   xy: 36, 2

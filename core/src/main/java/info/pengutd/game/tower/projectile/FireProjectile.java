@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import info.pengutd.Assets;
 import info.pengutd.PenguTD;
+import info.pengutd.game.GameObject;
 import info.pengutd.game.SpeedModifier;
 import info.pengutd.game.World;
 import info.pengutd.game.enemy.Enemy;
@@ -68,12 +69,12 @@ public class FireProjectile extends Projectile implements SpeedModifier {
         target = enemy;
         enemy.pop(getDamage());
         PenguTD.getInstance().getStatsManager().addDamage(getDamage());
-        setPos(target.getPos());
+        setPos(target.getPos().sub(0, target.getHeight() / 4f));
 
         fireEffect = new ParticleEffect();
-        fireEffect.load(Gdx.files.internal("game/particle/fire.p"), PenguTD.getInstance().getAssetManager().get(Assets.PARTICLE_ATLAS, TextureAtlas.class));
+        fireEffect.load(Gdx.files.internal("game/particle/fire2.p"), PenguTD.getInstance().getAssetManager().get(Assets.PARTICLE_ATLAS, TextureAtlas.class));
 
-        fireEffect.setPosition(target.getX(), target.getY());
+        fireEffect.setPosition(target.getX(), target.getY() - target.getHeight() / 4f);
         fireEffect.start();
     }
 
@@ -84,14 +85,14 @@ public class FireProjectile extends Projectile implements SpeedModifier {
             super.update(delta);
         } else {
             assert fireEffect != null;
-            fireEffect.setPosition(target.getX(), target.getY());
+            fireEffect.setPosition(target.getX(), target.getY() - target.getHeight() / 4f);
             fireEffect.update(delta);
 
             if (!target.isAlive()) {
                 destroy();
                 return;
             }
-            setPos(target.getPos());
+            setPos(target.getPos().sub(0, target.getHeight() / 4f));
             burnDuration += delta;
             timeSinceLastBurn += delta;
 
@@ -124,8 +125,9 @@ public class FireProjectile extends Projectile implements SpeedModifier {
     }
 
     @Override
-    public boolean affectsAt(Vector2 pos) {
-        return target != null && target.getPos().equals(pos);
+    public boolean affects(@NotNull GameObject obj) {
+        if (!(obj instanceof Enemy)) return false;
+        return target != null && target == obj;
     }
 
     @Override

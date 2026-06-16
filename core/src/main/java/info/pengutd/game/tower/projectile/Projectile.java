@@ -48,7 +48,7 @@ public abstract class Projectile extends GameObject {
         float[] multiplier = {1f};
 
         getWorld().getSpeedModifiers().forEach((speedModifier) -> {
-            if (speedModifier.affectsAt(getPos())) {
+            if (speedModifier.affects(this)) {
                 multiplier[0] *= speedModifier.getMultiplier();
             }
         });
