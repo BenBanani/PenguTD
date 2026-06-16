@@ -4,30 +4,37 @@ size: 64, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+fire_projectile
+  rotate: false
+  xy: 2, 15
+  size: 8, 11
+  orig: 8, 11
+  offset: 0, 0
+  index: -1
 fish_projectile
   rotate: false
-  xy: 36, 44
+  xy: 2, 2
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 ice_projectile
   rotate: false
-  xy: 2, 5
+  xy: 36, 44
   size: 3, 16
   orig: 3, 16
   offset: 0, 0
   index: -1
 mg_projectile
   rotate: false
-  xy: 2, 2
+  xy: 12, 25
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 snowball_projectile
   rotate: false
-  xy: 2, 23
+  xy: 2, 28
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

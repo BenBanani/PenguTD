@@ -50,7 +50,7 @@ public class DamageTextParticle extends Particle {
     /// zeichnet das particle mit dem batch
     /// pos ist die mitte
     @Override
-    public void render(@NotNull SpriteBatch batch) {
+    public void draw(@NotNull SpriteBatch batch) {
         float progress = getLifetime() / START_LIFETIME;
         float alpha = progress * progress * 0.7f;
         font.setColor(color.r, color.g, color.b, alpha);

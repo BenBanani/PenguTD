@@ -139,6 +139,6 @@ public class FatEnemy extends Enemy implements SpeedModifier {
 
     @Override
     public void dispose() {
-
+        auraEffect.dispose();
     }
 }

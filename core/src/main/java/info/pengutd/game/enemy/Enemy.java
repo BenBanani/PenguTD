@@ -127,7 +127,7 @@ public abstract class Enemy extends GameObject {
 
         updateDirection(dir);
 
-        setPos(getPos().add(dir.scl(getSpeed() * delta)));
+        setPos(getPos().add(dir.scl(getSpeed() * delta * getMoveSpeedMultiplier())));
     }
 
     protected abstract void setHealth(float value);
@@ -148,6 +148,18 @@ public abstract class Enemy extends GameObject {
                 direction = Direction.DOWN;
             }
         }
+    }
+
+    public float getMoveSpeedMultiplier() {
+        float[] multiplier = {1f};
+
+        getWorld().getSpeedModifiers().forEach((speedModifier) -> {
+            if (speedModifier.affectsAt(getPos()) && speedModifier != this) {
+                multiplier[0] *= speedModifier.getMultiplier();
+            }
+        });
+
+        return (float) Math.max(Math.min(multiplier[0], 5), 0.1);  // clamp 0.1 < x < 5
     }
 
     /// nehme schade in höhe von damage

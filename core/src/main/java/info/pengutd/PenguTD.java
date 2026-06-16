@@ -31,7 +31,7 @@ public class PenguTD extends Game {
         towerNames.put(3, SniperTower.JSON_TYPE);
         towerNames.put(4, BeaconTower.JSON_TYPE);
         towerNames.put(5, MachineGunTower.JSON_TYPE);
-        towerNames.put(6, "fire_tower");
+        towerNames.put(6, FireTower.JSON_TYPE);
     }
 
     private AssetManager assetManager;

@@ -28,10 +28,7 @@ import info.pengutd.game.overlay.TowerSelection;
 import info.pengutd.game.overlay.VictoryOverlay;
 import info.pengutd.game.particle.Particle;
 import info.pengutd.game.tower.*;
-import info.pengutd.game.tower.projectile.FishProjectile;
-import info.pengutd.game.tower.projectile.IceProjectile;
-import info.pengutd.game.tower.projectile.Projectile;
-import info.pengutd.game.tower.projectile.SnowballProjectile;
+import info.pengutd.game.tower.projectile.*;
 import info.pengutd.save.JsonSerializable;
 import info.pengutd.screen.StartScreen;
 import info.pengutd.stats.GameStats;
@@ -197,13 +194,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
 
         renderMapObjects();
 
+        projectiles.forEach(p -> p.draw(batch));
+
         enemies.forEach(e -> e.draw(batch));
 
         towers.forEach(t -> t.draw(batch));
 
-        projectiles.forEach(p -> p.draw(batch));
-
-        particles.forEach(p -> p.render(batch));
+        particles.forEach(p -> p.draw(batch));
 
         if (previewTower != null) {
             previewTower.draw(batch);
@@ -423,6 +420,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 break;
             case 5:
                 previewTower = new MachineGunTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
+                break;
+            case 6:
+                previewTower = new FireTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
+                break;
         }
     }
 
@@ -562,6 +563,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 case MachineGunTower.JSON_TYPE:
                     tower = new MachineGunTower(this, new Vector2(), jsonTower.getInt("id"));
                     break;
+                case FireTower.JSON_TYPE:
+                    tower = new FireTower(this, new Vector2(), jsonTower.getInt("id"));
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown tower type: " + towerType);
             }
@@ -588,6 +592,14 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 case IceProjectile.JSON_TYPE:
                     //noinspection DataFlowIssue
                     projectile = new IceProjectile(this, new Vector2(), new Vector2(), null, 0);
+                    break;
+                case MachineGunProjectile.JSON_TYPE:
+                    //noinspection DataFlowIssue
+                    projectile = new MachineGunProjectile(this, new Vector2(), new Vector2(), null, 0);
+                    break;
+                case FireProjectile.JSON_TYPE:
+                    //noinspection DataFlowIssue
+                    projectile = new FireProjectile(this, new Vector2(), new Vector2(), null, 0);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown projectile type: " + projectileType);

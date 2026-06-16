@@ -40,5 +40,5 @@ public abstract class Particle implements Disposable {  // nicht json serializab
         return lifetime > 0;
     }
 
-    public abstract void render(@NotNull SpriteBatch batch);
+    public abstract void draw(@NotNull SpriteBatch batch);
 }

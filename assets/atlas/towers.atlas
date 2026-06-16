@@ -46,6 +46,34 @@ beacon_tower_idle
   orig: 35, 35
   offset: 0, 0
   index: -1
+fire_tower_attack1
+  rotate: false
+  xy: 793, 16
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+fire_tower_attack3
+  rotate: false
+  xy: 793, 16
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+fire_tower_idle
+  rotate: false
+  xy: 793, 16
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+fire_tower_attack2
+  rotate: false
+  xy: 761, 15
+  size: 30, 28
+  orig: 30, 28
+  offset: 0, 0
+  index: -1
 fish_tower_attack1
   rotate: false
   xy: 520, 16
@@ -62,7 +90,7 @@ fish_tower_attack2
   index: -1
 fish_tower_attack3
   rotate: false
-  xy: 761, 16
+  xy: 825, 16
   size: 30, 27
   orig: 30, 27
   offset: 0, 0
@@ -164,30 +192,37 @@ size: 64, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+projectile/fire_projectile
+  rotate: false
+  xy: 2, 15
+  size: 8, 11
+  orig: 8, 11
+  offset: 0, 0
+  index: -1
 projectile/fish_projectile
   rotate: false
-  xy: 36, 44
+  xy: 2, 2
   size: 5, 11
   orig: 5, 11
   offset: 0, 0
   index: -1
 projectile/ice_projectile
   rotate: false
-  xy: 2, 5
+  xy: 36, 44
   size: 3, 16
   orig: 3, 16
   offset: 0, 0
   index: -1
 projectile/mg_projectile
   rotate: false
-  xy: 2, 2
+  xy: 12, 25
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 projectile/snowball_projectile
   rotate: false
-  xy: 2, 23
+  xy: 2, 28
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
