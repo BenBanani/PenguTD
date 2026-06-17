@@ -416,7 +416,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 previewTower = new SniperTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
                 break;
             case 4:
-                previewTower = new BeaconTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
+                previewTower = new BeaconTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview().debug();
                 break;
             case 5:
                 previewTower = new MachineGunTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();

@@ -25,6 +25,8 @@ public class BeaconTower extends Tower implements SpeedModifier {
     public BeaconTower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos, id);
         animator = new EnemyAnimator("beacon_tower", 5, PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS), 0.2f);
+        getHitbox().setSize(getWidth() * 0.7f, getHeight() * 0.7f);  // box kleiner machen wegen peitsche
+        getHitbox().setPosition(getHitbox().getX() - getHitbox().getWidth() * 0.2f, getHitbox().getY() - getHitbox().getHeight() * 0.2f);  // box verschieben damit sie stimmt (wegen
     }
 
     @Override
@@ -77,6 +79,12 @@ public class BeaconTower extends Tower implements SpeedModifier {
     @Override
     protected @NotNull Projectile createProjectile() {
         throw new IllegalStateException("BeaconTower hat kein Projectile");
+    }
+
+    @Override
+    public void setPos(@NotNull Vector2 pos) {
+        super.setPos(pos);
+        getHitbox().setPosition(getHitbox().getX() - getHitbox().getWidth() * 0.2f, getHitbox().getY() - getHitbox().getHeight() * 0.2f);  // immer verschieben
     }
 
     @Override
