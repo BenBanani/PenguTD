@@ -51,7 +51,7 @@ public class TowerSelection implements Disposable {
 
         sidebar.setBackground(new TextureRegionDrawable(Assets.findRegionOrMissing(atlas, "background")).tint(new Color(1, 1, 1, 0.6f)));
 
-        sidebar.add(topElement()).colspan(2).size(110).padTop(10).padBottom(20).row();
+        sidebar.add(topElement()).colspan(2).width(110).height(140).padTop(10).padBottom(20).row();
 
         addTowerRow(sidebar, 1, 2);
         addTowerRow(sidebar, 3, 4);
@@ -145,6 +145,11 @@ public class TowerSelection implements Disposable {
         topBackground.setScaling(Scaling.stretch);
 
         Table topContent = new Table();
+
+        topContent.add(new Image(Assets.findRegionOrMissing(atlas, "wave"))).size(28).pad(4);
+        moneyLabel = new Label("" + world.getTowers().size, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        topContent.add(moneyLabel).row();
+
         topContent.add(new Image(Assets.findRegionOrMissing(atlas, "money"))).size(28).pad(4);
         moneyLabel = new Label("" + world.getMoney(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         topContent.add(moneyLabel).row();

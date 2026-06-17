@@ -332,20 +332,19 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             addEnemy(new WarriorEnemy(4, this, createEntityId()));
         }
 
-        if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
-            addTower(previewTower.place());
-            PenguTD.getInstance().getStatsManager().addPlacedTower();
-            setSelectedTower(0);
-        }
-
         towers.forEach(t -> t.setSelected(false));
         towers.forEach(t -> {
             Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
             if (t.getHitbox().contains(worldPos)) {
                 t.setSelected(true);
-                t.setSelected(true);
             }
         });
+
+        if (previewTower != null && canPlaceTower(previewTower.getPos(), previewTower) && spendMoney(previewTower.getCost())) {
+            addTower(previewTower.place());
+            PenguTD.getInstance().getStatsManager().addPlacedTower();
+            setSelectedTower(0);
+        }
         return false;
     }
 
