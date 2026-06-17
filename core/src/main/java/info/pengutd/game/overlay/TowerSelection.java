@@ -42,6 +42,8 @@ public class TowerSelection implements Disposable {
         uiStage = new Stage(new FitViewport(worldWidth, worldHeight));
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
+        uiStage.setDebugUnderMouse(true);
+
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
         towerAtlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS);
 
