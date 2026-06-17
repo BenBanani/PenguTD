@@ -61,7 +61,7 @@ public class FatEnemy extends Enemy implements SpeedModifier {
         if (obj instanceof Enemy) return false;
         float radius2 = FROST_RADIUS * getWorld().getTileWidth();
         radius2 *= radius2;
-        return obj.getPos().dst2(getPos()) <= radius2;
+        return true; // obj.getPos().dst2(getPos()) <= radius2;
     }
 
     @Override
