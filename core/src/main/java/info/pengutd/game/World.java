@@ -250,6 +250,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 p.update(delta);
             }
         }
+        addEnemy(new FatEnemy(this, createEntityId()));
     }
 
     /// Zeichnet Hindernisse der map
