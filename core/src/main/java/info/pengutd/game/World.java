@@ -35,6 +35,8 @@ import info.pengutd.stats.GameStats;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class World implements Screen, InputProcessor, JsonSerializable {
     private static final int START_MONEY = 100;
     private static final int START_HP = 100;
@@ -250,7 +252,13 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 p.update(delta);
             }
         }
-        addEnemy(new FatEnemy(this, createEntityId()));
+        for (int i = 0; i < 10; i++) {
+            addEnemy(new FatEnemy(this, createEntityId()));
+            addEnemy(new WarriorEnemy(4, this, createEntityId()));
+            addEnemy(new CoolEnemy(this, createEntityId()));
+            addEnemy(new BushEnemy(this, createEntityId()));
+            addEnemy(new FatEnemy(this, createEntityId()));
+        }
     }
 
     /// Zeichnet Hindernisse der map
@@ -335,6 +343,18 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             PenguTD.getInstance().getStatsManager().addPlacedTower();
             setSelectedTower(0);
         }
+
+        AtomicBoolean selected = new AtomicBoolean(false);
+        towers.forEach(t -> {
+            Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
+            if (t.getHitbox().contains(worldPos)) {
+                t.setSelected(true);
+                selected.set(true);
+            }
+        });
+        if (!selected.get()) {
+            towers.forEach(t -> t.setSelected(false));
+        }
         return false;
     }
 
@@ -417,7 +437,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
                 previewTower = new SniperTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
                 break;
             case 4:
-                previewTower = new BeaconTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview().debug();
+                previewTower = new BeaconTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();
                 break;
             case 5:
                 previewTower = new MachineGunTower(this, new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE), createTowerId()).preview();

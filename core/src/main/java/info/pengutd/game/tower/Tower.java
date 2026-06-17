@@ -30,6 +30,7 @@ public abstract class Tower extends GameObject {
     private float timeSinceLastAttack = 0f;
     private int id;
     private final @NotNull TowerAnimator animator;
+    boolean selected;
 
     protected Tower(@NotNull World world, @NotNull Vector2 pos, int id) {
         super(world, pos);
@@ -125,6 +126,20 @@ public abstract class Tower extends GameObject {
 
             batch.begin();
         }
+        if (selected) {
+            batch.end();
+
+            ShapeRenderer renderer = new ShapeRenderer();
+            renderer.setProjectionMatrix(batch.getProjectionMatrix());
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+
+            // Range
+            renderer.setColor(Color.BLUE.sub(0, 0, 0, 0.5f));
+            renderer.circle(getX(), getY(), getRange());
+
+            renderer.end();
+            batch.begin();
+        }
     }
 
     ///  Setzt den Tower in den preview modus.
@@ -139,6 +154,7 @@ public abstract class Tower extends GameObject {
     /// → Setzt preview auf false
     public Tower place() {
         preview = false;
+        selected = false;
         return this;
     }
 
@@ -177,6 +193,10 @@ public abstract class Tower extends GameObject {
         });
 
         return (float) Math.max(Math.min(multiplier[0], 5), 0.1);  // clamp 0.1 < x < 5
+    }
+
+    public void setSelected(boolean value) {
+        selected = value;
     }
 
     /// Wird aufgerufen, wenn ein Projektil, das von diesem Tower geschossen wurde, ein Gegner trifft.
