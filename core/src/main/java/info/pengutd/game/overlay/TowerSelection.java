@@ -193,7 +193,7 @@ public class TowerSelection implements Disposable {
     public void updateTopElement() {
         moneyLabel.setText("" + world.getMoney());
         hpLabel.setText("" + world.getHp());
-        waveLabel.setText("" + world.getTowers().size);
+        waveLabel.setText("" + world.getWaveMaker().getCurrentWave());
     }
 
     ///  Zeichnet die TowerSelection

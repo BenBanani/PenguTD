@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Wavemaker {
+public class WaveManager {
     private final @NotNull World world;
     private final @NotNull HashMap<Integer, ArrayList<Integer>> waves = new HashMap<>();
     private int currentWave = 1;
@@ -17,7 +17,7 @@ public class Wavemaker {
     private float spawnTimer = 0f;
     private float spawnDelay = 1.0f; // time between spawns
     private int waveIndex = 0;
-    public Wavemaker(@NotNull World world) {
+    public WaveManager(@NotNull World world) {
         this.world = world;
         if (world.mapName.equals("map1")) {
             switch (world.difficulty) {
@@ -502,6 +502,6 @@ public class Wavemaker {
 
     public void startWave() {
         // todo
-        System.out.println("Wavemaker.startWave");
+        System.out.println("WaveManager.startWave");
     }
 }

@@ -35,8 +35,6 @@ import info.pengutd.stats.GameStats;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class World implements Screen, InputProcessor, JsonSerializable {
     private static final int START_MONEY = 100;
     private static final int START_HP = 100;
@@ -73,7 +71,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int hp = START_HP;
     private int score;
     private boolean paused = false;
-    private Wavemaker wavemaker;
+    private WaveManager wavemaker;
 
     /// Normaler Konstruktor für eine neue Welt
     /// side effect: Game Stats werden neu gesetzt
@@ -130,7 +128,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
             viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-            wavemaker = new Wavemaker(this);
+            wavemaker = new WaveManager(this);
         }
 
         createTowerSelection();
@@ -792,7 +790,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         victoryOverlay.show();
     }
 
-    public @NotNull Wavemaker getWaveMaker() {
+    public @NotNull WaveManager getWaveMaker() {
         return wavemaker;
     }
 }
