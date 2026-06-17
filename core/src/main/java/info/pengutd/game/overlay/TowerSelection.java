@@ -31,6 +31,7 @@ public class TowerSelection implements Disposable {
     private final World world;
     private Label moneyLabel;
     private Label hpLabel;
+    private Label waveLabel;
 
     public TowerSelection(World world) {
         this.world = world;
@@ -172,8 +173,8 @@ public class TowerSelection implements Disposable {
         Table topContent = new Table();
 
         topContent.add(new Image(Assets.findRegionOrMissing(atlas, "wave"))).size(28).pad(4);
-        moneyLabel = new Label("" + world.getTowers().size, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        topContent.add(moneyLabel).row();
+        waveLabel = new Label("" + world.getTowers().size, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        topContent.add(waveLabel).row();
 
         topContent.add(new Image(Assets.findRegionOrMissing(atlas, "money"))).size(28).pad(4);
         moneyLabel = new Label("" + world.getMoney(), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -192,6 +193,7 @@ public class TowerSelection implements Disposable {
     public void updateTopElement() {
         moneyLabel.setText("" + world.getMoney());
         hpLabel.setText("" + world.getHp());
+        waveLabel.setText("" + world.getTowers().size);
     }
 
     ///  Zeichnet die TowerSelection

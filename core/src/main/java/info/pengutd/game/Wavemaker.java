@@ -13,11 +13,10 @@ public class Wavemaker {
     private final @NotNull World world;
     private final @NotNull HashMap<Integer, ArrayList<Integer>> waves = new HashMap<>();
     private int currentWave = 1;
-    boolean waveFinished = false;
+    private boolean waveFinished = false;
     private float spawnTimer = 0f;
     private float spawnDelay = 1.0f; // time between spawns
     private int waveIndex = 0;
-
     public Wavemaker(@NotNull World world) {
         this.world = world;
         if (world.mapName.equals("map1")) {
@@ -427,6 +426,20 @@ public class Wavemaker {
         }
     }
 
+    private static @NotNull ArrayList<Integer> wave(int @NotNull ... enemies) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int e : enemies) list.add(e);
+        return list;
+    }
+
+    public int getCurrentWave() {
+        return currentWave;
+    }
+
+    public boolean isWaveFinished() {
+        return waveFinished;
+    }
+
     public void render(float delta) {
         //unpack wave
         processWave(delta);
@@ -459,12 +472,6 @@ public class Wavemaker {
         if (waveIndex >= wave.size()) {
             waveFinished = true;
         }
-    }
-
-    private static @NotNull ArrayList<Integer> wave(int @NotNull ... enemies) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int e : enemies) list.add(e);
-        return list;
     }
 
     private void spawnEnemy(@NotNull ArrayList<Integer> wave, int i) {
