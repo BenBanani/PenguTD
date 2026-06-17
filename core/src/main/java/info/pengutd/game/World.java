@@ -253,7 +253,6 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             }
         }
 
-        addEnemy(new FatEnemy(this, createEntityId()));
     }
 
     /// Zeichnet Hindernisse der map
@@ -339,17 +338,14 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             setSelectedTower(0);
         }
 
-        AtomicBoolean selected = new AtomicBoolean(false);
+        towers.forEach(t -> t.setSelected(false));
         towers.forEach(t -> {
             Vector2 worldPos = viewport.unproject(new Vector2(screenX, screenY));
             if (t.getHitbox().contains(worldPos)) {
                 t.setSelected(true);
-                selected.set(true);
+                t.setSelected(true);
             }
         });
-        if (!selected.get()) {
-            towers.forEach(t -> t.setSelected(false));
-        }
         return false;
     }
 
