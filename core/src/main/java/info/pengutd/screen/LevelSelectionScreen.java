@@ -81,7 +81,7 @@ public class LevelSelectionScreen implements Screen {
         root.top().pad(20);
 
         title = new Image(Assets.findRegionOrMissing(atlas, "title"));
-        root.add(title).width(300).height(100).pad(15).row();
+        root.add(title).colspan(3).width(300).height(100).pad(15).padBottom(25).row();
 
         title.addAction(sequence(moveBy(0, 150), moveBy(0, -150, 0.5f, Interpolation.smoother)));
 
@@ -89,13 +89,17 @@ public class LevelSelectionScreen implements Screen {
             //noinspection GDXJavaFlushInsideLoop (man muss flushen, da wir ja die map in den frameBuffer vom Image zeichnen müssen)
             Table levelButton = createMapSelectionButton(mapNumber);
             levelButtons.add(levelButton);
-            int moveDistance = mapNumber % 2 == 0 ? 600 : -600;
-            levelButton.addAction(sequence(
-                moveBy(moveDistance, 0),
-                moveBy(-moveDistance, 0, 0.5f, Interpolation.smoother)
-            ));
-            root.add(levelButton).row();
+            root.add(levelButton);
         }
+        levelButtons.get(0).addAction(sequence(
+            moveBy(-300, 0), moveBy(300, 0, 0.5f, Interpolation.smoother)
+        ));
+        levelButtons.get(1).addAction(sequence(
+            moveBy(0, -350), moveBy(0, 350, 0.5f, Interpolation.smoother)
+        ));
+        levelButtons.get(2).addAction(sequence(
+            moveBy(300, 0), moveBy(-300, 0, 0.5f, Interpolation.smoother)
+        ));
 
         stage.addActor(root);
 
@@ -107,22 +111,13 @@ public class LevelSelectionScreen implements Screen {
         Table table = new Table();
         Image image = new Image(createMapScreenshot(mapNumber));
         image.setScaling(Scaling.stretch);
-        table.add(image).size(100, 90).center().padRight(50).padBottom(10);
-        String text;
-        switch (mapNumber) {
-            case 1:
-                text = "easy";
-                break;
-            case 2:
-                text = "medium";
-                break;
-            case 3:
-                text = "hard";
-                break;
-            default:
-                throw new IllegalStateException("Unexpected map number: " + mapNumber);
+        table.add(image).size(200, 180).center().padLeft(25).padRight(25).padBottom(10).row();
+
+        Table stars = new Table();
+        for (int i = 0; i < mapNumber; i++) {
+            stars.add(new Image(Assets.findRegionOrMissing(atlas, "star"))).pad(5).size(20, 20);
         }
-        table.add(new Label("Difficulty: " + text, skin)).size(200, 100).center();
+        table.add(stars);
 
         table.setTouchable(Touchable.enabled);
         table.addListener(new ClickListener() {
@@ -152,11 +147,9 @@ public class LevelSelectionScreen implements Screen {
     private void animateClose() {
         stage.getRoot().setTouchable(Touchable.disabled);
 
-        for (int i = 0; i < levelButtons.size; i++) {
-            Table levelButton = levelButtons.get(i);
-            int moveDistance = i % 2 == 0 ? 600 : -600;
-            levelButton.addAction(moveBy(moveDistance, 0, 0.5f, Interpolation.smoother));
-        }
+        levelButtons.get(0).addAction(moveBy(-300, 0, 0.5f, Interpolation.smoother));
+        levelButtons.get(1).addAction(moveBy(0, -350, 0.5f, Interpolation.smoother));
+        levelButtons.get(2).addAction(moveBy(300, 0, 0.5f, Interpolation.smoother));
 
         title.addAction(moveBy(0, 150, 0.5f, Interpolation.smoother));
         backButton.addAction(moveBy(0, 100, 0.5f, Interpolation.smoother));

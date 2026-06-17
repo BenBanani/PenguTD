@@ -6,21 +6,28 @@ filter: Nearest, Nearest
 repeat: none
 back_button
   rotate: false
-  xy: 2, 2
+  xy: 2, 33
   size: 202, 198
   orig: 202, 198
   offset: 0, 0
   index: -1
 no_save
   rotate: false
-  xy: 841, 482
+  xy: 2, 2
   size: 29, 29
   orig: 29, 29
   offset: 0, 0
   index: -1
+star
+  rotate: false
+  xy: 841, 489
+  size: 60, 53
+  orig: 60, 53
+  offset: 0, 0
+  index: -1
 title
   rotate: false
-  xy: 2, 202
+  xy: 2, 233
   size: 837, 309
   orig: 837, 309
   offset: 0, 0

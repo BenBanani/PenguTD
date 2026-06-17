@@ -58,6 +58,11 @@ public class SaveSelectionScreen implements Screen {
         PenguTD.getInstance().setScreenAndDispose(world);
     }
 
+    private static @Nullable FileHandle getSavefile(int mapNumber) {
+        assert PenguTD.getInstance().getProfileManager().getCurrentProfile() != null;
+        return Gdx.files.local("saves/" + PenguTD.getInstance().getProfileManager().getCurrentProfile().getName() + "/map" + mapNumber + ".json");
+    }
+
     @Override
     public void show() {
         stage = new Stage(new FitViewport(800, 480));
@@ -86,17 +91,21 @@ public class SaveSelectionScreen implements Screen {
         root.top().pad(20);
 
         title = new Image(Assets.findRegionOrMissing(atlas, "title"));
-        root.add(title).width(300).height(100).pad(15).row();
+        root.add(title).colspan(3).width(300).height(100).pad(15).padBottom(25).row();
 
         title.addAction(sequence(moveBy(0, 150), moveBy(0, -150, 0.5f, Interpolation.smoother)));
 
         for (int mapNumber = 1; mapNumber <= 3; mapNumber++) {
             //noinspection GDXJavaFlushInsideLoop (man muss flushen, da wir ja die map in den frameBuffer vom Image zeichnen müssen)
             Table levelButton = createMapSelectionButton(mapNumber);
-            levelButtons.add(levelButton);
-            int moveDistance = mapNumber % 2 == 0 ? 600 : -600;
-            levelButton.addAction(sequence(moveBy(moveDistance, 0), moveBy(-moveDistance, 0, 0.5f, Interpolation.smoother)));
-            root.add(levelButton).row();
+            if (levelButton != null) {
+                levelButtons.add(levelButton);
+                root.add(levelButton);
+                levelButton.addAction(sequence(moveBy(0, -350), moveBy(0, 350, 0.5f, Interpolation.smoother)));
+            }
+        }
+        if (levelButtons.size <= 0) {
+            root.add(new Label("No Saves", skin)).colspan(3);
         }
 
         stage.addActor(root);
@@ -105,79 +114,62 @@ public class SaveSelectionScreen implements Screen {
         stage.addActor(backButton);
     }
 
-    private @NotNull Table createMapSelectionButton(int mapNumber) {
+    private @Nullable Table createMapSelectionButton(int mapNumber) {
         Table table = new Table();
-        Image image = new Image(createSaveScreenshot(mapNumber));
+        TextureRegion saveScreenshot = createSaveScreenshot(mapNumber);
+        if (saveScreenshot == null) return null;
+        Image image = new Image(saveScreenshot);
         image.setScaling(Scaling.stretch);
-        table.add(image).size(100, 90).center().padRight(50).padBottom(10);
-        String text;
-        switch (mapNumber) {
-            case 1:
-                text = "easy";
-                break;
-            case 2:
-                text = "medium";
-                break;
-            case 3:
-                text = "hard";
-                break;
-            default:
-                throw new IllegalStateException("Unexpected map number: " + mapNumber);
+        table.add(image).size(200, 180).center().padLeft(25).padRight(25).padBottom(10).row();
+
+        Table stars = new Table();
+        for (int i = 0; i < mapNumber; i++) {
+            stars.add(new Image(Assets.findRegionOrMissing(atlas, "star"))).pad(5).size(20, 20);
         }
-        table.add(new Label("Difficulty: " + text, skin)).size(200, 100).center();
+        table.add(stars);
 
         table.setTouchable(Touchable.enabled);
-        assert PenguTD.getInstance().getProfileManager().getCurrentProfile() != null;
-        FileHandle saveFile = getSavefile(mapNumber);
-        if (saveFile.exists()) {
-            table.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    animateClose();
-                    stage.addAction(fadeOut(0.5f, Interpolation.smoother));
-                    table.addAction(sequence(delay(0.5f), run(() -> openSavedWorld(mapNumber))));
-                }
+        table.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                animateClose();
+                stage.addAction(fadeOut(0.5f, Interpolation.smoother));
+                table.addAction(sequence(delay(0.5f), run(() -> openSavedWorld(mapNumber))));
+            }
 
-                @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    super.enter(event, x, y, pointer, fromActor);
-                    image.addAction(scaleTo(1.05f, 1.05f, 0.1f));
-                }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                image.addAction(scaleTo(1.05f, 1.05f, 0.1f));
+            }
 
-                @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                    super.exit(event, x, y, pointer, toActor);
-                    image.addAction(scaleTo(1f, 1f, 0.1f));
-                }
-            });
-        }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                image.addAction(scaleTo(1f, 1f, 0.1f));
+            }
+        });
 
         return table;
-    }
-
-    private static FileHandle getSavefile(int mapNumber) {
-        return Gdx.files.local("saves/" + PenguTD.getInstance().getProfileManager().getCurrentProfile().getName() + "/map" + mapNumber + ".json");
     }
 
     private void animateClose() {
         stage.getRoot().setTouchable(Touchable.disabled);
 
-        for (int i = 0; i < levelButtons.size; i++) {
-            Table levelButton = levelButtons.get(i);
-            int moveDistance = i % 2 == 0 ? 600 : -600;
-            levelButton.addAction(moveBy(moveDistance, 0, 0.5f, Interpolation.smoother));
-        }
+        levelButtons.forEach(b -> {
+            b.addAction(moveBy(0, -350, 0.5f, Interpolation.smoother));
+        });
 
         title.addAction(moveBy(0, 150, 0.5f, Interpolation.smoother));
         backButton.addAction(moveBy(0, 100, 0.5f, Interpolation.smoother));
     }
 
-    private @NotNull TextureRegion createSaveScreenshot(int mapNumber) {
+    private @Nullable TextureRegion createSaveScreenshot(int mapNumber) {
         /// save file finden
         assert PenguTD.getInstance().getProfileManager().getCurrentProfile() != null;
         FileHandle saveFile = Gdx.files.local("saves/" + PenguTD.getInstance().getProfileManager().getCurrentProfile().getName() + "/map" + mapNumber + ".json");
         if (!saveFile.exists()) {
-            return new TextureRegion(Assets.findRegionOrMissing(atlas, "no_save"));
+            return null;
         }
 
         GameStats oldStats = PenguTD.getInstance().getStatsManager().getGameStats();  // new World resettet die Game Stats
