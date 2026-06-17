@@ -21,7 +21,7 @@ public class GameStats implements JsonSerializable {
     public Map<String, String> getStatsAsPrintMap() {
         Map<String, String> map = new HashMap<>();
         map.put("Kills", "" + kills);
-        map.put("Damage dealt", damageDealt + " HP");
+        map.put("Damage dealt", (int)damageDealt + " HP");
         map.put("Towers placed", "" + towersPlaced);
         map.put("Wave reached", "" + wave);
         map.put("Money made", money + "$");
@@ -44,7 +44,7 @@ public class GameStats implements JsonSerializable {
     @Override
     public void fromJson(@NotNull JsonValue json) {
         kills = json.getInt("kills");
-        damageDealt = json.getInt("damageDealt");
+        damageDealt = json.getFloat("damageDealt");
         towersPlaced = json.getInt("towersPlaced");
         wave = json.getInt("wave");
         money = json.getInt("money");
