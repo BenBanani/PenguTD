@@ -492,4 +492,9 @@ public class Wavemaker {
                 break;
         }
     }
+
+    public void startWave() {
+        // todo
+        System.out.println("Wavemaker.startWave");
+    }
 }

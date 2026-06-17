@@ -791,4 +791,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         won = true;
         victoryOverlay.show();
     }
+
+    public @NotNull Wavemaker getWaveMaker() {
+        return wavemaker;
+    }
 }

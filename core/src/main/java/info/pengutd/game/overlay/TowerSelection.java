@@ -42,8 +42,6 @@ public class TowerSelection implements Disposable {
         uiStage = new Stage(new FitViewport(worldWidth, worldHeight));
         uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        uiStage.setDebugUnderMouse(true);
-
         atlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_SELECTION_ATLAS);
         towerAtlas = PenguTD.getInstance().getAssetManager().get(Assets.TOWER_ATLAS);
 
@@ -60,6 +58,8 @@ public class TowerSelection implements Disposable {
         addTowerRow(sidebar, 5, 6);
 
         sidebar.add(pauseButton()).width(110).height(50).colspan(2).padTop(8).row();
+
+        sidebar.add(nextWaveButton()).width(110).height(50).colspan(2).padTop(8).row();
 
         Vector2 worldMapBottomRight = new Vector2(world.getViewport().getWorldWidth(), 0);
         Vector2 screenMapBottomRight = world.getViewport().project(worldMapBottomRight); // world => screen
@@ -133,6 +133,29 @@ public class TowerSelection implements Disposable {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 world.setPaused(true);
+            }
+        });
+
+        return stack;
+    }
+
+    private @NotNull Actor nextWaveButton() {
+        Stack stack = new Stack();
+        Image buttonBackground = new Image(Assets.findRegionOrMissing(atlas, "button_blue"));
+        buttonBackground.getColor().a = 0.9f;
+        buttonBackground.setScaling(Scaling.stretch);
+        stack.add(buttonBackground);
+
+        Table content = new Table().center();
+        Label textLabel = new Label("Start Wave", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        content.add(textLabel);
+        stack.add(content);
+
+        stack.setTouchable(Touchable.enabled);
+        stack.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                world.getWaveMaker().startWave();
             }
         });
 
