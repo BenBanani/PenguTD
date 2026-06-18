@@ -45,10 +45,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private final @NotNull Array<Particle> particles = new Array<>();
     private final boolean fromJson;
     private final @NotNull GameStats stats; // referenz zu StatsManager.gameStats
-    public String mapName;
-    public int difficulty = 3; // 1 für leicht 2 für mittel und 3 für schwer
-    public VictoryOverlay victoryOverlay;
-    public boolean won = false;
+    private String mapName;
+    private VictoryOverlay victoryOverlay;
+    private boolean won = false;
     private SpriteBatch batch;
     private Viewport viewport;
     private TiledMap map;
@@ -71,8 +70,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
     private int hp = START_HP;
     private int score;
     private boolean paused = false;
-    private WaveManager wavemaker;
-
+    private WaveManager waveManager;
     /// Normaler Konstruktor für eine neue Welt
     /// side effect: Game Stats werden neu gesetzt
     public World(String mapName) {
@@ -87,6 +85,10 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         this.fromJson = fromJson;
 
         stats = PenguTD.getInstance().getStatsManager().createGameStats(); // immer stats machen, werden in fromJson neu initialisiert ohne Referenzänderung
+    }
+
+    public String getMapName() {
+        return mapName;
     }
 
     public Viewport getViewport() {
@@ -128,7 +130,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             viewport = new FitViewport(mapWidth * tileWidth, mapHeight * tileHeight);
             viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-            wavemaker = new WaveManager(this);
+            waveManager = new WaveManager(this);
         }
 
         createTowerSelection();
@@ -164,7 +166,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         updateCamera();
         if (!paused) {
             updateLogic(delta);
-            // wavemaker.render(delta);
+            waveManager.update(delta);
         }
         updateGraphics(delta);
     }
@@ -319,6 +321,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         if (button == Input.Buttons.RIGHT) {
             setSelectedTower(0);
         }
+        /*
         double d = Math.random();
         if (d < 0.25) {
             addEnemy(new FatEnemy(this, createEntityId()));
@@ -329,6 +332,8 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         } else {
             addEnemy(new WarriorEnemy(4, this, createEntityId()));
         }
+
+         */
 
         towers.forEach(t -> t.setSelected(false));
         towers.forEach(t -> {
@@ -483,6 +488,7 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         value.addChild("projectiles", jsonProjectiles);
         // game stats
         value.addChild("stats", stats.toJson());
+        value.addChild("wave_manager", waveManager.toJson());
         return value;
     }
 
@@ -616,6 +622,9 @@ public class World implements Screen, InputProcessor, JsonSerializable {
             projectile.fromJson(jsonProjectile);
             addProjectile(projectile);
         }
+
+        waveManager = new WaveManager(this);
+        waveManager.fromJson(json.get("wave_manager"));
 
         stats.fromJson(json.get("stats"));
     }
@@ -790,7 +799,11 @@ public class World implements Screen, InputProcessor, JsonSerializable {
         victoryOverlay.show();
     }
 
-    public @NotNull WaveManager getWaveMaker() {
-        return wavemaker;
+    public @NotNull WaveManager getWaveManager() {
+        return waveManager;
+    }
+
+    public void nextWave() {
+        towerSelection.updateTopElement();
     }
 }

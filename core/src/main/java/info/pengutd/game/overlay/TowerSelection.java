@@ -156,7 +156,7 @@ public class TowerSelection implements Disposable {
         stack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                world.getWaveMaker().startWave();
+                world.getWaveManager().startWave();
             }
         });
 
@@ -193,7 +193,7 @@ public class TowerSelection implements Disposable {
     public void updateTopElement() {
         moneyLabel.setText("" + world.getMoney());
         hpLabel.setText("" + world.getHp());
-        waveLabel.setText("" + world.getWaveMaker().getCurrentWave());
+        waveLabel.setText("" + world.getWaveManager().getCurrentWave());
     }
 
     ///  Zeichnet die TowerSelection
